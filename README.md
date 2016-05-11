@@ -76,6 +76,27 @@ The PredictionIO Java SDK https://github.com/PredictionIO/PredictionIO-Java-SDK 
 ### Engine Template Used in RouteMe-API
 https://github.com/PredictionIO/template-scala-parallel-universal-recommendation
 
+This template uses ElasticSearch and Hbase for storage.
+##### Common errors
+Running `pio status` most of the time throws an exception. Due to some instance of Hbase not being closed correctly. To fix it, do the following:
+* Run `pio-stop-all`
+* if it gets stuck in hbase, you may need manually kill it by running `jps`
+* if you see "HMaster" processes, for example: `69687 HMaster` then manually kill the process by `kill -9 69687`
+* Run `pio-stop-all` again
+* Run `jps` again  to make sure no more HMaster process.
+* manually kill them if there is any.
+* run `pio-start-all`
+* run `pio status` (most probably the error is still there)
+
+#### Steps for development
+1. Start pio data stores `pio-start-all`
+2. Start event server `pio eventserver`
+3. Start mongodb server `mongod`
+4. Build, package and run the application server
+   * `mvn clean install`
+   * `mvn clean package`
+   * `java -jar *name of packaged jar file*`
+
 ### Developer Forums
 https://groups.google.com/forum/#!forum/predictionio-dev
 
