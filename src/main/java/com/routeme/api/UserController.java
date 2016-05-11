@@ -1,4 +1,4 @@
-package api;
+package com.routeme.api;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import dtos.UserDTO;
-import services.UserService;
+import com.routeme.dtl.UserDTO;
+import com.routeme.service.UserService;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping(value = "/api/users")
 public final class UserController {
     private final UserService service;
 
@@ -26,31 +26,34 @@ public final class UserController {
         this.service = service;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<UserDTO> findAll() {
+        return service.findAll();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     UserDTO create(@RequestBody @Valid UserDTO userEntry) {
         return service.create(userEntry);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
     UserDTO delete(@PathVariable("id") String id) {
         return service.delete(id);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     UserDTO findById(@PathVariable("id") String id) {
         return service.findById(id);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    UserDTO update(@RequestBody @Valid UserDTO userEntry) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    UserDTO update(@RequestBody @Valid UserDTO userEntry, @PathVariable("id") String id) {
+        // TODO: Need not send whole user entity. For the user case of needing
+        // to update one field.
         return service.update(userEntry);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    List<UserDTO> findAll() {
-        return service.findAll();
-    }
 }
