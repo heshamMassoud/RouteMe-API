@@ -1,16 +1,16 @@
-package services;
+package com.routeme.service;
+
+import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.Optional;
 
-import models.User;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import repositories.UserRepository;
-import dtos.UserDTO;
-import static java.util.stream.Collectors.toList;
+import com.routeme.dtl.UserDTO;
+import com.routeme.model.User;
+import com.routeme.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {

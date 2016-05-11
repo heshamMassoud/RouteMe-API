@@ -1,4 +1,4 @@
-package models;
+package com.routeme.model;
 
 import org.springframework.data.annotation.Id;
 

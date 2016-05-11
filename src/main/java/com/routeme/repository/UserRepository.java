@@ -1,11 +1,11 @@
-package repositories;
+package com.routeme.repository;
 
 import java.util.List;
 import java.util.Optional;
 
-import models.User;
-
 import org.springframework.data.repository.Repository;
+
+import com.routeme.model.User;
 
 public interface UserRepository extends Repository<User, String> {
 
