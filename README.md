@@ -65,9 +65,9 @@ Create a repository for the recommendation engine using the template 'template-s
 After you have downloaded an Engine Template, you can deploy it with these steps:
 
 - Run `pio app new **your-app-name-here**` and specify the appName used in the template's engine.json file (you can set it there to your preference).
-- Run `pio build` to update the engine
-- Run `pio train` to train a predictive model with training data
-- Run `pio deploy` to deploy the engine as a service
+- Run `pio build` to build an engine in the current directory.
+- Run `pio train` to train a predictive model with training data of an engine in the current directory.
+- Run `pio deploy` to deploy the engine in the current directory as a service.
 - Guide here: https://docs.prediction.io/deploy/
 
 ##### Programmatic Use in RouteMe-API
