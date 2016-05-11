@@ -70,5 +70,12 @@ After you have downloaded an Engine Template, you can deploy it with these steps
 - Run `pio deploy` to deploy the engine as a service
 - Guide here: https://docs.prediction.io/deploy/
 
+##### Programmatic Use in RouteMe-API
+The PredictionIO Java SDK https://github.com/PredictionIO/PredictionIO-Java-SDK is used.
 
+### Engine Template Used in RouteMe-API
+https://github.com/PredictionIO/template-scala-parallel-universal-recommendation
+
+### Developer Forums
+https://groups.google.com/forum/#!forum/predictionio-dev
 
