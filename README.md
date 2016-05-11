@@ -12,11 +12,11 @@ java -jar 'path to created jar'
 ```
 ## Data persistence
 The data store used is MongoDB
-### Start MongoDB locally
+###### Start MongoDB locally
 `mongod`
-### The API server by default now points to the database
+###### The API server by default now points to the database
 `test`
-### To connect to MongoDB through CLI
+###### To connect to MongoDB through CLI
 `mongo db`
 
 
