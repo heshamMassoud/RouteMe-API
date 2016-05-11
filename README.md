@@ -4,15 +4,25 @@
 A JSON-Based RESTful API for the RouteME collaborative multi-modal route recommender app. This API is build as a backend support for the prototype iOS app RouteMe which is developed as a prototype to support the research of my Master thesis topic which is "Collaborative and Social Multi-modal Route Planning"
 
 ## Run the API application locally
+Start the MongoDB instance first and then you're good to start the API server and start using it.
 ```
 mvn clean install
 mvn clean package
 java -jar 'path to created jar'
 ```
+## Data persistence
+The data store used is MongoDB
+### Start MongoDB locally
+`mongod`
+### The API server by default now points to the database
+`test`
+### To connect to MongoDB through CLI
+`mongo db`
+
 
 ## PredictionIO setup
-#### Command Line
-Interaction with PredictionIO is done through the command line interface. It follows the format of:
+#### CLI
+Interaction with PredictionIO is done through the CLI. It follows the format of:
 
 `pio <command> [options] <args>...`
 
