@@ -1,12 +1,9 @@
-package common;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+package com.routeme;
 
-@Configuration
-@EnableAutoConfiguration
-@ComponentScan
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
 public class AppConfig {
 
     public static void main(String[] args) {
