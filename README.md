@@ -21,7 +21,9 @@ The data store used is MongoDB
 
 
 ## PredictionIO setup
-#### CLI
+### Installation 
+https://docs.prediction.io/install/
+### Usage
 Interaction with PredictionIO is done through the CLI. It follows the format of:
 
 `pio <command> [options] <args>...`
