@@ -1,8 +1,8 @@
-package resources;
+package models;
 
 import org.springframework.data.annotation.Id;
 
-final class User {
+public final class User {
     @Id
     private String id;
     private String name;
@@ -18,8 +18,12 @@ final class User {
         this.password = userFactory.password;
     }
 
-    static Factory getFactory() {
+    public static Factory getFactory() {
         return new Factory();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -34,11 +38,17 @@ final class User {
         return password;
     }
 
+    public void update(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
     /**
      * The Factory's purpose is to shorten the list of parameters for the
      * resource constructor.
      */
-    static class Factory {
+    public static class Factory {
 
         private String name;
         private String email;
@@ -47,22 +57,22 @@ final class User {
         private Factory() {
         }
 
-        Factory name(String name) {
+        public Factory name(String name) {
             this.name = name;
             return this;
         }
 
-        Factory email(String email) {
+        public Factory email(String email) {
             this.email = email;
             return this;
         }
 
-        Factory password(String password) {
+        public Factory password(String password) {
             this.password = email;
             return this;
         }
 
-        User build() {
+        public User build() {
             User user = new User(this);
             user.validate(user.getName(), user.getEmail(), user.getPassword());
             return user;
