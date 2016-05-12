@@ -1,0 +1,14 @@
+/*
+For more information please visit the confluence page on how to use the examples
+https://heshammassoud.atlassian.net/wiki/display/CSRFMRP/Models
+*/
+{
+  "user": "userId"
+  "fields" : [
+    {
+      "name": "routeId",
+      "values": ["a_transportationW_b", "a_transportationW_c", "a_transportationW_d"],
+      "bias": -1 // filter out alll other routes from recommendation
+    }
+  ]
+}

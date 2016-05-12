@@ -1,0 +1,54 @@
+/*
+For more information please visit the confluence page on how to use the examples
+https://heshammassoud.atlassian.net/wiki/display/CSRFMRP/Models
+*/
+{
+    "eventId": "E0rSTpmAbKERGXBlZX2_XgAAAVSg6D2SrFKjkWGF6OE",
+    "event" : "routeType-preference",
+    "entityType" : "user",
+    "entityId" : "userId",
+    "targetEntityType" : "item",
+    "targetEntityId" : "leastTime" //OR leastChanges,
+    "properties" : {},
+    "eventTime" : "2015-10-05T21:02:49.228Z"
+}
+{
+    "eventId": "E0rSTpmAbKERGXBlZX2_XgAAAVSg6D2SrFKjkWGF6OE",
+    "event" : "mode-preference",
+    "entityType" : "user",
+    "entityId" : "userId",
+    "targetEntityType" : "item",
+    "targetEntityId" : "bus" //OR car or walk or bike or ubahn or sbahn or tram,
+    "properties" : {},
+    "eventTime" : "2015-10-05T21:02:49.228Z"
+}
+{
+    "eventId": "E0rSTpmAbKERGXBlZX2_XgAAAVSg6D2SrFKjkWGF6OE",
+    "event" : "take",
+    "entityType" : "user",
+    "entityId" : "userId",
+    "targetEntityType" : "item"//route,
+    "targetEntityId" : "a_transportationW_b",
+    "properties" : {},
+    "eventTime" : "2014-11-02T09:39:45.618-08:00"
+}
+{
+    "eventId": "E0rSTpmAbKERGXBlZX2_XgAAAVSg6D2SrFKjkWGF6OE",
+    "event" : "view",
+    "entityType" : "user",
+    "entityId" : "userId",
+    "targetEntityType" : "item"//route,
+    "targetEntityId" : "a_transportationW_b",
+    "properties" : {},
+    "eventTime" : "2014-11-02T09:39:45.618-08:00"
+}
+{
+    "eventId": "E0rSTpmAbKERGXBlZX2_XgAAAVSg6D2SrFKjkWGF6OE",
+    "event" : "viewLast",
+    "entityType" : "user",
+    "entityId" : "userId",
+    "targetEntityType" : "item"//route,
+    "targetEntityId" : "a_transportationW_b",
+    "properties" : {},
+    "eventTime" : "2014-11-02T09:39:45.618-08:00"
+}

@@ -1,0 +1,17 @@
+/*
+For more information please visit the confluence page on how to use the examples
+https://heshammassoud.atlassian.net/wiki/display/CSRFMRP/Models
+*/
+{
+    "eventId": "E0rSTpmAbKERGXBlZX2_XgAAAVSg6D2SrFKjkWGF6OE",
+    "event" : "$set",
+    "entityType" : "item",//route
+    "entityId" : "a_transportationW_b",
+    "properties" : {
+        "routeId" : ["a_transportationW_b"],
+        "transportationModes": ["bus", "car", "walk", "bike", "ubahn", "sbahn", "tram"],
+        "routeType": ["leastTime"] //leastChanges
+    },
+    "eventTime" : "2015-10-05T21:02:49.228Z"
+}
+
