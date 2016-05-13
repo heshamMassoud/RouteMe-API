@@ -89,14 +89,38 @@ Running `pio status` most of the time throws an exception. Due to some instance 
 * run `pio status` (most probably the error is still there)
 
 #### Steps for development
-1. Start pio data stores `pio-start-all`
-2. Start event server `pio eventserver`
-3. Start mongodb server `mongod`
-4. Build, package and run the application server
-   * `mvn clean install`
-   * `mvn clean package`
-   * `java -jar *name of packaged jar file*`
-
+* Start pio data stores 
+```
+PredictionIO-0.9.7-aml/bin/pio-start-all
+```
+* Check if everything is started using
+```
+jps -l
+```
+* The output should look something like this:
+```
+  15344 org.apache.hadoop.hbase.master.HMaster
+  15409 io.prediction.tools.console.Console
+  15256 org.elasticsearch.bootstrap.Elasticsearch
+  15469 sun.tools.jps.Jps
+```
+* Check the status of the dependencies
+```
+./pio status
+```
+* If you get the Hbase not initialised correctly error follow the section above
+* Start event server 
+```
+./pio eventserver
+```
+* Start mongodb server 
+```mongod```
+* Build, package and run the application server
+```
+mvn clean install
+mvn clean package
+java -jar *name of packaged jar file*
+```
 ### Developer Forums
 https://groups.google.com/forum/#!forum/predictionio-dev
 
