@@ -114,7 +114,9 @@ jps -l
 ./pio eventserver
 ```
 * Start mongodb server 
-```mongod```
+```
+mongod
+```
 * Build, package and run the application server
 ```
 mvn clean install
