@@ -4,7 +4,7 @@ https://heshammassoud.atlassian.net/wiki/display/CSRFMRP/Models
 */
 {
     "eventId": "E0rSTpmAbKERGXBlZX2_XgAAAVSg6D2SrFKjkWGF6OE",
-    "event" : "routeType-preference",
+    "event" : "route-preference",
     "entityType" : "user",
     "entityId" : "userId",
     "targetEntityType" : "item",
@@ -44,7 +44,7 @@ https://heshammassoud.atlassian.net/wiki/display/CSRFMRP/Models
 }
 {
     "eventId": "E0rSTpmAbKERGXBlZX2_XgAAAVSg6D2SrFKjkWGF6OE",
-    "event" : "viewLast",
+    "event" : "view-last",
     "entityType" : "user",
     "entityId" : "userId",
     "targetEntityType" : "item"//route,
