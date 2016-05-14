@@ -1,5 +1,5 @@
 # RouteMe-API
-[![Build Status](https://travis-ci.org/heshamMassoud/RouteMe-API.svg?branch=master)](https://travis-ci.org/heshamMassoud/RouteMe-API)
+[![Build Status](https://travis-ci.org/heshamMassoud/RouteMe-API.svg?branch=master)](https://travis-ci.org/heshamMassoud/RouteMe-API) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1b82f6d1ce9e4af2b6ff983495eba77d)](https://www.codacy.com/app/heshamhamdymassoud/RouteMe-API?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=heshamMassoud/RouteMe-API&amp;utm_campaign=Badge_Grade)
 
 A JSON-Based RESTful API for the RouteME collaborative multi-modal route recommender app. This API is build as a backend support for the prototype iOS app RouteMe which is developed as a prototype to support the research of my Master thesis topic which is "Collaborative and Social Multi-modal Route Planning"
 
