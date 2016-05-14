@@ -1,16 +1,21 @@
 package com.routeme.predictionio;
 
+import io.prediction.EventClient;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import com.google.common.collect.ImmutableMap;
-
-import io.prediction.EventClient;
+import com.routeme.model.Route;
 
 public class PredictionIOClient {
-    private final String accessKey = "aw90ujBL5FynPicxaYnMmAxnTaOXWdCSFD2KtcBsszfHZ4h-j2EP6Wm5woRfZjNX";
+    private final String accessKey = "eJErhxNseKZCZ8ijxy0fLjtj8jeHvb2ngMLoRIpwPGr5inugcbGHGSAgvJM1ZqLs";
+    public static final String PREFERENCE_ROUTE_TYPE_LEASTTIME = "leastTime";
+    public static final String PREFERENCE_ROUTE_TYPE_LEASTCHANGES = "leastChanges";
+    public static final String PREFERENCE_ROUTE_MODE_BUS = "bus";
+    public static final String PREFERENCE_ROUTE_MODE_UBAHN = "ubahn";
     private EventClient eventClient;
     Random rand = new Random();
     Map<String, Object> emptyProperty = ImmutableMap.of();
@@ -31,32 +36,63 @@ public class PredictionIOClient {
         this.eventClient = eventClient;
     }
 
-    public void addUsersToClient(int numberOfUsers) {
-        for (int user = 1; user <= numberOfUsers; user++) {
-            System.out.println("Add user " + user);
-            try {
-                eventClient.setUser("" + user, emptyProperty);
-            } catch (ExecutionException | InterruptedException | IOException e) {
-                System.out.println("Failed to add user " + user + " to client because of " + e.getMessage());
-            }
+    public void takeRoute(String username, String routeDescription) {
+        triggerEvent(username, "take", routeDescription);
+    }
+
+    public void preferRouteType(String userId, String routeType) {
+        triggerEvent(userId, "route-preference", routeType);
+    }
+
+    public void preferRouteMode(String userId, String routeMode) {
+        triggerEvent(userId, "mode-preference", routeMode);
+    }
+
+    public void viewRoute(String userId, String routeId) {
+        triggerEvent(userId, "view", routeId);
+    }
+
+    public void viewRouteLast(String userId, String routeId) {
+        triggerEvent(userId, "view-last", routeId);
+    }
+
+    public void triggerEvent(String userId, String eventName, String targetValue) {
+        System.out.println("User " + userId + eventName + " " + targetValue);
+        try {
+            eventClient.userActionItem(eventName, userId, targetValue, emptyProperty);
+        } catch (ExecutionException | InterruptedException | IOException e) {
+            System.out.println("Failed to trigger event: " + eventName + " to client because of " + e.getMessage());
         }
     }
 
-    public void addRoutesToClient(int numberOfRoutes) {
-        for (int route = 1; route <= numberOfRoutes; route++) {
-            System.out.println("Add item " + route);
-            try {
-                eventClient.setItem("" + route, emptyProperty);
-            } catch (ExecutionException | InterruptedException | IOException e) {
-                System.out.println("Failed to add route " + route + " to client because of " + e.getMessage());
-            }
+    public void addUserToClient(String userId) {
+        System.out.println("Add user " + userId);
+        try {
+            eventClient.setUser(userId, emptyProperty);
+        } catch (ExecutionException | InterruptedException | IOException e) {
+            System.out.println("Failed to add user " + userId + " to client because of " + e.getMessage());
         }
     }
 
+    public void addRouteToClient(Route route) {
+        String routeUniqueId = route.getRouteUniqueId();
+        System.out.println("Add route:\n " + routeUniqueId);
+        try {
+            eventClient.setItem("" + routeUniqueId, route.getRoutePIOProperties());
+        } catch (ExecutionException | InterruptedException | IOException e) {
+            System.out.println("Failed to add route " + route.getId() + " to client because of " + e.getMessage());
+        }
+    }
+
+    /**
+     * Example of a batch import
+     * 
+     * @param numberOfUsers
+     * @param numberOfRoutes
+     */
     public void randomRouteTakes(int numberOfUsers, int numberOfRoutes) {
         for (int user = 1; user <= numberOfUsers; user++) {
-            int routeCounter = 1;
-            while (routeCounter <= numberOfRoutes) {
+            for (int routeCounter = 1; routeCounter <= numberOfRoutes; routeCounter++) {
                 int route = rand.nextInt(numberOfRoutes) + 1;
                 System.out.println("User " + user + " takes route " + route);
                 try {

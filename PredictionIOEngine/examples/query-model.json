@@ -12,3 +12,78 @@ https://heshammassoud.atlassian.net/wiki/display/CSRFMRP/Models
     }
   ]
 }
+
+$ curl -i -X POST http://localhost:7070/events.json?accessKey=WPgcXKd42FPQpZHVbVeMyqF4CQJUnXQmIMTHhX3ZUrSzvy1KXJjdFUrslifa9rnB \
+-H "Content-Type: application/json" \
+-d '{
+  "event" : "my_event",
+  "entityType" : "user",
+  "entityId" : "uid",
+  "targetEntityType" : "item",
+  "targetEntityId" : "iid",
+  "properties" : {
+    "someProperty" : "value1",
+    "anotherProperty" : "value2"
+  },
+  "eventTime" : "2004-12-13T21:39:45.618Z"
+}'
+
+curl -H "Content-Type: application/json" \
+-d '{
+    "user": "57363f54d4c6a910aaa18550"
+    "fields" : [
+      {
+        "name": "routeId",
+        "values": ["infanteriestr_car_munchnerfeiheit"],
+        "bias": -1
+      }]
+     }' \
+http://localhost:8000/queries.json
+
+
+
+{"size":20,"query":{"bool":{"should":[{"terms":{"take":["infanteriestr_bus_munchnerfeiheit"]}},
+{"terms":{"view":["infanteriestr_bus_munchnerfeiheit"]}},{"terms":{"view-last":["infanteriestr_bus_munchnerfeiheit"]}},
+{"terms":{"route-preference":["leastTime"]}},{"terms":{"mode-preference":["bus","ubahn"]}},
+{"constant_score":{"filter":{"match_all":{}},"boost":0}}],
+"must":[],
+"must_not":{"ids":{"values":["infanteriestr_bus_munchnerfeiheit"],"boost":0}},
+"minimum_should_match":1}},"sort":[{"_score":{"order":"desc"}},{"popRank":{"unmapped_type":"double","order":"desc"}}]}
+
+[INFO] [esClient$] Results: 2 retrieved of a possible 2
+[INFO] [URAlgorithm] Query received, user id: Some(57363f54d4c6a910aaa18550), item id: None
+[INFO] [URAlgorithm] Misconfigured date information, either your engine.json date settings or your query's dateRange is incorrect.
+Ingoring date information for this query.
+[INFO] [URAlgorithm] Query:
+{"size":20,"query":{"bool":{"should":[{"terms":{"take":["infanteriestr_bus_munchnerfeiheit"]}},
+{"terms":{"view":["infanteriestr_bus_munchnerfeiheit"]}},{"terms":{"view-last":["infanteriestr_bus_munchnerfeiheit"]}},
+{"terms":{"route-preference":["leastTime"]}},{"terms":{"mode-preference":["bus","ubahn"]}},
+{"constant_score":{"filter":{"match_all":{}},"boost":0}}],
+"must":[{"terms":{"routeId":["infanteriestr_car_munchnerfeiheit"],"boost":0}}],
+"must_not":{"ids":{"values":["infanteriestr_bus_munchnerfeiheit"],"boost":0}},
+"minimum_should_match":1}},"sort":[{"_score":{"order":"desc"}},{"popRank":{"unmapped_type":"double","order":"desc"}}]}
+
+
+
+{
+    "size":20,
+    "query":{
+        "bool":{
+            "should":[
+                {"terms":{"take":["infanteriestr_bus_munchnerfeiheit"]}},
+                {"terms":{"view":["infanteriestr_bus_munchnerfeiheit"]}},
+                {"terms":{"view-last":["infanteriestr_bus_munchnerfeiheit"]}},
+                {"terms":{"route-preference":["leastTime"]}},
+                {"terms":{"mode-preference":["bus","ubahn"]}},
+                {"constant_score":{"filter":{"match_all":{}},"boost":0}}
+            ],
+            "must":[],
+            "must_not":{"ids":{"values":["infanteriestr_bus_munchnerfeiheit"],"boost":0}},
+            "minimum_should_match":1
+        }
+    },
+    "sort":[
+        {"_score":{"order":"desc"}},
+        {"popRank":{"unmapped_type":"double","order":"desc"}}
+        ]
+    }
