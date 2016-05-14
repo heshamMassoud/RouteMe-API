@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.routeme.dtl.UserDTO;
+import com.routeme.dto.UserDTO;
 import com.routeme.model.User;
 import com.routeme.repository.UserRepository;
 
