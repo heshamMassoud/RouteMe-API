@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class Route {
+public final class DummyRoute {
     private String id;
     private String routeUniqueId;
     private String startPoint;
@@ -12,10 +12,10 @@ public final class Route {
     private ArrayList<String> tranportationModes;// TODO MAKE IT LIST OF ENUMS
     private String routeType; // TODO MAKE IT LIST OF ENUMS
 
-    public Route() {
+    public DummyRoute() {
     }
 
-    private Route(Factory routeFactory) {
+    private DummyRoute(Factory routeFactory) {
         this.startPoint = routeFactory.startPoint;
         this.endPoint = routeFactory.endPoint;
         this.routeType = routeFactory.routeType;
@@ -104,8 +104,8 @@ public final class Route {
             return this;
         }
 
-        public Route build() {
-            Route route = new Route(this);
+        public DummyRoute build() {
+            DummyRoute route = new DummyRoute(this);
             return route;
         }
     }

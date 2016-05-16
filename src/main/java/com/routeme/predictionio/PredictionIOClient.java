@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import com.google.common.collect.ImmutableMap;
-import com.routeme.model.Route;
+import com.routeme.model.DummyRoute;
 
 public class PredictionIOClient {
     private final String accessKey = "eJErhxNseKZCZ8ijxy0fLjtj8jeHvb2ngMLoRIpwPGr5inugcbGHGSAgvJM1ZqLs";
@@ -74,7 +74,7 @@ public class PredictionIOClient {
         }
     }
 
-    public void addRouteToClient(Route route) {
+    public void addRouteToClient(DummyRoute route) {
         String routeUniqueId = route.getRouteUniqueId();
         System.out.println("Add route:\n " + routeUniqueId);
         try {
