@@ -1,5 +1,7 @@
 package com.routeme.model;
 
+import java.util.ArrayList;
+
 import org.joda.time.DateTime;
 
 import com.google.maps.model.DirectionsLeg;
@@ -19,6 +21,7 @@ public class Route {
     protected String endAddress;
     protected EncodedPolyline overviewPolyLine;
     protected String routeSummary;
+    protected ArrayList<String> transportationModes;
     // A transit route has only 1 leg (because 0 way points)
     protected final int LEG_INDEX = 0;
     protected String predictionIoId;
@@ -74,4 +77,9 @@ public class Route {
     public DirectionsStep[] getSteps() {
         return steps;
     }
+
+    public ArrayList<String> getTransportationModes() {
+        return transportationModes;
+    }
+
 }

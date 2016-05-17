@@ -1,5 +1,7 @@
 package com.routeme.model;
 
+import java.util.ArrayList;
+
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
 import com.google.maps.model.Distance;
@@ -10,6 +12,7 @@ public class NonTransitRoute extends Route {
     public NonTransitRoute(DirectionsRoute googleDirectionsRoute) {
         super(googleDirectionsRoute);
         this.setPredictionIoId();
+        this.setTransportationModes();
     }
 
     private void setPredictionIoId() {
@@ -28,9 +31,9 @@ public class NonTransitRoute extends Route {
         return htmlInstructions + noSpaceBracketedDistance;
     }
 
-    @Override
-    public String toString() {
-
-        return super.toString();
+    private void setTransportationModes() {
+        final int firstStepIndex = 0;
+        transportationModes = new ArrayList<String>();
+        transportationModes.add(steps[firstStepIndex].travelMode.name());
     }
 }
