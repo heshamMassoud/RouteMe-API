@@ -47,11 +47,23 @@ public class SearchServiceImpl implements SearchService {
                     .alternatives(true).region("de").mode(TravelMode.WALKING).await();
             allRouteDTOResults.addAll(convertGoogleNonTransitResultToSearchResponseDTO(walkingResults));
 
+            // TODO Set each route types according to all results (least time,
+            // least changes..)
+            setRouteTypes(allRouteDTOResults);
+
+            // TODO Send the DTO to PIO to sort it and then return it here!
+            // PredictionIOClient.recommendRoutes(listOfRoutes, userId);
+
+            // Return final recommendation!
             searchResponseDTO = convertRouteDTOsToSearchResponseDTO(allRouteDTOResults);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return searchResponseDTO;
+    }
+
+    private void setRouteTypes(List<RouteDTO> allResults) {
+        // TODO: But for which transit or other travel modes?!
     }
 
     private SearchResponseDTO convertRouteDTOsToSearchResponseDTO(List<RouteDTO> routeDTOs) {
