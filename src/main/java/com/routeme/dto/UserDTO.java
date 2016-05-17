@@ -1,20 +1,23 @@
-package com.routeme.dtl;
+package com.routeme.dto;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 public class UserDTO {
     private String id;
 
-    @NotEmpty
-    private String name;
+    @NotBlank
+    private String username;
 
-    @NotEmpty
+    @NotBlank
     @Email
     private String email;
 
-    @NotEmpty
+    @NotBlank
     private String password;
+
+    @NotBlank
+    private String confirmationPassword;
 
     public String getId() {
         return id;
@@ -25,7 +28,7 @@ public class UserDTO {
     }
 
     public String getName() {
-        return name;
+        return username;
     }
 
     public String getPassword() {
@@ -41,7 +44,7 @@ public class UserDTO {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.username = name;
     }
 
     public void setPassword(String password) {

@@ -2,7 +2,7 @@ package com.routeme.service;
 
 import java.util.List;
 
-import com.routeme.dtl.UserDTO;
+import com.routeme.dto.UserDTO;
 
 public interface UserService {
 

@@ -82,3 +82,38 @@ local.properties
  
 # PDT-specific
 .buildpath
+.templates-cache
+
+######################
+#PredictionIO specific
+######################
+
+manifest.json
+target/
+pio.log
+/pio.sbt
+
+*.class
+*.log
+
+# sbt specific
+.cache/
+.history/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+
+# Mac specific
+.DS_Store
+
+# IntelliJ IDEA
+*.iml
+.idea

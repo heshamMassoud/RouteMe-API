@@ -70,7 +70,7 @@ public final class User {
         }
 
         public Factory password(String password) {
-            this.password = email;
+            this.password = password;
             return this;
         }
 

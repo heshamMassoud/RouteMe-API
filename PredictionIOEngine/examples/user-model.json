@@ -1,0 +1,15 @@
+/*
+For more information please visit the confluence page on how to use the examples
+https://heshammassoud.atlassian.net/wiki/display/CSRFMRP/Models
+*/
+{
+    "eventId": "E0rSTpmAbKERGXBlZX2_XgAAAVSg6D2SrFKjkWGF6OE",
+    "event": "$set",
+    "entityType" : "user",
+    "entityId" : "userId",
+    "properties": {},
+    "eventTime" : "2015-10-05T21:02:49.228Z",
+    "creationTime" : "2016-05-11T17:40:55.317Z"
+}
+
+
