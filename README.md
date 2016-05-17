@@ -7,14 +7,8 @@ A JSON-Based RESTful API for the RouteME collaborative multi-modal route recomme
 http://docs.routemeapi.apiary.io/#
 
 #### Steps for development
-* Start pio data stores 
-```
-pio-start-all
-```
-* Check if everything is started using
-```
-jps -l
-```
+* Run `pio-start-all` to start pio data stores 
+* Run `jps -l` to check if all data stores are started.
 * The output should look something like this:
 ```
   15344 org.apache.hadoop.hbase.master.HMaster
@@ -27,10 +21,8 @@ jps -l
 - Run `pio train` to train a predictive model with training data of an engine in the current directory.
 - Run `pio deploy` to deploy the engine in the current directory as a service. (https://docs.prediction.io/deploy/)
 - Run `mongod` to start mongodb server 
-
-## Run and debug the RoutMe-API
-* Run `mvnDebug spring-boot:run` to run the application in debug mode
-* Attach the eclipse debugger on the requested debug port
+- Run `mvnDebug spring-boot:run` to run the RouteMe-API in debug mode
+- Attach the eclipse debugger on the requested debug port
 
 ## Packaging the API and running the jar
 Start the MongoDB instance first and then you're good to start the API server and start using it.
