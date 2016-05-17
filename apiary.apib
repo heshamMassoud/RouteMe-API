@@ -11,7 +11,7 @@ to support the research of my Master thesis topic which is
 
 
 
-## Users Collection [/users]
+## Registration [/users]
 
 
 ### Signup [POST]
@@ -28,10 +28,6 @@ to support the research of my Master thesis topic which is
 
 + Response 201 (application/json)
 
-    + Headers
-
-            Location: /questions/2
-
     + Body
 
             {
@@ -42,26 +38,58 @@ to support the research of my Master thesis topic which is
                 "confirmationPassword": "LimpBizkit22!"
             }
 
-### Login [POST]
+## Authentication [/users/{id}/login]
+
+### login [POST]
+
++ Request (application/json)
+
+        {
+            "email": "heshamhamdymassoud@gmail.com",
+            "password": "LimpBizkit22!",
+        }
 
 + Response 200 (application/json)
 
-        [
+    + Body
+    
             {
                 "e-mail": "heshamhamdymassoud@gmail.com",
                 "password": "LimpBizkit22",
             }
-        ]
-+ Response 4
 
-### Logout [POST]
+## Preferences [/users/{id}/preferences]
+
+### set [PUT]
+
++ Request (application/json)
+
+        {
+            "travelModePreferences": [
+                "driving",
+                "transit",
+                "walking",
+                "bicycling"
+                ],
+            "transitRouteTypePreference": [
+                "leastChanges",
+                "leastTime"
+                ]
+        }
 
 + Response 200 (application/json)
 
-        [
+    + Body
+    
             {
-                "e-mail": "heshamhamdymassoud@gmail.com",
-                "password": "LimpBizkit22",
+                "travelModePreferences": [
+                    "driving",
+                    "transit",
+                    "walking",
+                    "bicycling"
+                    ],
+                "transitRouteTypePreference": [
+                    "leastChanges",
+                    "leastTime"
+                     ]
             }
-        ]
-+ Response 4
