@@ -1,5 +1,9 @@
 package com.routeme.dto;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class RouteDTO {
     private String departureTime;
     private String arrivalTime;
@@ -10,6 +14,7 @@ public class RouteDTO {
     private String overviewPolyLine;
     private String routeSummary;
     private String predictionIoId;
+    private ArrayList<String> transportationModes;
 
     public String getArrivalTime() {
         return arrivalTime;
@@ -81,6 +86,26 @@ public class RouteDTO {
 
     public void setStartAddress(String startAddress) {
         this.startAddress = startAddress;
+    }
+
+    public ArrayList<String> getTransportationModes() {
+        return transportationModes;
+    }
+
+    public void setTransportationModes(ArrayList<String> transportationModes) {
+        this.transportationModes = transportationModes;
+    }
+
+    public Map<String, Object> getRoutePIOProperties(String routeType) {
+        Map<String, Object> properties = new HashMap<String, Object>();
+        ArrayList<String> routeIdArray = new ArrayList<String>();
+        ArrayList<String> routeTypeArray = new ArrayList<String>();
+        routeIdArray.add(getPredictionIoId());
+        routeTypeArray.add(routeType);
+        properties.put("routeId", routeIdArray);
+        properties.put("transportationModes", getTransportationModes());
+        properties.put("routeType", routeTypeArray);
+        return properties;
     }
 
 }
