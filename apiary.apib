@@ -60,7 +60,7 @@ to support the research of my Master thesis topic which is
 
 ## Preferences [/users/{id}/preferences]
 
-### Set travel preferencs [PUT]
+### Set travel preferences [PUT]
 
 + Request (application/json)
 
@@ -93,3 +93,181 @@ to support the research of my Master thesis topic which is
                     "leastTime"
                      ]
             }
+
+## Search [/users/{id}/search]
+
+### Search [POST]
+
++ Request (application/json)
+            
+            {
+                    "startPoint": "schwere-retier-str",
+                    "endPoint": "garching"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                  "routeResults": [
+                    {
+                      "departureTime": "2016-05-17T04:04:55.000+02:00",
+                      "arrivalTime": "2016-05-17T04:56:12.000+02:00",
+                      "duration": "51 mins",
+                      "distance": "15.1 km",
+                      "startAddress": "Schwere-Reiter-Straße, München, Germany",
+                      "endAddress": "85748 Garching, Germany",
+                      "overviewPolyLine": "op}dHiwoeA?`CV?G??}MByFh@mUDw@VoB`@kIA}BGmF]iIUuGCwABo@zB}OJ}A@mEHiBFWZgC?UKa@y@?qJ~@UqGMkDKaCKkMz@kMb@uGjA{LJBSkCAHk@O{BcAmEqCsAkA{PoQyB_CwDgDwZa[ia@cc@qNmOaEoDuPqQiEcFsCcEaGsGcA{@gB{@qA[cAG}ADmAMw@QgBw@uCcB}Aw@iScIk@M_AK_AGs@?uANcAXmAf@iAx@aBdBeC|DaAjA]^{@n@cAh@u@Zc@LyAVyCHyCWeDq@qKoCyNcE_A]mHuDut@c\\s@WiBg@aBWkBKiA?wHXw@?}AMuC_@{FaAmc@yKyEsAyAg@mF}ByC}AcRiK_DyAeDmAkBe@a`@kIyD{@m@S{@a@qCcB{DaCe@_@cAeA}@oAq@iAyBwEu@}B]wAw@uEQ}AUeCIuBEgC@kBFwBPkCpCuVl@yG`@gGx@}RTuCPwG~@JLw@NmBW?",
+                      "routeSummary": null,
+                      "predictionIoId": "[Infanteriestraße]BusN43(Ostbahnhof)_U-bahnU6(Garching, Forschungszentrum)_[Garching]",
+                      "transportationModes": [
+                        "Bus",
+                        "U-bahn"
+                      ]
+                    },
+                    {
+                      "departureTime": "2016-05-17T04:52:55.000+02:00",
+                      "arrivalTime": "2016-05-17T05:27:12.000+02:00",
+                      "duration": "34 mins",
+                      "distance": "15.1 km",
+                      "startAddress": "Schwere-Reiter-Straße, München, Germany",
+                      "endAddress": "85748 Garching, Germany",
+                      "overviewPolyLine": "op}dHiwoeA?`CV?G??}MByFh@mUDw@VoB`@kIA}BGmF]iIUuGCwABo@zB}OJ}A@mEHiBFWZgC?UKa@y@?qJ~@UqGMkDKaCKkMz@kMb@uGjAuLJASkCAHk@O{BcAmEqCsAkAuToUwDgDwZa[{p@qs@aEoD}GoHwJiKiB{ByBgD{GoHcA{@gB{@qA[cAG}ADmAMw@QgBw@uCcB}Aw@iScIk@M_CSs@?uANcAXmAf@iAx@iAhA}CxE_BjB{@n@cAh@yAh@yAVoBHi@?yCWeDq@qKoCyNcE_A]mHuDsHeDul@uWiBg@aBWkBKiA?wHXw@?}AMuC_@_IwAia@cKyEsAyAg@mF}ByC}AcRiKgF}B}Ai@kBe@{e@gKm@S{@a@mIeFe@_@cAeAoByCyBwEu@}B]wAw@uEg@cFO}F@kBFwBPkC|@yHrA{Ll@yG`@gGp@gOFuBTuCPwGH?t@JFYLqAFy@W?",
+                      "routeSummary": null,
+                      "predictionIoId": "[Infanteriestraße]Bus53(Münchner Freiheit)_U-bahnU6(Garching, Forschungszentrum)_[Garching]",
+                      "transportationModes": [
+                        "Bus",
+                        "U-bahn"
+                      ]
+                    },
+                    {
+                      "departureTime": "2016-05-17T05:12:55.000+02:00",
+                      "arrivalTime": "2016-05-17T05:47:12.000+02:00",
+                      "duration": "34 mins",
+                      "distance": "15.1 km",
+                      "startAddress": "Schwere-Reiter-Straße, München, Germany",
+                      "endAddress": "85748 Garching, Germany",
+                      "overviewPolyLine": "op}dHiwoeA?`CV?G??}MByFh@mUDw@VoB`@kIA}BGmF]iIUuGCwABo@zB}OJ}A@mEHiBFWZgC?UKa@y@?qJ~@UqGMkDKaCKkMz@kMb@uGjAuLJASkCAHk@O{BcAmEqCsAkAuToUwDgDwZa[{p@qs@aEoD}GoHwJiKiB{ByBgD{GoHcA{@gB{@qA[cAG}ADmAMw@QgBw@uCcB}Aw@iScIk@M_CSs@?uANcAXmAf@iAx@iAhA}CxE_BjB{@n@cAh@yAh@yAVoBHi@?yCWeDq@qKoCyNcE_A]mHuDsHeDul@uWiBg@aBWkBKiA?wHXw@?}AMuC_@_IwAia@cKyEsAyAg@mF}ByC}AcRiKgF}B}Ai@kBe@{e@gKm@S{@a@mIeFe@_@cAeAoByCyBwEu@}B]wAw@uEg@cFO}F@kBFwBPkC|@yHrA{Ll@yG`@gGp@gOFuBTuCPwGH?t@JFYLqAFy@W?",
+                      "routeSummary": null,
+                      "predictionIoId": "[Infanteriestraße]Bus53(Münchner Freiheit)_U-bahnU6(Garching, Forschungszentrum)_[Garching]",
+                      "transportationModes": [
+                        "Bus",
+                        "U-bahn"
+                      ]
+                    },
+                    {
+                      "departureTime": "2016-05-17T05:32:55.000+02:00",
+                      "arrivalTime": "2016-05-17T06:07:12.000+02:00",
+                      "duration": "34 mins",
+                      "distance": "15.1 km",
+                      "startAddress": "Schwere-Reiter-Straße, München, Germany",
+                      "endAddress": "85748 Garching, Germany",
+                      "overviewPolyLine": "op}dHiwoeA?`CV?G??}MByFh@mUDw@VoB`@kIA}BGmF]iIUuGCwABo@zB}OJ}A@mEHiBFWZgC?UKa@y@?qJ~@UqGMkDKaCKkMz@kMb@uGjAuLJASkCAHk@O{BcAmEqCsAkAuToUwDgDwZa[{p@qs@aEoD}GoHwJiKiB{ByBgD{GoHcA{@gB{@qA[cAG}ADmAMw@QgBw@uCcB}Aw@iScIk@M_CSs@?uANcAXmAf@iAx@iAhA}CxE_BjB{@n@cAh@yAh@yAVoBHi@?yCWeDq@qKoCyNcE_A]mHuDsHeDul@uWiBg@aBWkBKiA?wHXw@?}AMuC_@_IwAia@cKyEsAyAg@mF}ByC}AcRiKgF}B}Ai@kBe@{e@gKm@S{@a@mIeFe@_@cAeAoByCyBwEu@}B]wAw@uEg@cFO}F@kBFwBPkC|@yHrA{Ll@yG`@gGp@gOFuBTuCPwGH?t@JFYLqAFy@W?",
+                      "routeSummary": null,
+                      "predictionIoId": "[Infanteriestraße]Bus53(Münchner Freiheit)_U-bahnU6(Garching, Forschungszentrum)_[Garching]",
+                      "transportationModes": [
+                        "Bus",
+                        "U-bahn"
+                      ]
+                    },
+                    {
+                      "departureTime": null,
+                      "arrivalTime": null,
+                      "duration": "45 mins",
+                      "distance": "14.8 km",
+                      "startAddress": "Schwere-Reiter-Straße, München, Germany",
+                      "endAddress": "85748 Garching, Germany",
+                      "overviewPolyLine": "op}dHiwoeA?bF?pAiD?cH?i@?iD@qCImCg@g@Qi@[y@q@aC}CqAgDi@yBYgBS}@Eg@IwJD}CXoGLs@dBsT@[?KO?{CMqEn@qARk@Fo@HiAC{@Mk@QwBm@kK_D}@Ww@a@m@m@[a@qBwCUUcBk@c@GEGGMSeAaBwJqAoGWuAK_BC{@Kg@?[Dg@Nc@FYD_@GcFe@qAQm@_AQZsDPqBH{@J{E?m@B{@DmA^}PIm@CsFDWFOEgG?uB?oA?iBNcCXqCNkAOEPy@~@uD^iAbAuDrAgEPi@@i@Cm@ESQm@Je@p@uCtAm@NON]^oA[MYAM@KJOS@I@_@?YH]xBgH?a@GW_AcASSCKAUDwA?S_FaFTc@hAqC_KgLoDaEqAsAmA{AaEmE_GoGOS]WeCoC_FiFmFyF]_@Sa@UYwA_BuFaG}B_C}CaDo@q@}@}@UQoAkB}AaC_@_AQk@[cB[iC]oC_AwHa@uBe@cBi@uAk@kA_AyA]a@{@y@o@e@gBcAeG_D{FaDyKcGsK}FcJsEcJqEwOaImE}BgGiD_EwBIKmCyAuEeCwDoBMAmAi@yB{@{Ag@cD_AqJgCaLwCkQ{EiD{@cFqAcPiEiJgCmCs@mBe@}AYu@IgAIcJ?gDAcBKcFo@sHkAyCo@uBm@oBw@kCiAoBeA_Ag@QW_@YiBqAy@g@eAk@oEqCiC}A_@IwA_A{A_A{EyCiBkA_@Yi@g@]e@eBsCuDkGcAqAy@u@kAe@aA]MKYe@M]KY^g@T_@HUL{@NmBW?",
+                      "routeSummary": null,
+                      "predictionIoId": "[Schwere-Reiter-Straße, München, Germany]Head <b>west</b> on <b>Schwere-Reiter-Straße</b> toward <b>Ackermannstraße</b>(0.1km)Turn <b>right</b> onto <b>Ackermannstraße</b>(1.5km)Turn <b>left</b> onto <b>Schleißheimer Str.</b>(1.0km)Slight <b>right</b>(0.2km)Slight <b>left</b>(0.4km)Turn <b>left</b>(35m)Turn <b>right</b>(0.6km)Continue onto <b>Schenkendorfstraße</b>(0.2km)Take the exit(0.2km)Turn <b>left</b>(9m)Turn <b>right</b>(0.4km)Turn <b>right</b> toward <b>Guerickestraße</b>(0.2km)Turn <b>left</b> toward <b>Guerickestraße</b>(46m)Turn <b>right</b> toward <b>Guerickestraße</b>(11m)Turn <b>right</b> onto <b>Guerickestraße</b>(0.3km)Turn <b>left</b> to stay on <b>Guerickestraße</b>(0.2km)Turn <b>right</b> onto <b>Fröttmaninger Str.</b>(86m)Turn <b>left</b> onto <b>St 2350</b>/<b>Ungererstraße</b><div style=\"font-size:0.9em\">Continue to follow St 2350</div>(9.3km)Turn <b>right</b> onto <b>Bürgermeister-Amon-Straße</b>(0.1km)Turn <b>left</b> to stay on <b>Bürgermeister-Amon-Straße</b>(14m)[85748 Garching, Germany]",
+                      "transportationModes": [
+                        "BICYCLING"
+                      ]
+                    },
+                    {
+                      "departureTime": null,
+                      "arrivalTime": null,
+                      "duration": "47 mins",
+                      "distance": "15.2 km",
+                      "startAddress": "Schwere-Reiter-Straße, München, Germany",
+                      "endAddress": "85748 Garching, Germany",
+                      "overviewPolyLine": "op}dHiwoeA?bF?pAiD?cH?i@?iD@qCImCg@g@Qi@[y@q@aC}CqAgDi@yBYgBS}@Eg@IwJD}CXoGLs@dBsT@[?KO?{CMqEn@qARk@Fo@HiAC{@Mk@QwBm@kK_D}@Ww@a@m@m@[a@qBwCUUcBk@u@K_@AMAi@HYNiBNuIr@gF`@wD\\gBJaDReHn@m@@YKa@BqK|@sALSeIKgFQuLGwGKsKEmFg@_d@Bg@CmAEoEGgFIaKCuL@mR@yCHaDXuGl@qL|@mQ|@aPx@kO`AiQz@qOBa@uFaGiFkFaBgB}@}@UQkC{Da@q@Q_@_@kA[cBOmA]iCs@mGe@_Dg@yB{@aCcAoBeAwA{@y@o@e@gFsCeCoA{FaDmXaOwPqIoCsA}GkDgMsGgGiD_EwBIKmCyAqAq@cCsAwDoBMAmAi@yB{@cDeAiD}@cHkBiFsAcW_HaOyDeQsEaJeCmBe@}AYu@IgAIyE?iC?gDAcBK_CWmFw@iDk@gB]gD_AoBw@kCiAoBeA_Ag@QW_@YiBqAy@g@eAk@kHqEm@]_@IsD_C{EyCiBkAiAaAyAyBsDmGk@}@cAqAy@u@GAcAc@aA][]Yq@KY^g@T_@HUL{@NmBW?",
+                      "routeSummary": null,
+                      "predictionIoId": "[Schwere-Reiter-Straße, München, Germany]Head <b>west</b> on <b>Schwere-Reiter-Straße</b> toward <b>Ackermannstraße</b>(0.1km)Turn <b>right</b> onto <b>Ackermannstraße</b>(1.5km)Turn <b>left</b> onto <b>Schleißheimer Str.</b>(2.2km)Turn <b>right</b> onto <b>Frankfurter Ring</b>(3.3km)Turn <b>left</b> onto <b>Situlistraße</b>/<b>St 2350</b>/<b>Ungererstraße</b><div style=\"font-size:0.9em\">Continue to follow St 2350</div>(7.9km)Turn <b>right</b> onto <b>Bürgermeister-Amon-Straße</b>(0.1km)Turn <b>left</b> to stay on <b>Bürgermeister-Amon-Straße</b><div style=\"font-size:0.9em\">Destination will be on the right</div>(14m)[85748 Garching, Germany]",
+                      "transportationModes": [
+                        "BICYCLING"
+                      ]
+                    },
+                    {
+                      "departureTime": null,
+                      "arrivalTime": null,
+                      "duration": "47 mins",
+                      "distance": "15.1 km",
+                      "startAddress": "Schwere-Reiter-Straße, München, Germany",
+                      "endAddress": "85748 Garching, Germany",
+                      "overviewPolyLine": "op}dHiwoeA?rDSWEGCM@gBAoNLyFXGPGl@UNQb@qAlBqIbAaEpAsTjCyXdEkWd@qEJyA@aAGiDAoAQmIEaGBwCAmB`@mMxAgL~@eH?g@IyA@Mx@uKB_A?]@_@F}D}AIiAi@k@k@eAqAc@i@Wc@]{@m@q@k@Ky@GaAKk@[SSaAuAm@q@aB}Aw@cA[e@kAuBOjAG^CHGM{DkGQDQuAq@mC[cAHMwBcB}DaDeAq@sAgAeBuAs@c@uGsFmAgAeDeCw@m@QMY~@}@~BwCrGWf@MGWMs@S{@Ec@B[Ha@Na@X[Xi@t@[n@mAvCeBfE{B}BoH_IoE_FkIqJiBqBqAsAmA{AuAyA}GmHmAuAOS]WeCoCgBmBqEyEsC{C]_@Sa@UYW[_AcAuFaGiFkFaBgB}@}@UQkC{Da@q@Q_@_@kA[cBOmA]iCs@mGe@_Dg@yB{@aCcAoBeAwA{@y@o@e@gFsCeCoA{FaDmXaOwPqIoCsA}GkDgMsGgGiD_EwBIKmCyAqAq@cCsAwDoBMAmAi@yB{@cDeAiD}@cHkBiFsAcW_HaOyDeQsEaJeCmBe@}AYu@IgAIyE?iC?gDAcBK_CWmFw@iDk@gB]gD_AoBw@kCiAoBeA_Ag@QW_@YiBqAy@g@eAk@kHqEm@]_@IsD_C{EyCiBkAiAaAyAyBsDmGk@}@cAqAy@u@GAcAc@aA][]Yq@KY^g@T_@HUL{@NmBW?",
+                      "routeSummary": null,
+                      "predictionIoId": "[Schwere-Reiter-Straße, München, Germany]Head <b>west</b> on <b>Schwere-Reiter-Straße</b>(67m)Turn <b>right</b> to stay on <b>Schwere-Reiter-Straße</b>(0.3km)Turn <b>right</b> to stay on <b>Schwere-Reiter-Straße</b>(32m)Continue onto <b>Elisabethstraße</b>(1.3km)Continue onto <b>Elisabethpl.</b>(68m)Continue onto <b>Franz-Joseph-Straße</b>(0.7km)Continue onto <b>Martiusstraße</b>(0.2km)Continue onto <b>Thiemestraße</b>(0.2km)Continue onto <b>Englischer Garten</b>(0.1km)Turn <b>left</b>(0.7km)Turn <b>left</b> toward <b>Liebergesellstraße</b>(46m)Turn <b>right</b> onto <b>Liebergesellstraße</b>(0.2km)Turn <b>left</b> onto <b>Jungwirthstraße</b>(9m)Turn <b>right</b> toward <b>Osterwaldstraße</b>(0.1km)Turn <b>right</b> toward <b>Osterwaldstraße</b>(7m)Turn <b>left</b> onto <b>Osterwaldstraße</b>(0.8km)Turn <b>left</b> onto <b>Genter Str.</b>(0.2km)Turn <b>right</b> onto the ramp to <b>St 2350</b>/<b>Ungererstraße</b>(0.1km)Keep <b>left</b> at the fork to continue toward <b>St 2350</b>/<b>Ungererstraße</b>(0.3km)Turn <b>right</b> onto <b>St 2350</b>/<b>Ungererstraße</b><div style=\"font-size:0.9em\">Continue to follow St 2350</div>(9.6km)Turn <b>right</b> onto <b>Bürgermeister-Amon-Straße</b>(0.1km)Turn <b>left</b> to stay on <b>Bürgermeister-Amon-Straße</b><div style=\"font-size:0.9em\">Destination will be on the right</div>(14m)[85748 Garching, Germany]",
+                      "transportationModes": [
+                        "BICYCLING"
+                      ]
+                    },
+                    {
+                      "departureTime": null,
+                      "arrivalTime": null,
+                      "duration": "19 mins",
+                      "distance": "14.7 km",
+                      "startAddress": "Schwere-Reiter-Straße, München, Germany",
+                      "endAddress": "85748 Garching, Germany",
+                      "overviewPolyLine": "op}dHiwoeA?bF?pAiD?cH?i@?iD@qCImCg@g@Qi@[y@q@aC}CqAgDi@yBYgBS}@Eg@IwJD}CXoGLs@dBsT@[?KO?{CMqEn@qARk@Fo@HiAC{@Mk@QwBm@kK_D}@Ww@a@m@m@[a@qBwCUUcBk@u@Kq@iC_AcESWAAKMOcAiBaK@SG{A?{AHiA@eBCsCGqHTmFVyGViFHkCDyCIyL@qGBMFWVuKHmAVkB^wB|@cE`@sATo@\\c@ROPGv@Gj@Df@AVKVSPQRq@F[Dm@AcASuAe@mAi@u@m@m@}BgByGoF}DcD{DmDiFiFmBwBaBqBgAgBuAgC{@mBu@uBgAwD_A{Ew@}Ge@mD{@yEgAsEy@kCoAkDy@kBq@qAqBeD}AuBsB_CmAgAoB{AyD}BsEqB}OqGwAk@iVkJmHqCqh@_TiMgFee@_R{IoDaI_D_JmDsMoFiFqBgEcBq]mNk]gNaJoD}KqEqHyCoGgCWe@g@c@Y]Wi@K]Ge@GsAGc@Mg@gCaGtAyBl@sA|@oBl@yAy@g@eAk@oEqCiC}A_@IwA_A{A_A{EyCiBkA_@Yi@g@]e@eBsCuDkGcAqAy@u@kAe@aA]MKYe@M]KY^g@T_@HUL{@NmBW?",
+                      "routeSummary": null,
+                      "predictionIoId": "[Schwere-Reiter-Straße, München, Germany]Head <b>west</b> on <b>Schwere-Reiter-Straße</b> toward <b>Ackermannstraße</b>(0.1km)Turn <b>right</b> onto <b>Ackermannstraße</b>(1.5km)Turn <b>left</b> onto <b>Schleißheimer Str.</b>(1.0km)Turn <b>right</b> onto <b>Petuelring</b>(0.4km)Take the ramp onto <b>Petueltunnel</b>/<b>B2R</b>(0.9km)Take the <b>Schleißheimer Str.</b>/<b>A9</b> ramp to <b>Knorr-/Belgradstraße</b>(1.1km)Continue onto <b>A9</b>(7.9km)Take exit <b>71-Garching-Süd</b> for <b>B471</b> toward <b>Garching-Süd</b>/<b>Ismaning</b>/<b>Oberschleißheim</b>(0.3km)Turn <b>right</b> onto <b>B471</b>(0.2km)Turn <b>left</b> onto <b>Münchener Str.</b>/<b>St 2350</b>(1.2km)Turn <b>right</b> onto <b>Bürgermeister-Amon-Straße</b>(0.1km)Turn <b>left</b> to stay on <b>Bürgermeister-Amon-Straße</b>(14m)[85748 Garching, Germany]",
+                      "transportationModes": [
+                        "DRIVING"
+                      ]
+                    },
+                    {
+                      "departureTime": null,
+                      "arrivalTime": null,
+                      "duration": "2 hours 48 mins",
+                      "distance": "13.7 km",
+                      "startAddress": "Schwere-Reiter-Straße, München, Germany",
+                      "endAddress": "85748 Garching, Germany",
+                      "overviewPolyLine": "op}dHiwoeACqMLaGd@}NLcDLcA\\uGBi@Bg@@o@AwEAeAYgGOyFKqCqBFM{CG?KIgAwCs@yBMU[M[CHcA\\gFg@OUMYeA_@wBDUAQIqB?[UB@c@SgHMwCM_Bo@yKAgD?cBBg@TiCjA_MDu@F_DHaGgAC}AE?SC}ECYEQo@u@{FqG{IqJ{JiKmCsCqCwC{GyHa@g@MM[Q_@]kCiC{B}BoH_IoE_FkCyC_EwEiBqBqAsAmA{AuAyA}GmHmAuAOS]WeCoCgBmBqEyEsC{C]_@g@Y}A_Bi@g@oD{DqEwEoD{D[e@Yi@kC{Da@q@Q_@_@kA[cBOmA]iCs@mGe@_Dg@yB{@aCcAoBeAwA{@y@o@e@gFsCeCoA{FaDmXaOwPqIoCsA}GkDgMsGgGiD_EwBIKmCyAqAq@cCsAwDoBMAmAi@yB{@cDeAiD}@cHkBiFsAcW_HqG_ByPqE{F{AaJeCmBe@}AYu@IgAIyE?iC?gDAcBK_CWmFw@iDk@gB]gD_AoBw@kCiAoBeAkAk@mBiAy@m@gAm@wFmDcC}A][wA_A{A_A{EyCiBkA_@Yi@g@]e@eBsCuDkGcAqAy@u@kAe@aA]MKYe@M]KY^g@T_@HUL{@NmBW?",
+                      "routeSummary": null,
+                      "predictionIoId": "[Schwere-Reiter-Straße, München, Germany]Head <b>east</b> on <b>Schwere-Reiter-Straße</b> toward <b>Petra-Kelly-Straße</b>(0.5km)Continue onto <b>Hohenzollernstraße</b>(0.5km)Turn <b>left</b> onto <b>Hohenzollernpl.</b>(63m)Turn <b>right</b> to stay on <b>Hohenzollernpl.</b>(58m)Turn <b>left</b> onto <b>Rankestraße</b>(0.2km)Turn <b>right</b> onto <b>Herzogstraße</b>(0.1km)Turn <b>left</b> onto <b>Apianstraße</b>(0.2km)Turn <b>left</b> onto <b>Belgradstraße</b>(12m)Turn <b>right</b> onto <b>Clemensstraße</b>(0.9km)Turn <b>left</b> onto <b>Leopoldstraße</b>(93m)Turn <b>right</b> onto <b>Ungererstraße</b>(3.0km)Slight <b>left</b> onto <b>St 2350</b>/<b>Ungererstraße</b><div style=\"font-size:0.9em\">Continue to follow St 2350</div>(3.3km)Slight <b>right</b> onto <b>Freisinger Landstraße</b>/<b>St 2350</b><div style=\"font-size:0.9em\">Continue to follow St 2350</div>(4.7km)Turn <b>right</b> onto <b>Bürgermeister-Amon-Straße</b>(0.1km)Turn <b>left</b> to stay on <b>Bürgermeister-Amon-Straße</b>(14m)[85748 Garching, Germany]",
+                      "transportationModes": [
+                        "WALKING"
+                      ]
+                    },
+                    {
+                      "departureTime": null,
+                      "arrivalTime": null,
+                      "duration": "2 hours 57 mins",
+                      "distance": "14.5 km",
+                      "startAddress": "Schwere-Reiter-Straße, München, Germany",
+                      "endAddress": "85748 Garching, Germany",
+                      "overviewPolyLine": "op}dHiwoeACqMLaGd@}NLcDLcA\\uG@MQCi@GaCe@{@K}FiAsCo@}B_@_CScAKuBIy@I_BGiA@y@E@S?SEYRkH{@GgACSEEOIQSUa@KgGi@cD]o@ESLWp@qAISEIg@GOUMUIa@CaB@SEMCB{@WIQMKYEa@Is@Kg@UKUQCm@AaBAw@O}@Sw@Uc@w@s@yBiBU]Sg@]oBK]EUKYKK_A{Vc@gLCyAMwEMaD?}AUcDO_GFi@Cu@A_@A_@MsBe@FKOASB]BKg@Fo@?i@EESGo@Cy@u@F?]BuBT}CVuBFc@OE@Et@cDp@_CRs@pBwGd@wAFc@?s@E[K]I[BQXiATeAHYWs@LWF[J_@LWVUFU@y@H]xBgH?a@GW_AcASSCKAUDwA?SjAwC{EgFaG_HcLqMkI}IoAsAaAmAU[Um@eCoC_FiFmFyF]_@g@Y}A_B_CeCyDaEqEyEoAuA[e@Yi@oAkB}AaC_@_AQk@[cB[iC]oC_AwHa@uBe@cBi@uAk@kA_AyA]a@{@y@o@e@gBcAeG_D{FaDyKcGsK}FcJsEcJqEwOaImE}BgGiD_EwBIKmCyAuEeCwDoBMAmAi@yB{@{Ag@cD_AqJgCaLwCkQ{EiD{@cFqAcPiEiJgCmCs@mBe@}AYu@IgAIcJ?gDAcBKcFo@sHkAyCo@uBm@oBw@kCiAoBeAkAk@mBiAy@m@gAm@uH{EeAo@][sD_C{EyCiBkAiAaAyAyBsDmGk@}@cAqAy@u@GAcAc@aA][]Yq@KY^g@T_@HUL{@NmBW?",
+                      "routeSummary": null,
+                      "predictionIoId": "[Schwere-Reiter-Straße, München, Germany]Head <b>east</b> on <b>Schwere-Reiter-Straße</b> toward <b>Petra-Kelly-Straße</b>(0.5km)Continue onto <b>Hohenzollernstraße</b>(0.1km)Turn <b>left</b> onto <b>Schleißheimer Str.</b>(0.8km)Turn <b>right</b> onto <b>Karl-Theodor-Straße</b>(0.1km)Turn <b>left</b> onto <b>Brunnerstraße</b>(85m)Turn <b>right</b> to stay on <b>Brunnerstraße</b>(0.4km)Turn <b>right</b> to stay on <b>Brunnerstraße</b>(58m)Turn <b>right</b> to stay on <b>Brunnerstraße</b>(0.1km)Turn <b>right</b>(23m)Turn <b>left</b>(87m)Turn <b>left</b>(26m)Turn <b>right</b>(0.4km)Take the crosswalk(0.9km)Turn <b>left</b> onto <b>Leopoldstraße</b>(22m)Turn <b>right</b> toward <b>Leopoldstraße</b>(32m)Turn <b>left</b> onto <b>Leopoldstraße</b>(73m)Turn <b>right</b> onto <b>Schenkendorfstraße</b>(48m)Turn <b>left</b>(30m)Take the exit(0.2km)Turn <b>left</b>(9m)Turn <b>right</b>(0.4km)Turn <b>right</b> toward <b>Guerickestraße</b>(77m)Turn <b>left</b> toward <b>Guerickestraße</b><div style=\"font-size:0.9em\">Take the stairs</div>(0.1km)Continue onto <b>Guerickestraße</b>(0.3km)Turn <b>left</b> onto <b>St 2350</b>/<b>Ungererstraße</b>(1.4km)Slight <b>left</b> to stay on <b>St 2350</b>/<b>Ungererstraße</b><div style=\"font-size:0.9em\">Continue to follow St 2350</div>(3.3km)Slight <b>right</b> onto <b>Freisinger Landstraße</b>/<b>St 2350</b><div style=\"font-size:0.9em\">Continue to follow St 2350</div>(4.7km)Turn <b>right</b> onto <b>Bürgermeister-Amon-Straße</b>(0.1km)Turn <b>left</b> to stay on <b>Bürgermeister-Amon-Straße</b><div style=\"font-size:0.9em\">Destination will be on the right</div>(14m)[85748 Garching, Germany]",
+                      "transportationModes": [
+                        "WALKING"
+                      ]
+                    },
+                    {
+                      "departureTime": null,
+                      "arrivalTime": null,
+                      "duration": "2 hours 58 mins",
+                      "distance": "14.6 km",
+                      "startAddress": "Schwere-Reiter-Straße, München, Germany",
+                      "endAddress": "85748 Garching, Germany",
+                      "overviewPolyLine": "op}dHiwoeACqMLaGd@}NLcDLcA\\uGBi@_B[wCg@}G_BuBc@{@K}Ju@}DQmBG{CMqEn@qARk@Fo@HiAC{@Mk@QwBm@kK_D}@Ww@a@m@m@[a@qBwCUUcBk@c@GEGGMSeAaBwJqAoGWuAK_BC{@Kg@?[Dg@Nc@FYD_@GcFe@qAQm@`@wEBkACuAP_FBg@GAGCKEo@]MKk@oB_AK_BSy@m@}C{CKEMCGQcC_Dq@eAw@gAaBaAj@}CNiBA{DQqJM}LFS@k@Ac@NCd@_Be@e@eCa@{B_@XoAo@g@@ANs@][yBwA@WZkELwAZiCH{@UW@Gv@kERoA@EGGmDqCaDsDiA{A}@y@s@WkCQuCe@OELkCz@uOt@wNx@uNf@yK^iH}CeDuD_EaB_ByBcC}@oAKUo@aA{@qAiAeBa@iAWeAYoBW{Ba@cDw@oGe@{Bq@qBa@cAc@y@e@u@e@m@e@g@y@s@u@e@aDeB{HgEyV_NoImEoHuDwJ{EgMqGwQ{JIKw@a@{Ay@gKsFMAc@SgBu@wDqAcQwE_KiCeSoFyBk@cEeA_IuBuT_G}Bm@eB[oAMoCCeI@_CEeD]gEm@yDk@aB[aCk@eDgAaBo@eCmAyBmAu@a@oBmAoDuBsGcEk@g@yByAoDuByE{Co@i@_@a@_BiCiD}F}@uAcAgA_@Ye@SwAc@SMYa@_@cAt@gAPs@LqAFy@W?",
+                      "routeSummary": null,
+                      "predictionIoId": "[Schwere-Reiter-Straße, München, Germany]Head <b>east</b> on <b>Schwere-Reiter-Straße</b> toward <b>Petra-Kelly-Straße</b>(0.5km)Continue onto <b>Hohenzollernstraße</b>(0.1km)Turn <b>left</b> onto <b>Schleißheimer Str.</b>(1.8km)Slight <b>right</b>(0.2km)Slight <b>left</b>(0.5km)Slight <b>left</b> toward <b>Torquato-Tasso-Straße</b>(0.2km)Turn <b>left</b> toward <b>Torquato-Tasso-Straße</b>(0.1km)Turn <b>left</b> onto <b>Torquato-Tasso-Straße</b>(0.5km)Turn <b>right</b> onto <b>Griegstraße</b>(0.2km)Continue onto <b>Otl-Aicher-Straße</b>(0.4km)Turn <b>left</b> toward <b>Wilhelm-Wagenfeld-Straße</b>(0.2km)Turn <b>right</b> toward <b>Wilhelm-Wagenfeld-Straße</b>(33m)Turn <b>left</b> toward <b>Wilhelm-Wagenfeld-Straße</b>(30m)Turn <b>right</b> onto <b>Wilhelm-Wagenfeld-Straße</b>(0.1km)Turn <b>right</b> toward <b>Domagkstraße</b>(0.2km)Turn <b>right</b> onto <b>Domagkstraße</b>(0.1km)Turn <b>left</b> toward <b>Max-Bill-Straße</b>(0.4km)Continue onto <b>Max-Bill-Straße</b>(94m)Turn <b>right</b> onto <b>Frankfurter Ring</b>(0.9km)Turn <b>left</b> onto <b>Situlistraße</b>/<b>St 2350</b>/<b>Ungererstraße</b><div style=\"font-size:0.9em\">Continue to follow St 2350</div>(3.2km)Slight <b>right</b> onto <b>Freisinger Landstraße</b>/<b>St 2350</b><div style=\"font-size:0.9em\">Continue to follow St 2350</div>(4.7km)Turn <b>right</b> onto <b>Bürgermeister-Amon-Straße</b>(0.1km)Turn <b>left</b> to stay on <b>Bürgermeister-Amon-Straße</b><div style=\"font-size:0.9em\">Destination will be on the right</div>(14m)[85748 Garching, Germany]",
+                      "transportationModes": [
+                        "WALKING"
+                      ]
+                    }
+                  ]
+                }
