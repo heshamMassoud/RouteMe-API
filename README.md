@@ -7,15 +7,27 @@ A JSON-Based RESTful API for the RouteME collaborative multi-modal route recomme
 http://docs.routemeapi.apiary.io/#
 
 ## Run the API application locally
+Start the MongoDB instance first and then you're good to start the API server and start using it.
 ```
 mvn clean install
 mvn clean package
 java -jar 'path to created jar'
 ```
+## Data persistence
+The data store used is MongoDB
+###### Start MongoDB locally
+`mongod`
+###### The API server by default now points to the database
+`test`
+###### To connect to MongoDB through CLI
+`mongo db`
+
 
 ## PredictionIO setup
-#### Command Line
-Interaction with PredictionIO is done through the command line interface. It follows the format of:
+### Installation 
+https://docs.prediction.io/install/
+### Usage
+Interaction with PredictionIO is done through the CLI. It follows the format of:
 
 `pio <command> [options] <args>...`
 
@@ -56,10 +68,64 @@ Create a repository for the recommendation engine using the template 'template-s
 After you have downloaded an Engine Template, you can deploy it with these steps:
 
 - Run `pio app new **your-app-name-here**` and specify the appName used in the template's engine.json file (you can set it there to your preference).
-- Run `pio build` to update the engine
-- Run `pio train` to train a predictive model with training data
-- Run `pio deploy` to deploy the engine as a service
+- Run `pio build` to build an engine in the current directory.
+- Run `pio train` to train a predictive model with training data of an engine in the current directory.
+- Run `pio deploy` to deploy the engine in the current directory as a service.
 - Guide here: https://docs.prediction.io/deploy/
 
+##### Programmatic Use in RouteMe-API
+The PredictionIO Java SDK https://github.com/PredictionIO/PredictionIO-Java-SDK is used.
 
+### Engine Template Used in RouteMe-API
+https://github.com/PredictionIO/template-scala-parallel-universal-recommendation
+
+This template uses ElasticSearch and Hbase for storage.
+##### Common errors
+Running `pio status` most of the time throws an exception. Due to some instance of Hbase not being closed correctly. To fix it, do the following:
+* Run `pio-stop-all`
+* if it gets stuck in hbase, you may need manually kill it by running `jps`
+* if you see "HMaster" processes, for example: `69687 HMaster` then manually kill the process by `kill -9 69687`
+* Run `pio-stop-all` again
+* Run `jps` again  to make sure no more HMaster process.
+* manually kill them if there is any.
+* run `pio-start-all`
+* run `pio status` (most probably the error is still there)
+
+#### Steps for development
+* Start pio data stores 
+```
+PredictionIO-0.9.7-aml/bin/pio-start-all
+```
+* Check if everything is started using
+```
+jps -l
+```
+* The output should look something like this:
+```
+  15344 org.apache.hadoop.hbase.master.HMaster
+  15409 io.prediction.tools.console.Console
+  15256 org.elasticsearch.bootstrap.Elasticsearch
+  15469 sun.tools.jps.Jps
+```
+* Check the status of the dependencies
+```
+./pio status
+```
+* If you get the Hbase not initialised correctly error follow the section above
+* Start event server 
+```
+./pio eventserver
+```
+* Start mongodb server 
+```
+mongod
+```
+* Build, package and run the application server
+```
+mvn clean install
+mvn clean package
+java -jar *name of packaged jar file*
+```
+### Developer Forums
+https://groups.google.com/forum/#!forum/predictionio-dev
 
