@@ -6,7 +6,33 @@ A JSON-Based RESTful API for the RouteME collaborative multi-modal route recomme
 ## API Documentation
 http://docs.routemeapi.apiary.io/#
 
-## Run the API application locally
+#### Steps for development
+* Start pio data stores 
+```
+pio-start-all
+```
+* Check if everything is started using
+```
+jps -l
+```
+* The output should look something like this:
+```
+  15344 org.apache.hadoop.hbase.master.HMaster
+  15409 io.prediction.tools.console.Console
+  15256 org.elasticsearch.bootstrap.Elasticsearch
+  15469 sun.tools.jps.Jps
+```
+- Run `pio eventserver` to start event server
+- Run `pio build` to build an engine in the current directory.
+- Run `pio train` to train a predictive model with training data of an engine in the current directory.
+- Run `pio deploy` to deploy the engine in the current directory as a service. (https://docs.prediction.io/deploy/)
+- Run `mongod` to start mongodb server 
+
+## Run and debug the RoutMe-API
+* Run `mvnDebug spring-boot:run` to run the application in debug mode
+* Attach the eclipse debugger on the requested debug port
+
+## Packaging the API and running the jar
 Start the MongoDB instance first and then you're good to start the API server and start using it.
 ```
 mvn clean install
@@ -65,13 +91,10 @@ Engine commands need to be run from the directory that contains the engine proje
 
 ###### Running a Recommender engine for the first time
 Create a repository for the recommendation engine using the template 'template-scala-parallel-universal-recommendation'
-After you have downloaded an Engine Template, you can deploy it with these steps:
+After you have downloaded an Engine Template, create a new app/engine with the template:
 
 - Run `pio app new **your-app-name-here**` and specify the appName used in the template's engine.json file (you can set it there to your preference).
-- Run `pio build` to build an engine in the current directory.
-- Run `pio train` to train a predictive model with training data of an engine in the current directory.
-- Run `pio deploy` to deploy the engine in the current directory as a service.
-- Guide here: https://docs.prediction.io/deploy/
+
 
 ##### Programmatic Use in RouteMe-API
 The PredictionIO Java SDK https://github.com/PredictionIO/PredictionIO-Java-SDK is used.
@@ -91,41 +114,6 @@ Running `pio status` most of the time throws an exception. Due to some instance 
 * run `pio-start-all`
 * run `pio status` (most probably the error is still there)
 
-#### Steps for development
-* Start pio data stores 
-```
-PredictionIO-0.9.7-aml/bin/pio-start-all
-```
-* Check if everything is started using
-```
-jps -l
-```
-* The output should look something like this:
-```
-  15344 org.apache.hadoop.hbase.master.HMaster
-  15409 io.prediction.tools.console.Console
-  15256 org.elasticsearch.bootstrap.Elasticsearch
-  15469 sun.tools.jps.Jps
-```
-* Check the status of the dependencies
-```
-./pio status
-```
-* If you get the Hbase not initialised correctly error follow the section above
-* Start event server 
-```
-./pio eventserver
-```
-* Start mongodb server 
-```
-mongod
-```
-* Build, package and run the application server
-```
-mvn clean install
-mvn clean package
-java -jar *name of packaged jar file*
-```
 ### Developer Forums
 https://groups.google.com/forum/#!forum/predictionio-dev
 
