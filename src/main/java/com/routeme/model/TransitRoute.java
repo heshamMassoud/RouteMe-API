@@ -1,5 +1,7 @@
 package com.routeme.model;
 
+import java.util.ArrayList;
+
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
 import com.google.maps.model.StopDetails;
@@ -13,6 +15,7 @@ public class TransitRoute extends Route {
 
     public TransitRoute(DirectionsRoute googleDirectionsRoute) {
         super(googleDirectionsRoute);
+        transportationModes = new ArrayList<String>();
         this.setPredictionIoId();
     }
 
@@ -38,13 +41,18 @@ public class TransitRoute extends Route {
         this.predictionIoId += "[" + arrivalStop.name + "]";
     }
 
+    private void addTransportationMode(String transportationMode) {
+        transportationModes.add(transportationMode);
+    }
+
     private String getTransitSummary(TransitDetails transitDetails) {
         TransitLine transitLine = transitDetails.line;
         Vehicle transitVehicle = transitLine.vehicle;
         String headSign = transitDetails.headsign;
         String lineShortName = transitLine.shortName;
-        return GoogleDirectionsUtility.getMunichTransitVehicleName(transitVehicle) + lineShortName + "(" + headSign
-                + ")";
+        String munichVehicleName = GoogleDirectionsUtility.getMunichTransitVehicleName(transitVehicle);
+        addTransportationMode(munichVehicleName);
+        return munichVehicleName + lineShortName + "(" + headSign + ")";
     }
 
 }

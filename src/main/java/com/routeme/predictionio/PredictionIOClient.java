@@ -3,11 +3,13 @@ package com.routeme.predictionio;
 import io.prediction.EventClient;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import com.google.common.collect.ImmutableMap;
+import com.routeme.dto.RouteDTO;
 import com.routeme.model.DummyRoute;
 
 public class PredictionIOClient {
@@ -82,6 +84,10 @@ public class PredictionIOClient {
         } catch (ExecutionException | InterruptedException | IOException e) {
             System.out.println("Failed to add route " + route.getId() + " to client because of " + e.getMessage());
         }
+    }
+
+    public void recommendRoutes(List<RouteDTO> routes) {
+        // TODO: Query PIO with current user id and list of routes!
     }
 
     /**
