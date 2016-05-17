@@ -91,6 +91,7 @@ public class SearchServiceImpl implements SearchService {
         routeDTO.setOverviewPolyLine(route.getOverviewPolyLine().getEncodedPath());
         routeDTO.setPredictionIoId(route.getPredictionIoId());
         routeDTO.setRouteSummary(route.getRouteSummary());
+        routeDTO.setTransportationModes(route.getTransportationModes());
         return routeDTO;
     }
 
