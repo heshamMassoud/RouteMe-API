@@ -12,9 +12,11 @@ to support the research of my Master thesis topic which is
 
 
 ## Registration [/users]
-
+Creates a new user account entry in the RouteMe system.
 
 ### Signup [POST]
+
+
 
 
 + Request (application/json)
@@ -40,6 +42,8 @@ to support the research of my Master thesis topic which is
 
 ## Authentication [/users/{id}/login]
 
+Authenticates a user to access the RouteMe app.
+
 ### login [POST]
 
 + Request (application/json)
@@ -59,6 +63,8 @@ to support the research of my Master thesis topic which is
             }
 
 ## Preferences [/users/{id}/preferences]
+
+Updates the user preferences regarding travel mode and transit route type preferences.
 
 ### Set travel preferences [PUT]
 
@@ -95,6 +101,8 @@ to support the research of my Master thesis topic which is
             }
 
 ## Search [/users/{id}/search]
+
+Executes a search query based on the supplied start and end points.
 
 ### Search [POST]
 
@@ -274,6 +282,8 @@ to support the research of my Master thesis topic which is
             
 ## Routes [/users/{id}/routes/{id}]
 
+Triggers a view-route event in the PIO server.
+
 ### View Route [GET]
 
 + Request (application/json)
@@ -286,6 +296,8 @@ to support the research of my Master thesis topic which is
             
 
 ### Take Route [POST]
+
+Triggers a take-route event in the PIO server.
 
 + Request (application/json)
 
