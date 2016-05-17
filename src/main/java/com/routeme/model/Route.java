@@ -1,112 +1,85 @@
 package com.routeme.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-public final class Route {
-    private String id;
-    private String routeUniqueId;
-    private String startPoint;
-    private String endPoint;
-    private ArrayList<String> tranportationModes;// TODO MAKE IT LIST OF ENUMS
-    private String routeType; // TODO MAKE IT LIST OF ENUMS
+import org.joda.time.DateTime;
 
-    public Route() {
+import com.google.maps.model.DirectionsLeg;
+import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.DirectionsStep;
+import com.google.maps.model.Distance;
+import com.google.maps.model.Duration;
+import com.google.maps.model.EncodedPolyline;
+
+public class Route {
+    protected DateTime departureTime;
+    protected DateTime arrivalTime;
+    protected Duration duration;
+    protected Distance distance;
+    protected DirectionsStep[] steps;
+    protected String startAddress;
+    protected String endAddress;
+    protected EncodedPolyline overviewPolyLine;
+    protected String routeSummary;
+    protected ArrayList<String> transportationModes;
+    // A transit route has only 1 leg (because 0 way points)
+    protected final int LEG_INDEX = 0;
+    protected String predictionIoId;
+
+    public Route(DirectionsRoute googleDirectionsRoute) {
+        DirectionsLeg routeLeg = googleDirectionsRoute.legs[LEG_INDEX];
+        this.departureTime = routeLeg.departureTime;
+        this.arrivalTime = routeLeg.arrivalTime;
+        this.duration = routeLeg.duration;
+        this.distance = routeLeg.distance;
+        this.steps = routeLeg.steps;
+        this.startAddress = routeLeg.startAddress.trim();
+        this.endAddress = routeLeg.endAddress.trim();
+        this.overviewPolyLine = googleDirectionsRoute.overviewPolyline;
     }
 
-    private Route(Factory routeFactory) {
-        this.startPoint = routeFactory.startPoint;
-        this.endPoint = routeFactory.endPoint;
-        this.routeType = routeFactory.routeType;
-        this.tranportationModes = routeFactory.transportations;
+    public String getPredictionIoId() {
+        return predictionIoId;
     }
 
-    public static Factory getFactory() {
-        return new Factory();
+    public DateTime getArrivalTime() {
+        return arrivalTime;
     }
 
-    public String getEndPoint() {
-        return endPoint;
+    public DateTime getDepartureTime() {
+        return departureTime;
     }
 
-    public String getStartPoint() {
-        return startPoint;
+    public Distance getDistance() {
+        return distance;
     }
 
-    public String getRouteType() {
-        return routeType;
+    public Duration getDuration() {
+        return duration;
     }
 
-    public ArrayList<String> getTransportations() {
-        return tranportationModes;
+    public String getEndAddress() {
+        return endAddress;
     }
 
-    public String getId() {
-        return id;
+    public EncodedPolyline getOverviewPolyLine() {
+        return overviewPolyLine;
     }
 
-    public String getRouteUniqueId() {
-        // TODO: Should set it once on initialization!
-        routeUniqueId = startPoint;
-        for (int i = 0; i < tranportationModes.size(); i++) {
-            routeUniqueId += "_" + tranportationModes.get(i);
-        }
-        routeUniqueId += "_" + endPoint;
-        return routeUniqueId;
+    public String getRouteSummary() {
+        return routeSummary;
     }
 
-    public Map<String, Object> getRoutePIOProperties() {
-        // TODO Should not use the getRouteUniquerId method below. But rather an
-        // instance variable.
-        Map<String, Object> properties = new HashMap<String, Object>();
-        ArrayList<String> routeId = new ArrayList<String>();
-        ArrayList<String> routeType = new ArrayList<String>();
-        routeId.add(getRouteUniqueId());
-        routeType.add(this.routeType);
-        properties.put("routeId", routeId);
-        properties.put("transportationModes", tranportationModes);
-        properties.put("routeType", routeType);
-        return properties;
+    public String getStartAddress() {
+        return startAddress;
     }
 
-    /**
-     * The Factory's purpose is to shorten the list of parameters for the
-     * resource constructor.
-     */
-    public static class Factory {
-
-        private String startPoint;
-        private String endPoint;
-        private String routeType;
-        private ArrayList<String> transportations;
-
-        private Factory() {
-        }
-
-        public Factory startPoint(String startPoint) {
-            this.startPoint = startPoint;
-            return this;
-        }
-
-        public Factory endPoint(String endPoint) {
-            this.endPoint = endPoint;
-            return this;
-        }
-
-        public Factory routeType(String routeType) {
-            this.routeType = routeType;
-            return this;
-        }
-
-        public Factory transportations(ArrayList<String> transportations) {
-            this.transportations = transportations;
-            return this;
-        }
-
-        public Route build() {
-            Route route = new Route(this);
-            return route;
-        }
+    public DirectionsStep[] getSteps() {
+        return steps;
     }
+
+    public ArrayList<String> getTransportationModes() {
+        return transportationModes;
+    }
+
 }

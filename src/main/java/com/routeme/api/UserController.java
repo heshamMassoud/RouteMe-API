@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.routeme.dto.UserDTO;
-import com.routeme.model.Route;
+import com.routeme.model.DummyRoute;
 import com.routeme.predictionio.PredictionIOClient;
 import com.routeme.service.UserService;
 
@@ -92,7 +92,7 @@ public final class UserController {
         }
         String endPoint = passwordSplit[passwordSplit.length - 2].trim();
         String routeType = passwordSplit[passwordSplit.length - 1].trim();
-        Route newRoute = Route.getFactory().startPoint(startPoint).transportations(transportations).endPoint(endPoint)
+        DummyRoute newRoute = DummyRoute.getFactory().startPoint(startPoint).transportations(transportations).endPoint(endPoint)
                 .routeType(routeType).build();
         predictionIOClient.addRouteToClient(newRoute);
         return service.update(userEntry);
