@@ -1,0 +1,67 @@
+FORMAT: 1A
+HOST: http://localhost:8080/api
+
+# RouteMe-API
+
+A JSON-Based RESTful API for the RouteME collaborative multi-modal
+route recommender app. This API is build as a backend support for
+the prototype iOS app RouteMe which is developed as a prototype
+to support the research of my Master thesis topic which is
+"Collaborative and Social Multi-modal Route Planning"
+
+
+
+## Users Collection [/users]
+
+
+### Signup [POST]
+
+
++ Request (application/json)
+
+        {
+            "username": "heshammassoud",
+            "email": "heshamhamdymassoud@gmail.com",
+            "password": "LimpBizkit22!",
+            "confirmationPassword": "LimpBizkit22!"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "id": "123",
+                "username": "heshammassoud",
+                "email": "heshamhamdymassoud@gmail.com",
+                "password": "LimpBizkit22!",
+                "confirmationPassword": "LimpBizkit22!"
+            }
+
+### Login [POST]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "e-mail": "heshamhamdymassoud@gmail.com",
+                "password": "LimpBizkit22",
+            }
+        ]
++ Response 4
+
+### Logout [POST]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "e-mail": "heshamhamdymassoud@gmail.com",
+                "password": "LimpBizkit22",
+            }
+        ]
++ Response 4
