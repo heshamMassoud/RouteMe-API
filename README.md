@@ -18,7 +18,7 @@ http://docs.routemeapi.apiary.io/#
 ```
 - Run `pio eventserver` to start event server
 - Run `pio build` to build an engine in the current directory.
-- Run `pio train` to train a predictive model with training data of an engine in the current directory.
+- Run `pio train -- --driver-memory 4g` to train a predictive model with training data of an engine in the current directory.
 - Run `pio deploy` to deploy the engine in the current directory as a service. (https://docs.prediction.io/deploy/)
 - Run `mongod` to start mongodb server 
 - Run `mvnDebug spring-boot:run` to run the RouteMe-API in debug mode
