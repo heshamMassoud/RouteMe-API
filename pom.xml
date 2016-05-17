@@ -6,6 +6,9 @@
 	<artifactId>routeme-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>RouteMe Api</name>
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -15,7 +18,6 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.9.1.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -26,10 +28,12 @@
 			<artifactId>client</artifactId>
 			<version>0.9.5</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.maps</groupId>
+			<artifactId>google-maps-services</artifactId>
+			<version>0.1.12</version>
+		</dependency>
 	</dependencies>
-	<properties>
-		<java.version>1.8</java.version>
-	</properties>
 	<build>
 		<plugins>
 			<plugin>
