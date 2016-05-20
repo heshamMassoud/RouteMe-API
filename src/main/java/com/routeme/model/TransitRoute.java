@@ -39,6 +39,7 @@ public class TransitRoute extends Route {
         }
         this.predictionIoId = "[" + departureStop.name + "]" + this.predictionIoId;
         this.predictionIoId += "[" + arrivalStop.name + "]";
+        this.predictionIoId = GoogleDirectionsUtility.replaceUmlaut(this.predictionIoId);
     }
 
     private void addTransportationMode(String transportationMode) {

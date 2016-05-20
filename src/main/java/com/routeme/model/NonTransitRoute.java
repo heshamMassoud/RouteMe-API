@@ -6,6 +6,7 @@ import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
 import com.google.maps.model.Distance;
 import com.google.maps.model.Duration;
+import com.routeme.utility.directions.GoogleDirectionsUtility;
 
 public class NonTransitRoute extends Route {
 
@@ -24,6 +25,7 @@ public class NonTransitRoute extends Route {
         }
         this.predictionIoId = "[" + startAddress + "]" + this.predictionIoId;
         this.predictionIoId += "[" + endAddress + "]";
+        this.predictionIoId = GoogleDirectionsUtility.replaceUmlaut(this.predictionIoId);
     }
 
     private String getWalkingStepSummary(Distance distance, Duration duration, String htmlInstructions) {
