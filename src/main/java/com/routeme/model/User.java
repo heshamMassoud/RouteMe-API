@@ -7,17 +7,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public final class User {
     @Id
     private String id;
-    private String name;
+    private String username;
     private String email;
     private String password;
+    private String confirmationPassword;
 
     public User() {
     }
 
     private User(Factory userFactory) {
-        this.name = userFactory.name;
+        this.username = userFactory.username;
         this.email = userFactory.email;
         this.password = userFactory.password;
+        this.confirmationPassword = userFactory.confirmationPassword;
     }
 
     public static Factory getFactory() {
@@ -28,8 +30,8 @@ public final class User {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
     public String getEmail() {
@@ -40,10 +42,19 @@ public final class User {
         return password;
     }
 
-    public void update(String name, String email, String password) {
-        this.name = name;
+    public String getConfirmationPassword() {
+        return confirmationPassword;
+    }
+
+    public void setConfirmationPassword(String confirmationPassword) {
+        this.confirmationPassword = confirmationPassword;
+    }
+
+    public void update(String username, String email, String password, String confirmationPassword) {
+        this.username = username;
         this.email = email;
         this.password = password;
+        this.confirmationPassword = confirmationPassword;
     }
 
     /**
@@ -52,15 +63,16 @@ public final class User {
      */
     public static class Factory {
 
-        private String name;
+        private String username;
         private String email;
         private String password;
+        private String confirmationPassword;
 
         private Factory() {
         }
 
-        public Factory name(String name) {
-            this.name = name;
+        public Factory name(String username) {
+            this.username = username;
             return this;
         }
 
@@ -74,15 +86,15 @@ public final class User {
             return this;
         }
 
+        public Factory confirmationPassword(String confirmationPassword) {
+            this.confirmationPassword = confirmationPassword;
+            return this;
+        }
+
         public User build() {
             User user = new User(this);
-            user.validate(user.getName(), user.getEmail(), user.getPassword());
             return user;
         }
-    }
-
-    private void validate(String name, String email, String password) {
-        // TODO validate parameters.
     }
 
 }
