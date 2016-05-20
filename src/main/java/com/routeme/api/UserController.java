@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.routeme.dto.EventDTO;
 import com.routeme.dto.UserDTO;
 import com.routeme.model.DummyRoute;
 import com.routeme.predictionio.PredictionIOClient;
@@ -41,8 +42,9 @@ public final class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     UserDTO create(@RequestBody @Valid UserDTO userEntry) {
         UserDTO userRecord = service.create(userEntry);
-        String userId = userRecord.getId();
+        String userId = userRecord.getEmail();
         predictionIOClient.addUserToClient(userId);
+        //SHOULD BE BATCHED
         predictionIOClient.preferRouteType(userId, PredictionIOClient.PREFERENCE_ROUTE_TYPE_LEASTTIME);
         predictionIOClient.preferRouteMode(userId, PredictionIOClient.PREFERENCE_ROUTE_MODE_BUS);
         predictionIOClient.preferRouteMode(userId, PredictionIOClient.PREFERENCE_ROUTE_MODE_BUS);
@@ -50,22 +52,28 @@ public final class UserController {
         return userRecord;
     }
 
-    @RequestMapping(value = "{id}/take/{routeId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/take", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    void takeRoute(@PathVariable("id") String userId, @PathVariable("routeId") String routeId) {
-        predictionIOClient.takeRoute(userId, routeId);
+    void takeRoute(@RequestBody @Valid EventDTO eventEntry) {
+        predictionIOClient.takeRoute(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
 
-    @RequestMapping(value = "{id}/view/{routeId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/view", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    void viewRoute(@PathVariable("id") String userId, @PathVariable("routeId") String routeId) {
-        predictionIOClient.viewRoute(userId, routeId);
+    void viewRoute(@RequestBody @Valid EventDTO eventEntry) {
+        predictionIOClient.viewRoute(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
 
-    @RequestMapping(value = "{id}/viewlast/{routeId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/viewlast", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    void ViewRouteLast(@PathVariable("id") String userId, @PathVariable("routeId") String routeId) {
-        predictionIOClient.viewRouteLast(userId, routeId);
+    void ViewRouteLast(@RequestBody @Valid EventDTO eventEntry) {
+        predictionIOClient.viewRouteLast(eventEntry.getUserId(), eventEntry.getTargetEntityId());
+    }
+    
+    @RequestMapping(value = "/prefer", method = RequestMethod.POST, produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    void preferMode(@RequestBody @Valid EventDTO eventEntry) {
+        predictionIOClient.preferRouteMode(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
