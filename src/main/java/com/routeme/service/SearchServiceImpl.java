@@ -15,15 +15,18 @@ import com.routeme.dto.SearchResponseDTO;
 import com.routeme.model.NonTransitRoute;
 import com.routeme.model.Route;
 import com.routeme.model.TransitRoute;
+import com.routeme.predictionio.PredictionIOClient;
 import com.routeme.utility.directions.GoogleDirectionsUtility;
 
 @Service
 public class SearchServiceImpl implements SearchService {
+    private PredictionIOClient predictionIOClient;
 
     @Override
     public SearchResponseDTO search(String originInput, String destinationInput) {
         // TODO: Remove the munich post fixes, won't be needed after
         // autocomplete in the frontend
+        predictionIOClient = new PredictionIOClient();
         String origin = originInput + " munich";
         String destination = destinationInput + " munich";
         SearchResponseDTO searchResponseDTO = null;
@@ -47,6 +50,9 @@ public class SearchServiceImpl implements SearchService {
                     .alternatives(true).region("de").mode(TravelMode.WALKING).await();
             allRouteDTOResults.addAll(convertGoogleNonTransitResultToSearchResponseDTO(walkingResults));
 
+            //TODO Add routes to client
+            //predictionIOClient.addRoutesToClient(allRouteDTOResults);
+            predictionIOClient.closeEventClient();
             // TODO Set each route types according to all results (least time,
             // least changes..)
             setRouteTypes(allRouteDTOResults);
