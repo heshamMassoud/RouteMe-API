@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO create(UserDTO user) {
-        User persistedUser = User.getFactory().name(user.getUsername()).email(user.getEmail()).password(user.getPassword())
-                .build();
+        User persistedUser = User.getFactory().name(user.getUsername()).email(user.getEmail())
+                .password(user.getPassword()).build();
         persistedUser = repository.save(persistedUser);
         return convertToDTO(persistedUser);
     }

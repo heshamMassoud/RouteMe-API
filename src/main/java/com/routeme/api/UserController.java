@@ -44,7 +44,7 @@ public final class UserController {
         UserDTO userRecord = service.create(userEntry);
         String userId = userRecord.getEmail();
         predictionIOClient.addUserToClient(userId);
-        //SHOULD BE BATCHED
+        // SHOULD BE BATCHED
         predictionIOClient.preferRouteType(userId, PredictionIOClient.PREFERENCE_ROUTE_TYPE_LEASTTIME);
         predictionIOClient.preferRouteMode(userId, PredictionIOClient.PREFERENCE_ROUTE_MODE_BUS);
         predictionIOClient.preferRouteMode(userId, PredictionIOClient.PREFERENCE_ROUTE_MODE_BUS);
@@ -69,7 +69,7 @@ public final class UserController {
     void ViewRouteLast(@RequestBody @Valid EventDTO eventEntry) {
         predictionIOClient.viewRouteLast(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
-    
+
     @RequestMapping(value = "/prefer", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     void preferMode(@RequestBody @Valid EventDTO eventEntry) {
@@ -100,8 +100,8 @@ public final class UserController {
         }
         String endPoint = passwordSplit[passwordSplit.length - 2].trim();
         String routeType = passwordSplit[passwordSplit.length - 1].trim();
-        DummyRoute newRoute = DummyRoute.getFactory().startPoint(startPoint).transportations(transportations).endPoint(endPoint)
-                .routeType(routeType).build();
+        DummyRoute newRoute = DummyRoute.getFactory().startPoint(startPoint).transportations(transportations)
+                .endPoint(endPoint).routeType(routeType).build();
         predictionIOClient.addRouteToClient(newRoute);
         return service.update(userEntry);
     }
