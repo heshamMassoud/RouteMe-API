@@ -24,6 +24,7 @@
       "name": "ur",
       "params": {
         "appName": "routeme",
+        "blacklistEvents": [],
         "indexName": "urindex",
         "typeName": "items",
         "comment": "must have data for the first event or the model will not build, other events are optional",
