@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO create(UserDTO user) {
-        User persistedUser = User.getFactory().name(user.getName()).email(user.getEmail()).password(user.getPassword())
+        User persistedUser = User.getFactory().name(user.getUsername()).email(user.getEmail()).password(user.getPassword())
                 .build();
         persistedUser = repository.save(persistedUser);
         return convertToDTO(persistedUser);
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO update(UserDTO userModel) {
         User updatedUser = findUserById(userModel.getId());
-        updatedUser.update(userModel.getName(), userModel.getEmail(), userModel.getPassword());
+        updatedUser.update(userModel.getUsername(), userModel.getEmail(), userModel.getPassword());
         updatedUser = repository.save(updatedUser);
         return convertToDTO(updatedUser);
     }
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     private UserDTO convertToDTO(User model) {
         UserDTO dto = new UserDTO();
         dto.setId(model.getId());
-        dto.setName(model.getName());
+        dto.setUsername(model.getName());
         dto.setEmail(model.getEmail());
         dto.setPassword(model.getPassword());
         return dto;
