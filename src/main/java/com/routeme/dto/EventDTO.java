@@ -8,19 +8,12 @@ import org.hibernate.validator.constraints.NotBlank;
 public class EventDTO {
 
     @NotBlank
-    private String name;
-
-    @NotBlank
     private String userId;
 
     @NotBlank
     private String targetEntityId;
 
     private Map<String, ArrayList<String>> properites;
-
-    public String getName() {
-        return name;
-    }
 
     public Map<String, ArrayList<String>> getProperites() {
         return properites;
@@ -32,10 +25,6 @@ public class EventDTO {
 
     public String getUserId() {
         return userId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setProperites(Map<String, ArrayList<String>> properites) {

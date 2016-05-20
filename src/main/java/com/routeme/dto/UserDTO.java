@@ -27,12 +27,16 @@ public class UserDTO {
         return email;
     }
 
-    public String getName() {
+    public String getUsername() {
         return username;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public String getConfirmationPassword() {
+        return confirmationPassword;
     }
 
     public void setId(String id) {
@@ -43,11 +47,15 @@ public class UserDTO {
         this.email = email;
     }
 
-    public void setName(String name) {
-        this.username = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setConfirmationPassword(String confirmationPassword) {
+        this.confirmationPassword = confirmationPassword;
     }
 }
