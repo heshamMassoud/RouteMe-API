@@ -12,6 +12,7 @@ import com.google.maps.model.Vehicle;
 import com.routeme.utility.directions.GoogleDirectionsUtility;
 
 public class TransitRoute extends Route {
+    boolean firstVehicleInformationSet = false;
 
     public TransitRoute(DirectionsRoute googleDirectionsRoute) {
         super(googleDirectionsRoute);
@@ -53,7 +54,19 @@ public class TransitRoute extends Route {
         String lineShortName = transitLine.shortName;
         String munichVehicleName = GoogleDirectionsUtility.getMunichTransitVehicleName(transitVehicle);
         addTransportationMode(munichVehicleName);
+        if (!firstVehicleInformationSet) {
+            getFirstVehicleInformation(transitLine.color, transitLine.shortName, transitVehicle.icon);
+        }
         return munichVehicleName + lineShortName + "(" + headSign + ")";
+    }
+
+    private void getFirstVehicleInformation(String firstVehicleColor, String firstVehicleShortName,
+            String firstVehicleIcon) {
+        this.firstVehicleColorCode = firstVehicleColor;
+        if (firstVehicleIcon != null) {
+            this.firstVehicleIcon = firstVehicleIcon.substring(2, firstVehicleIcon.length());
+        }
+        this.firstVehicleShortName = firstVehicleShortName;
     }
 
 }
