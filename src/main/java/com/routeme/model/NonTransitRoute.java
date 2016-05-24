@@ -20,17 +20,19 @@ public class NonTransitRoute extends Route {
         this.predictionIoId = "";
         for (int i = 0; i < steps.length; i++) {
             DirectionsStep currentStep = steps[i];
-            this.predictionIoId += getWalkingStepSummary(currentStep.distance, currentStep.duration,
-                    currentStep.htmlInstructions);
+            String transportationMode = currentStep.travelMode.name();
+            String htmlInstruction = currentStep.htmlInstructions;
+            String distance = currentStep.distance.humanReadable;
+            this.predictionIoId += getStepSummary(htmlInstruction, distance);
         }
         this.predictionIoId = "[" + startAddress + "]" + this.predictionIoId;
         this.predictionIoId += "[" + endAddress + "]";
         this.predictionIoId = GoogleDirectionsUtility.replaceUmlaut(this.predictionIoId);
     }
 
-    private String getWalkingStepSummary(Distance distance, Duration duration, String htmlInstructions) {
-        String noSpaceBracketedDistance = "(" + distance.humanReadable.replace(" ", "") + ")";
-        return htmlInstructions + noSpaceBracketedDistance;
+    private String getStepSummary(String htmlInstruction, String distance) {
+        String noSpaceBracketedDistance = "(" + distance.replace(" ", "") + ")";
+        return htmlInstruction + noSpaceBracketedDistance;
     }
 
     private void setTransportationModes() {
