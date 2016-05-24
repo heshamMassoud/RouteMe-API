@@ -15,5 +15,9 @@ public interface UserRepository extends Repository<User, String> {
 
     Optional<User> findOne(String id);
 
+    List<User> findByEmail(String email);
+
+    List<User> findByEmailAndPassword(String email, String password);
+
     User save(User saved);
 }

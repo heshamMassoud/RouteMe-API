@@ -23,11 +23,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO create(UserDTO user) {
-        User persistedUser = User.getFactory().name(user.getUsername()).email(user.getEmail())
-                .password(user.getPassword()).build();
+    public Optional<UserDTO> create(UserDTO userEntry) {
+        if (userExists(userEntry.getEmail())) {
+            return Optional.empty();
+        }
+        User persistedUser = User.getFactory().name(userEntry.getUsername()).email(userEntry.getEmail())
+                .password(userEntry.getPassword()).confirmationPassword(userEntry.getConfirmationPassword()).build();
         persistedUser = repository.save(persistedUser);
-        return convertToDTO(persistedUser);
+        return Optional.of(convertToDTO(persistedUser));
     }
 
     @Override
@@ -54,9 +57,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO update(UserDTO userModel) {
-        User updatedUser = findUserById(userModel.getId());
-        updatedUser.update(userModel.getUsername(), userModel.getEmail(), userModel.getPassword());
+    public UserDTO update(UserDTO userEntry) {
+        User updatedUser = findUserById(userEntry.getId());
+        updatedUser.update(userEntry.getUsername(), userEntry.getEmail(), userEntry.getPassword(),
+                userEntry.getConfirmationPassword());
         updatedUser = repository.save(updatedUser);
         return convertToDTO(updatedUser);
     }
@@ -69,10 +73,26 @@ public class UserServiceImpl implements UserService {
     private UserDTO convertToDTO(User model) {
         UserDTO dto = new UserDTO();
         dto.setId(model.getId());
-        dto.setUsername(model.getName());
+        dto.setUsername(model.getUsername());
         dto.setEmail(model.getEmail());
         dto.setPassword(model.getPassword());
+        dto.setConfirmationPassword(model.getConfirmationPassword());
         return dto;
+    }
+
+    private boolean userExists(String email) {
+        List<User> result = repository.findByEmail(email);
+        return !result.isEmpty();
+    }
+
+    @Override
+    public Optional<UserDTO> findByCredentials(String email, String password) {
+        List<User> result = repository.findByEmailAndPassword(email, password);
+        if (result.isEmpty()) {
+            return Optional.empty();
+        }
+        UserDTO userDto = convertToDTO(result.get(0));
+        return Optional.of(userDto);
     }
 
 }
