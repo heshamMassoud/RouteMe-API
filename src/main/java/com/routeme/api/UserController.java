@@ -34,13 +34,13 @@ public final class UserController {
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    private List<UserDTO> findAll() {
+    List<UserDTO> findAll() {
         return service.findAll();
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    private UserDTO signup(@RequestBody @Valid UserDTO userEntry) {
+    UserDTO signup(@RequestBody @Valid UserDTO userEntry) {
         UserDTO userRecord = service.create(userEntry).orElseThrow(
                 () -> new UserAlreadyExistsException(userEntry.getEmail()));
         return userRecord;
@@ -48,7 +48,7 @@ public final class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
-    private UserDTO login(@RequestBody UserDTO userEntry) {
+    UserDTO login(@RequestBody UserDTO userEntry) {
         UserDTO userRecord = service.findByCredentials(userEntry.getEmail(), userEntry.getPassword()).orElseThrow(
                 () -> new WrongCredentialsException());
         return userRecord;
@@ -56,41 +56,41 @@ public final class UserController {
 
     @RequestMapping(value = "/take", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    private void takeRoute(@RequestBody @Valid EventDTO eventEntry) {
+    void takeRoute(@RequestBody @Valid EventDTO eventEntry) {
         predictionIOClient.takeRoute(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
 
     @RequestMapping(value = "/view", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    private void viewRoute(@RequestBody @Valid EventDTO eventEntry) {
+    void viewRoute(@RequestBody @Valid EventDTO eventEntry) {
         predictionIOClient.viewRoute(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
 
     @RequestMapping(value = "/viewlast", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    private void ViewRouteLast(@RequestBody @Valid EventDTO eventEntry) {
+    void viewRouteLast(@RequestBody @Valid EventDTO eventEntry) {
         predictionIOClient.viewRouteLast(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
 
     @RequestMapping(value = "/prefer", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    private void preferMode(@RequestBody @Valid EventDTO eventEntry) {
+    void preferMode(@RequestBody @Valid EventDTO eventEntry) {
         predictionIOClient.preferRouteMode(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    private UserDTO delete(@PathVariable("id") String id) {
+    UserDTO delete(@PathVariable("id") String id) {
         return service.delete(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    private UserDTO findById(@PathVariable("id") String id) {
+    UserDTO findById(@PathVariable("id") String id) {
         return service.findById(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    private UserDTO update(@RequestBody @Valid UserDTO userEntry, @PathVariable("id") String id) {
+    UserDTO update(@RequestBody @Valid UserDTO userEntry, @PathVariable("id") String id) {
         // TODO: Need not send whole user entity. For the user case of needing
         // to update one field.
         String password = userEntry.getPassword();

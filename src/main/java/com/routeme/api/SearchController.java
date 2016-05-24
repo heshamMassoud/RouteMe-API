@@ -26,7 +26,7 @@ public class SearchController {
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    private SearchResponseDTO search(@RequestBody @Valid SearchRequestDTO route) {
+    SearchResponseDTO search(@RequestBody @Valid SearchRequestDTO route) {
         String origin = route.getStartPoint();
         String destination = route.getEndPoint();
         return service.search(origin, destination);
