@@ -22,6 +22,9 @@ public class Route {
     protected EncodedPolyline overviewPolyLine;
     protected String routeSummary;
     protected ArrayList<String> transportationModes;
+    protected String firstVehicleColorCode;
+    protected String firstVehicleShortName;
+    protected String firstVehicleIcon;
     // A transit route has only 1 leg (because 0 way points)
     protected final int LEG_INDEX = 0;
     protected String predictionIoId;
@@ -80,6 +83,18 @@ public class Route {
 
     public ArrayList<String> getTransportationModes() {
         return transportationModes;
+    }
+
+    public String getFirstVehicleColorCode() {
+        return firstVehicleColorCode;
+    }
+
+    public String getFirstVehicleIcon() {
+        return firstVehicleIcon;
+    }
+
+    public String getFirstVehicleShortName() {
+        return firstVehicleShortName;
     }
 
 }
