@@ -28,11 +28,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public SearchResponseDTO search(String originInput, String destinationInput) {
-        // TODO: Remove the munich post fixes, won't be needed after
-        // autocomplete in the frontend
         predictionIOClient = new PredictionIOClient();
-        String origin = originInput + " munich";
-        String destination = destinationInput + " munich";
+        String origin = originInput;
+        String destination = destinationInput;
         SearchResponseDTO searchResponseDTO = null;
         GeoApiContext context = new GeoApiContext().setApiKey(GoogleDirectionsUtility.getGoogleDirectionsApiKey());
         try {
