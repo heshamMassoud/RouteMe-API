@@ -15,9 +15,8 @@ public class RouteDTO {
     private String routeSummary;
     private String predictionIoId;
     private ArrayList<String> transportationModes;
-    private String firstVehicleColorCode;
-    private String firstVehicleShortName;
-    private String firstVehicleIcon;
+    private ArrayList<Map<String, String>> steps;
+    private boolean isTransit;
 
     public String getArrivalTime() {
         return arrivalTime;
@@ -55,16 +54,12 @@ public class RouteDTO {
         return startAddress;
     }
 
-    public String getFirstVehicleColorCode() {
-        return firstVehicleColorCode;
+    public ArrayList<Map<String, String>> getSteps() {
+        return steps;
     }
 
-    public String getFirstVehicleIcon() {
-        return firstVehicleIcon;
-    }
-
-    public String getFirstVehicleShortName() {
-        return firstVehicleShortName;
+    public boolean getTransit() {
+        return isTransit;
     }
 
     public void setArrivalTime(String arrivalTime) {
@@ -111,16 +106,12 @@ public class RouteDTO {
         this.transportationModes = transportationModes;
     }
 
-    public void setFirstVehicleColorCode(String firstVehicleColorCode) {
-        this.firstVehicleColorCode = firstVehicleColorCode;
+    public void setSteps(ArrayList<Map<String, String>> steps) {
+        this.steps = steps;
     }
 
-    public void setFirstVehicleIcon(String firstVehicleIcon) {
-        this.firstVehicleIcon = firstVehicleIcon;
-    }
-
-    public void setFirstVehicleShortName(String firstVehicleShortName) {
-        this.firstVehicleShortName = firstVehicleShortName;
+    public void setTransit(boolean isTransit) {
+        this.isTransit = isTransit;
     }
 
     public Map<String, Object> getRoutePIOProperties(String routeType) {

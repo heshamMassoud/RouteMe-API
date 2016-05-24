@@ -1,6 +1,8 @@
 package com.routeme.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
@@ -36,7 +38,7 @@ public class TransitRoute extends Route {
                     departureStop = transitDetails.departureStop;
                 }
                 arrivalStop = transitDetails.arrivalStop;
-                this.predictionIoId += getTransitSummary(transitDetails);
+                this.predictionIoId += getTransitStepSummary(transitDetails);
                 if (i != steps.length - 1) {
                     this.predictionIoId += "_";
                 }
@@ -51,26 +53,23 @@ public class TransitRoute extends Route {
         transportationModes.add(transportationMode);
     }
 
-    private String getTransitSummary(TransitDetails transitDetails) {
+    private String getTransitStepSummary(TransitDetails transitDetails) {
         TransitLine transitLine = transitDetails.line;
         Vehicle transitVehicle = transitLine.vehicle;
         String headSign = transitDetails.headsign;
         String lineShortName = transitLine.shortName;
         String munichVehicleName = GoogleDirectionsUtility.getMunichTransitVehicleName(transitVehicle);
         addTransportationMode(munichVehicleName);
-        if (!firstVehicleInformationSet) {
-            getFirstVehicleInformation(transitLine.color, transitLine.shortName, transitVehicle.icon);
-        }
+        setStepData(munichVehicleName, lineShortName, transitLine.color, headSign);
         return munichVehicleName + lineShortName + "(" + headSign + ")";
     }
 
-    private void getFirstVehicleInformation(String firstVehicleColor, String firstVehicleShortName,
-            String firstVehicleIcon) {
-        this.firstVehicleColorCode = firstVehicleColor;
-        if (firstVehicleIcon != null) {
-            this.firstVehicleIcon = firstVehicleIcon.substring(2, firstVehicleIcon.length());
-        }
-        this.firstVehicleShortName = firstVehicleShortName;
+    private void setStepData(String vehicleName, String lineShortName, String lineHexColor, String headSign) {
+        Map<String, String> stepData = new HashMap<String, String>();
+        stepData.put(TRANSPORTATION_MODE_KEY, vehicleName);
+        stepData.put(TRANSIT_VEHICLE_SHORT_NAME_KEY, lineShortName);
+        stepData.put(TRANSIT_LINE_HEX_COLOR, lineHexColor);
+        stepData.put(TRANSIT_LINE_HEADSIGN, headSign);
+        this.stepsData.add(stepData);
     }
-
 }

@@ -112,19 +112,17 @@ public class SearchServiceImpl implements SearchService {
         routeDTO.setOverviewPolyLine(route.getOverviewPolyLine().getEncodedPath());
         routeDTO.setPredictionIoId(route.getPredictionIoId());
         routeDTO.setTransportationModes(route.getTransportationModes());
+        routeDTO.setSteps(route.getStepSummaries());
         if (route instanceof TransitRoute) {
             DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
             routeDTO.setArrivalTime(timeFormat.format(route.getArrivalTime().toDate()));
             routeDTO.setDepartureTime(timeFormat.format(route.getDepartureTime().toDate()));
-            routeDTO.setFirstVehicleColorCode(route.getFirstVehicleColorCode());
-            routeDTO.setFirstVehicleIcon(route.getFirstVehicleIcon());
-            routeDTO.setFirstVehicleShortName(route.getFirstVehicleShortName());
             routeDTO.setRouteSummary(routeDTO.getDepartureTime() + "-" + routeDTO.getArrivalTime() + " ("
                     + routeDTO.getDuration() + ")");
+            routeDTO.setTransit(true);
         } else {
-            int nonTransitRouteTravelModeIndex = 0;
-            routeDTO.setRouteSummary(routeDTO.getTransportationModes().get(nonTransitRouteTravelModeIndex) + " ("
-                    + routeDTO.getDistance() + ")");
+            routeDTO.setRouteSummary(route.getRouteSummary() + " (" + routeDTO.getDistance() + ")");
+            routeDTO.setTransit(false);
         }
         return routeDTO;
     }
