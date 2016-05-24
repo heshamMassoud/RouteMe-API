@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.google.maps.DirectionsApi;
@@ -19,6 +20,7 @@ import com.routeme.model.Route;
 import com.routeme.model.TransitRoute;
 import com.routeme.predictionio.PredictionIOClient;
 import com.routeme.utility.directions.GoogleDirectionsUtility;
+import com.routeme.utility.directions.RouteParseException;
 
 @Service
 public class SearchServiceImpl implements SearchService {
@@ -26,11 +28,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public SearchResponseDTO search(String originInput, String destinationInput) {
-        // TODO: Remove the munich post fixes, won't be needed after
-        // autocomplete in the frontend
         predictionIOClient = new PredictionIOClient();
-        String origin = originInput + " munich";
-        String destination = destinationInput + " munich";
+        String origin = originInput;
+        String destination = destinationInput;
         SearchResponseDTO searchResponseDTO = null;
         GeoApiContext context = new GeoApiContext().setApiKey(GoogleDirectionsUtility.getGoogleDirectionsApiKey());
         try {
@@ -83,8 +83,13 @@ public class SearchServiceImpl implements SearchService {
     private List<RouteDTO> convertGoogleTransitResultToSearchResponseDTO(DirectionsResult directionResult) {
         List<RouteDTO> routeDTOs = new ArrayList<RouteDTO>();
         for (int i = 0; i < directionResult.routes.length; i++) {
-            TransitRoute route = new TransitRoute(directionResult.routes[i]);
-            routeDTOs.add(convertRouteToRouteDTO(route));
+            TransitRoute route;
+            try {
+                route = new TransitRoute(directionResult.routes[i]);
+                routeDTOs.add(convertRouteToRouteDTO(route));
+            } catch (RouteParseException e) {
+                Logger.getRootLogger().info(e.getMessage());
+            }
         }
         return routeDTOs;
     }
@@ -107,19 +112,17 @@ public class SearchServiceImpl implements SearchService {
         routeDTO.setOverviewPolyLine(route.getOverviewPolyLine().getEncodedPath());
         routeDTO.setPredictionIoId(route.getPredictionIoId());
         routeDTO.setTransportationModes(route.getTransportationModes());
+        routeDTO.setSteps(route.getStepSummaries());
         if (route instanceof TransitRoute) {
             DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
             routeDTO.setArrivalTime(timeFormat.format(route.getArrivalTime().toDate()));
             routeDTO.setDepartureTime(timeFormat.format(route.getDepartureTime().toDate()));
-            routeDTO.setFirstVehicleColorCode(route.getFirstVehicleColorCode());
-            routeDTO.setFirstVehicleIcon(route.getFirstVehicleIcon());
-            routeDTO.setFirstVehicleShortName(route.getFirstVehicleShortName());
             routeDTO.setRouteSummary(routeDTO.getDepartureTime() + "-" + routeDTO.getArrivalTime() + " ("
                     + routeDTO.getDuration() + ")");
+            routeDTO.setTransit(true);
         } else {
-            int nonTransitRouteTravelModeIndex = 0;
-            routeDTO.setRouteSummary(routeDTO.getTransportationModes().get(nonTransitRouteTravelModeIndex) + " ("
-                    + routeDTO.getDistance() + ")");
+            routeDTO.setRouteSummary(route.getRouteSummary() + " (" + routeDTO.getDistance() + ")");
+            routeDTO.setTransit(false);
         }
         return routeDTO;
     }
