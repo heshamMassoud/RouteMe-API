@@ -68,7 +68,7 @@ public final class UserController {
 
     @RequestMapping(value = "/viewlast", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    void ViewRouteLast(@RequestBody @Valid EventDTO eventEntry) {
+    void viewRouteLast(@RequestBody @Valid EventDTO eventEntry) {
         predictionIOClient.viewRouteLast(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
 
