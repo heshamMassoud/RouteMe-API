@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.google.maps.DirectionsApi;
@@ -19,6 +20,7 @@ import com.routeme.model.Route;
 import com.routeme.model.TransitRoute;
 import com.routeme.predictionio.PredictionIOClient;
 import com.routeme.utility.directions.GoogleDirectionsUtility;
+import com.routeme.utility.directions.RouteParseException;
 
 @Service
 public class SearchServiceImpl implements SearchService {
@@ -83,8 +85,13 @@ public class SearchServiceImpl implements SearchService {
     private List<RouteDTO> convertGoogleTransitResultToSearchResponseDTO(DirectionsResult directionResult) {
         List<RouteDTO> routeDTOs = new ArrayList<RouteDTO>();
         for (int i = 0; i < directionResult.routes.length; i++) {
-            TransitRoute route = new TransitRoute(directionResult.routes[i]);
-            routeDTOs.add(convertRouteToRouteDTO(route));
+            TransitRoute route;
+            try {
+                route = new TransitRoute(directionResult.routes[i]);
+                routeDTOs.add(convertRouteToRouteDTO(route));
+            } catch (RouteParseException e) {
+                Logger.getRootLogger().info(e.getMessage());
+            }
         }
         return routeDTOs;
     }

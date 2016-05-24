@@ -10,12 +10,16 @@ import com.google.maps.model.TransitLine;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Vehicle;
 import com.routeme.utility.directions.GoogleDirectionsUtility;
+import com.routeme.utility.directions.RouteParseException;
 
 public class TransitRoute extends Route {
     boolean firstVehicleInformationSet = false;
 
-    public TransitRoute(DirectionsRoute googleDirectionsRoute) {
+    public TransitRoute(DirectionsRoute googleDirectionsRoute) throws RouteParseException {
         super(googleDirectionsRoute);
+        if (departureTime == null || arrivalTime == null) {
+            throw new RouteParseException();
+        }
         transportationModes = new ArrayList<String>();
         this.setPredictionIoId();
     }
