@@ -1,7 +1,6 @@
 package com.routeme.model;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -23,19 +22,11 @@ public class Route {
     protected EncodedPolyline overviewPolyLine;
     protected String routeSummary;
     protected ArrayList<String> transportationModes;
-    protected ArrayList<Map<String, String>> stepsData = new ArrayList<Map<String,String>>();
-    // A transit route has only 1 leg (because 0 way points)
-    protected final int LEG_INDEX = 0;
+    protected ArrayList<Step> stepsData = new ArrayList<Step>();
     protected String predictionIoId;
-    protected static final String TRANSPORTATION_MODE_KEY = "transportationMode";
-    protected static final String TRANSIT_VEHICLE_SHORT_NAME_KEY = "transportationVehicleShortName";
-    protected static final String TRANSIT_LINE_HEX_COLOR = "transportationLineColorCode";
-    protected static final String TRANSIT_LINE_HEADSIGN = "transportationLineHeadSign";
-    protected static final String NON_TRANSIT_STEP_HTML_INSTRUCTION = "htmlIntruction";
-    protected static final String NON_TRANSIT_STEP_DISTANCE = "distance";
 
     public Route(DirectionsRoute googleDirectionsRoute) {
-        DirectionsLeg routeLeg = googleDirectionsRoute.legs[LEG_INDEX];
+        DirectionsLeg routeLeg = googleDirectionsRoute.legs[Util.Route.ONLY_ROUTE_LEG];
         this.departureTime = routeLeg.departureTime;
         this.arrivalTime = routeLeg.arrivalTime;
         this.duration = routeLeg.duration;
@@ -91,7 +82,7 @@ public class Route {
         return transportationModes;
     }
 
-    public ArrayList<Map<String, String>> getStepSummaries() {
+    public ArrayList<Step> getStepsData() {
         return stepsData;
     }
 }

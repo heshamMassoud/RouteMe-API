@@ -13,11 +13,17 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.TransitMode;
 import com.google.maps.model.TravelMode;
+import com.routeme.dto.NonTransitStepDTO;
 import com.routeme.dto.RouteDTO;
 import com.routeme.dto.SearchResponseDTO;
+import com.routeme.dto.StepDTO;
+import com.routeme.dto.TransitStepDTO;
 import com.routeme.model.NonTransitRoute;
+import com.routeme.model.NonTransitStep;
 import com.routeme.model.Route;
+import com.routeme.model.Step;
 import com.routeme.model.TransitRoute;
+import com.routeme.model.TransitStep;
 import com.routeme.predictionio.PredictionIOClient;
 import com.routeme.utility.directions.GoogleDirectionsUtility;
 import com.routeme.utility.directions.RouteParseException;
@@ -112,7 +118,7 @@ public class SearchServiceImpl implements SearchService {
         routeDTO.setOverviewPolyLine(route.getOverviewPolyLine().getEncodedPath());
         routeDTO.setPredictionIoId(route.getPredictionIoId());
         routeDTO.setTransportationModes(route.getTransportationModes());
-        routeDTO.setSteps(route.getStepSummaries());
+        setRouteDTOStepDTOs(routeDTO, route);
         if (route instanceof TransitRoute) {
             DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
             routeDTO.setArrivalTime(timeFormat.format(route.getArrivalTime().toDate()));
@@ -125,6 +131,30 @@ public class SearchServiceImpl implements SearchService {
             routeDTO.setTransit(false);
         }
         return routeDTO;
+    }
+    
+    private void setRouteDTOStepDTOs(RouteDTO routeDTO, Route route) {
+        ArrayList<StepDTO> stepDTOs = new ArrayList<StepDTO>();
+        for (Step step : route.getStepsData()) {
+            StepDTO stepDTO = convertStepToStepDTO(step);
+            stepDTOs.add(stepDTO);
+        }
+        routeDTO.setSteps(stepDTOs);
+    }
+
+    private StepDTO convertStepToStepDTO(Step step) {
+        StepDTO stepDTO = null;
+        if (step instanceof TransitStep) {
+            TransitStep transitStep = (TransitStep) step;
+            stepDTO = new TransitStepDTO(transitStep.getTransportationMode(),
+                    transitStep.getTransportationVehicleShortName(), transitStep.getTransportationLineColorCode(),
+                    transitStep.getTransportationLineHeadSign());
+        } else {
+            NonTransitStep nonTransitStep = (NonTransitStep) step;
+            stepDTO = new NonTransitStepDTO(nonTransitStep.getTransportationMode(), nonTransitStep.getHtmlIntruction(),
+                    nonTransitStep.getDistance());
+        }
+        return stepDTO;
     }
 
 }

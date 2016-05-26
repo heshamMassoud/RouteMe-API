@@ -1,8 +1,6 @@
 package com.routeme.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
@@ -59,16 +57,7 @@ public class TransitRoute extends Route {
         String lineShortName = transitLine.shortName;
         String munichVehicleName = GoogleDirectionsUtility.getMunichTransitVehicleName(transitVehicle);
         addTransportationMode(munichVehicleName);
-        setStepData(munichVehicleName, lineShortName, transitLine.color, headSign);
+        this.stepsData.add(new TransitStep(munichVehicleName, lineShortName, transitLine.color, headSign));
         return munichVehicleName + lineShortName + "(" + headSign + ")";
-    }
-
-    private void setStepData(String vehicleName, String lineShortName, String lineHexColor, String headSign) {
-        Map<String, String> stepData = new HashMap<String, String>();
-        stepData.put(TRANSPORTATION_MODE_KEY, vehicleName);
-        stepData.put(TRANSIT_VEHICLE_SHORT_NAME_KEY, lineShortName);
-        stepData.put(TRANSIT_LINE_HEX_COLOR, lineHexColor);
-        stepData.put(TRANSIT_LINE_HEADSIGN, headSign);
-        this.stepsData.add(stepData);
     }
 }
