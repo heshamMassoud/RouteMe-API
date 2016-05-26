@@ -1,6 +1,10 @@
 package com.routeme.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
@@ -10,6 +14,8 @@ public final class User {
     private String username;
     private String email;
     private String password;
+    @DBRef
+    private List<RouteEntity> likedRoutes;
 
     public User() {
     }
@@ -18,6 +24,7 @@ public final class User {
         this.username = userFactory.username;
         this.email = userFactory.email;
         this.password = userFactory.password;
+        this.likedRoutes = new ArrayList<RouteEntity>();
     }
 
     public static Factory getFactory() {
@@ -38,6 +45,14 @@ public final class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public List<RouteEntity> getRoutesLiked() {
+        return likedRoutes;
+    }
+
+    public void addlikedRoute(RouteEntity route) {
+        likedRoutes.add(route);
     }
 
     public void update(String username, String email, String password) {

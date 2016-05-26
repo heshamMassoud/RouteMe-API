@@ -3,6 +3,7 @@ package com.routeme.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.routeme.dto.EventDTO;
 import com.routeme.dto.UserDTO;
 
 public interface UserService {
@@ -18,5 +19,7 @@ public interface UserService {
     UserDTO findById(String id);
 
     UserDTO update(UserDTO user);
+
+    UserDTO likeRoute(EventDTO eventEntry);
 
 }

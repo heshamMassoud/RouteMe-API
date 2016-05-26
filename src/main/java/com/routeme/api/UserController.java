@@ -60,6 +60,13 @@ public final class UserController {
         predictionIOClient.takeRoute(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
 
+    @RequestMapping(value = "/like", method = RequestMethod.POST, produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    UserDTO likeRoute(@RequestBody @Valid EventDTO eventEntry) {
+        UserDTO userDTO = service.likeRoute(eventEntry);
+        return userDTO;
+    }
+
     @RequestMapping(value = "/view", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     void viewRoute(@RequestBody @Valid EventDTO eventEntry) {
