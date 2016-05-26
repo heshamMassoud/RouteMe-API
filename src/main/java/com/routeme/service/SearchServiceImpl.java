@@ -1,7 +1,5 @@
 package com.routeme.service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +22,7 @@ import com.routeme.model.Route;
 import com.routeme.model.Step;
 import com.routeme.model.TransitRoute;
 import com.routeme.model.TransitStep;
+import com.routeme.model.Util;
 import com.routeme.predictionio.PredictionIOClient;
 import com.routeme.utility.directions.GoogleDirectionsUtility;
 import com.routeme.utility.directions.RouteParseException;
@@ -111,6 +110,10 @@ public class SearchServiceImpl implements SearchService {
 
     private RouteDTO convertRouteToRouteDTO(Route route) {
         RouteDTO routeDTO = new RouteDTO();
+        routeDTO.setStartLocationLat(route.getStartLocationLat());
+        routeDTO.setStartLocationLng(route.getStartLocationLng());
+        routeDTO.setEndLocationLat(route.getEndLocationLat());
+        routeDTO.setEndLocationLng(route.getEndLocationLng());
         routeDTO.setDistance(route.getDistance().humanReadable);
         routeDTO.setDuration(route.getDuration().humanReadable);
         routeDTO.setEndAddress(route.getEndAddress());
@@ -120,9 +123,8 @@ public class SearchServiceImpl implements SearchService {
         routeDTO.setTransportationModes(route.getTransportationModes());
         setRouteDTOStepDTOs(routeDTO, route);
         if (route instanceof TransitRoute) {
-            DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
-            routeDTO.setArrivalTime(timeFormat.format(route.getArrivalTime().toDate()));
-            routeDTO.setDepartureTime(timeFormat.format(route.getDepartureTime().toDate()));
+            routeDTO.setArrivalTime(Util.Route.TIME_FORMAT.format(route.getArrivalTime().toDate()));
+            routeDTO.setDepartureTime(Util.Route.TIME_FORMAT.format(route.getDepartureTime().toDate()));
             routeDTO.setRouteSummary(routeDTO.getDepartureTime() + "-" + routeDTO.getArrivalTime() + " ("
                     + routeDTO.getDuration() + ")");
             routeDTO.setTransit(true);
@@ -132,7 +134,7 @@ public class SearchServiceImpl implements SearchService {
         }
         return routeDTO;
     }
-    
+
     private void setRouteDTOStepDTOs(RouteDTO routeDTO, Route route) {
         ArrayList<StepDTO> stepDTOs = new ArrayList<StepDTO>();
         for (Step step : route.getStepsData()) {
@@ -146,7 +148,10 @@ public class SearchServiceImpl implements SearchService {
         StepDTO stepDTO = null;
         if (step instanceof TransitStep) {
             TransitStep transitStep = (TransitStep) step;
-            stepDTO = new TransitStepDTO(transitStep.getTransportationMode(),
+            String statTime = Util.Route.TIME_FORMAT.format(transitStep.getStartTime().toDate());
+            String endTime = Util.Route.TIME_FORMAT.format(transitStep.getEndTime().toDate());
+            stepDTO = new TransitStepDTO(transitStep.getTransportationMode(), transitStep.getStartStation(),
+                    transitStep.getEndStation(), transitStep.getDuration(), statTime, endTime,
                     transitStep.getTransportationVehicleShortName(), transitStep.getTransportationLineColorCode(),
                     transitStep.getTransportationLineHeadSign());
         } else {

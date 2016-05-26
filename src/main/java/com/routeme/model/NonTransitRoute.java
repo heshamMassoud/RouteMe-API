@@ -12,6 +12,10 @@ public class NonTransitRoute extends Route {
         super(googleDirectionsRoute);
         this.setPredictionIoId();
         this.setTransportationModes();
+        this.startLocationLat = googleDirectionsRoute.legs[Util.Route.ONLY_ROUTE_LEG].startLocation.lat;
+        this.startLocationLng = googleDirectionsRoute.legs[Util.Route.ONLY_ROUTE_LEG].startLocation.lng;
+        this.endLocationLat = googleDirectionsRoute.legs[Util.Route.ONLY_ROUTE_LEG].endLocation.lat;
+        this.endLocationLng = googleDirectionsRoute.legs[Util.Route.ONLY_ROUTE_LEG].endLocation.lng;
     }
 
     private void setPredictionIoId() {

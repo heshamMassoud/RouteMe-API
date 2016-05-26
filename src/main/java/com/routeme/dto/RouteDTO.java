@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RouteDTO {
+    private double startLocationLat;
+    private double startLocationLng;
+    private double endLocationLat;
+    private double endLocationLng;
     private String departureTime;
     private String arrivalTime;
     private String duration;
@@ -112,6 +116,38 @@ public class RouteDTO {
 
     public void setTransit(boolean isTransit) {
         this.isTransit = isTransit;
+    }
+
+    public double getStartLocationLat() {
+        return startLocationLat;
+    }
+
+    public double getStartLocationLng() {
+        return startLocationLng;
+    }
+
+    public double getEndLocationLat() {
+        return endLocationLat;
+    }
+
+    public double getEndLocationLng() {
+        return endLocationLng;
+    }
+
+    public void setStartLocationLat(double startLocationLat) {
+        this.startLocationLat = startLocationLat;
+    }
+
+    public void setStartLocationLng(double startLocationLng) {
+        this.startLocationLng = startLocationLng;
+    }
+
+    public void setEndLocationLat(double endLocationLat) {
+        this.endLocationLat = endLocationLat;
+    }
+
+    public void setEndLocationLng(double endLocationLng) {
+        this.endLocationLng = endLocationLng;
     }
 
     public Map<String, Object> getRoutePIOProperties(String routeType) {

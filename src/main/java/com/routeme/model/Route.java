@@ -12,6 +12,10 @@ import com.google.maps.model.Duration;
 import com.google.maps.model.EncodedPolyline;
 
 public class Route {
+    protected double startLocationLat;
+    protected double startLocationLng;
+    protected double endLocationLat;
+    protected double endLocationLng;
     protected DateTime departureTime;
     protected DateTime arrivalTime;
     protected Duration duration;
@@ -84,5 +88,21 @@ public class Route {
 
     public ArrayList<Step> getStepsData() {
         return stepsData;
+    }
+
+    public double getEndLocationLat() {
+        return endLocationLat;
+    }
+
+    public double getEndLocationLng() {
+        return endLocationLng;
+    }
+
+    public double getStartLocationLat() {
+        return startLocationLat;
+    }
+
+    public double getStartLocationLng() {
+        return startLocationLng;
     }
 }

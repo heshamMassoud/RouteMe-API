@@ -32,10 +32,15 @@ public class TransitRoute extends Route {
             if (currentStep.travelMode == TravelMode.TRANSIT) {
                 TransitDetails transitDetails = currentStep.transitDetails;
                 if (departureStop == null) {
+                    // Capture first station in route
                     departureStop = transitDetails.departureStop;
+                    this.startLocationLat = currentStep.startLocation.lat;
+                    this.startLocationLng = currentStep.startLocation.lng;
                 }
                 arrivalStop = transitDetails.arrivalStop;
-                this.predictionIoId += getTransitStepSummary(transitDetails);
+                this.endLocationLat = currentStep.endLocation.lat;
+                this.endLocationLng = currentStep.endLocation.lng;
+                this.predictionIoId += getTransitStepSummary(currentStep);
                 if (i != steps.length - 1) {
                     this.predictionIoId += "_";
                 }
@@ -50,14 +55,17 @@ public class TransitRoute extends Route {
         transportationModes.add(transportationMode);
     }
 
-    private String getTransitStepSummary(TransitDetails transitDetails) {
+    private String getTransitStepSummary(DirectionsStep currentStep) {
+        TransitDetails transitDetails = currentStep.transitDetails;
         TransitLine transitLine = transitDetails.line;
         Vehicle transitVehicle = transitLine.vehicle;
         String headSign = transitDetails.headsign;
         String lineShortName = transitLine.shortName;
         String munichVehicleName = GoogleDirectionsUtility.getMunichTransitVehicleName(transitVehicle);
         addTransportationMode(munichVehicleName);
-        this.stepsData.add(new TransitStep(munichVehicleName, lineShortName, transitLine.color, headSign));
+        this.stepsData.add(new TransitStep(munichVehicleName, transitDetails.departureStop.name,
+                transitDetails.arrivalStop.name, currentStep.duration.humanReadable, transitDetails.arrivalTime,
+                transitDetails.departureTime, lineShortName, transitLine.color, headSign));
         return munichVehicleName + lineShortName + "(" + headSign + ")";
     }
 }
