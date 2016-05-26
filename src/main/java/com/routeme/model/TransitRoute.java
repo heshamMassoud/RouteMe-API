@@ -15,7 +15,6 @@ import com.routeme.utility.directions.GoogleDirectionsUtility;
 import com.routeme.utility.directions.RouteParseException;
 
 public class TransitRoute extends Route {
-    boolean firstVehicleInformationSet = false;
 
     public TransitRoute(DirectionsRoute googleDirectionsRoute) throws RouteParseException {
         super(googleDirectionsRoute);
