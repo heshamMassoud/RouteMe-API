@@ -16,9 +16,6 @@ public class UserDTO {
     @NotBlank
     private String password;
 
-    @NotBlank
-    private String confirmationPassword;
-
     public String getId() {
         return id;
     }
@@ -35,10 +32,6 @@ public class UserDTO {
         return password;
     }
 
-    public String getConfirmationPassword() {
-        return confirmationPassword;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
@@ -53,9 +46,5 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setConfirmationPassword(String confirmationPassword) {
-        this.confirmationPassword = confirmationPassword;
     }
 }

@@ -10,7 +10,6 @@ public final class User {
     private String username;
     private String email;
     private String password;
-    private String confirmationPassword;
 
     public User() {
     }
@@ -19,7 +18,6 @@ public final class User {
         this.username = userFactory.username;
         this.email = userFactory.email;
         this.password = userFactory.password;
-        this.confirmationPassword = userFactory.confirmationPassword;
     }
 
     public static Factory getFactory() {
@@ -42,19 +40,10 @@ public final class User {
         return password;
     }
 
-    public String getConfirmationPassword() {
-        return confirmationPassword;
-    }
-
-    public void setConfirmationPassword(String confirmationPassword) {
-        this.confirmationPassword = confirmationPassword;
-    }
-
-    public void update(String username, String email, String password, String confirmationPassword) {
+    public void update(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.confirmationPassword = confirmationPassword;
     }
 
     /**
@@ -66,7 +55,6 @@ public final class User {
         private String username;
         private String email;
         private String password;
-        private String confirmationPassword;
 
         private Factory() {
         }
@@ -83,11 +71,6 @@ public final class User {
 
         public Factory password(String password) {
             this.password = password;
-            return this;
-        }
-
-        public Factory confirmationPassword(String confirmationPassword) {
-            this.confirmationPassword = confirmationPassword;
             return this;
         }
 
