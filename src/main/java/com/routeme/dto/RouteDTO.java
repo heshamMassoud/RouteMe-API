@@ -15,6 +15,8 @@ public class RouteDTO {
     private String routeSummary;
     private String predictionIoId;
     private ArrayList<String> transportationModes;
+    private ArrayList<Map<String, String>> steps;
+    private boolean isTransit;
 
     public String getArrivalTime() {
         return arrivalTime;
@@ -50,6 +52,14 @@ public class RouteDTO {
 
     public String getStartAddress() {
         return startAddress;
+    }
+
+    public ArrayList<Map<String, String>> getSteps() {
+        return steps;
+    }
+
+    public boolean getTransit() {
+        return isTransit;
     }
 
     public void setArrivalTime(String arrivalTime) {
@@ -94,6 +104,14 @@ public class RouteDTO {
 
     public void setTransportationModes(ArrayList<String> transportationModes) {
         this.transportationModes = transportationModes;
+    }
+
+    public void setSteps(ArrayList<Map<String, String>> steps) {
+        this.steps = steps;
+    }
+
+    public void setTransit(boolean isTransit) {
+        this.isTransit = isTransit;
     }
 
     public Map<String, Object> getRoutePIOProperties(String routeType) {

@@ -30,7 +30,7 @@ public class GoogleDirectionsUtility {
         }
     }
 
-    public static void printRouteResults(DirectionsResult result, TravelMode travelMode) {
+    public static void printRouteResults(DirectionsResult result, TravelMode travelMode) throws RouteParseException {
         System.out.println("--");
         for (int i = 0; i < result.routes.length; i++) {
             Route route;

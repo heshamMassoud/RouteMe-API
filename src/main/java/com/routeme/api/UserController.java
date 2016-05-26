@@ -40,15 +40,17 @@ public final class UserController {
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    UserDTO create(@RequestBody @Valid UserDTO userEntry) {
-        UserDTO userRecord = service.create(userEntry);
-        String userId = userRecord.getEmail();
-        predictionIOClient.addUserToClient(userId);
-        // SHOULD BE BATCHED
-        predictionIOClient.preferRouteType(userId, PredictionIOClient.PREFERENCE_ROUTE_TYPE_LEASTTIME);
-        predictionIOClient.preferRouteMode(userId, PredictionIOClient.PREFERENCE_ROUTE_MODE_BUS);
-        predictionIOClient.preferRouteMode(userId, PredictionIOClient.PREFERENCE_ROUTE_MODE_BUS);
-        predictionIOClient.preferRouteMode(userId, PredictionIOClient.PREFERENCE_ROUTE_MODE_UBAHN);
+    UserDTO signup(@RequestBody @Valid UserDTO userEntry) {
+        UserDTO userRecord = service.create(userEntry).orElseThrow(
+                () -> new UserAlreadyExistsException(userEntry.getEmail()));
+        return userRecord;
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.FOUND)
+    UserDTO login(@RequestBody UserDTO userEntry) {
+        UserDTO userRecord = service.findByCredentials(userEntry.getEmail(), userEntry.getPassword()).orElseThrow(
+                () -> new WrongCredentialsException());
         return userRecord;
     }
 
@@ -66,7 +68,7 @@ public final class UserController {
 
     @RequestMapping(value = "/viewlast", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    void ViewRouteLast(@RequestBody @Valid EventDTO eventEntry) {
+    void viewRouteLast(@RequestBody @Valid EventDTO eventEntry) {
         predictionIOClient.viewRouteLast(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
 
@@ -106,4 +108,27 @@ public final class UserController {
         return service.update(userEntry);
     }
 
+}
+
+class UserAlreadyExistsException extends RuntimeException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -75475146614100937L;
+
+    public UserAlreadyExistsException(String userEmail) {
+        super("This email: '" + userEmail + "' already exists on RouteMe.");
+    }
+}
+
+class WrongCredentialsException extends RuntimeException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4249539623776388901L;
+
+    public WrongCredentialsException() {
+        super("The login credentials are invalid.");
+    }
 }

@@ -26,6 +26,24 @@ public class ErrorHandlerController {
         return processFieldErrors(fieldErrors);
     }
 
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseBody
+    public ValidationErrorDTO processUserAlreadyExistsException(UserAlreadyExistsException ex) {
+        ValidationErrorDTO dto = new ValidationErrorDTO();
+        dto.addFieldError("email", ex.getMessage());
+        return dto;
+    }
+
+    @ExceptionHandler(WrongCredentialsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ValidationErrorDTO processWrongCredentialsException(WrongCredentialsException ex) {
+        ValidationErrorDTO dto = new ValidationErrorDTO();
+        dto.addFieldError("login", ex.getMessage());
+        return dto;
+    }
+
     private ValidationErrorDTO processFieldErrors(List<FieldError> fieldErrors) {
         ValidationErrorDTO dto = new ValidationErrorDTO();
 
