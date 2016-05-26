@@ -21,6 +21,7 @@ public class RouteDTO {
     private ArrayList<String> transportationModes;
     private ArrayList<StepDTO> steps;
     private boolean isTransit;
+    private boolean isLiked;
 
     public String getArrivalTime() {
         return arrivalTime;
@@ -148,6 +149,14 @@ public class RouteDTO {
 
     public void setEndLocationLng(double endLocationLng) {
         this.endLocationLng = endLocationLng;
+    }
+
+    public void setLiked(boolean isLiked) {
+        this.isLiked = isLiked;
+    }
+
+    public boolean isLiked() {
+        return this.isLiked;
     }
 
     public Map<String, Object> getRoutePIOProperties(String routeType) {

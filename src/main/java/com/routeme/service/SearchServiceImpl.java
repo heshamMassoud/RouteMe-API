@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.maps.DirectionsApi;
@@ -16,6 +17,7 @@ import com.routeme.dto.RouteDTO;
 import com.routeme.dto.SearchResponseDTO;
 import com.routeme.dto.StepDTO;
 import com.routeme.dto.TransitStepDTO;
+import com.routeme.dto.UserDTO;
 import com.routeme.model.NonTransitRoute;
 import com.routeme.model.NonTransitStep;
 import com.routeme.model.Route;
@@ -30,12 +32,22 @@ import com.routeme.utility.directions.RouteParseException;
 @Service
 public class SearchServiceImpl implements SearchService {
     private PredictionIOClient predictionIOClient;
+    private UserService service;
+
+    @Autowired
+    public SearchServiceImpl(UserService service) {
+        this.service = service;
+        predictionIOClient = new PredictionIOClient();
+    }
 
     @Override
-    public SearchResponseDTO search(String originInput, String destinationInput) {
-        predictionIOClient = new PredictionIOClient();
+    public SearchResponseDTO search(String originInput, String destinationInput, String userId) {
+
         String origin = originInput;
         String destination = destinationInput;
+        UserDTO userDTO = service.findById(userId);
+        ArrayList<String> likedRoutesPioIds = userDTO.getLikedRoutes();
+
         SearchResponseDTO searchResponseDTO = null;
         GeoApiContext context = new GeoApiContext().setApiKey(GoogleDirectionsUtility.getGoogleDirectionsApiKey());
         try {
@@ -43,19 +55,22 @@ public class SearchServiceImpl implements SearchService {
             DirectionsResult transitResult = DirectionsApi.newRequest(context).origin(origin).destination(destination)
                     .mode(TravelMode.TRANSIT).transitMode(TransitMode.RAIL, TransitMode.BUS).alternatives(true)
                     .region("de").await();
-            allRouteDTOResults.addAll(convertGoogleTransitResultToSearchResponseDTO(transitResult));
+            allRouteDTOResults.addAll(convertGoogleTransitResultToSearchResponseDTO(transitResult, likedRoutesPioIds));
 
             DirectionsResult bicyclingResults = DirectionsApi.newRequest(context).origin(origin)
                     .destination(destination).alternatives(true).region("de").mode(TravelMode.BICYCLING).await();
-            allRouteDTOResults.addAll(convertGoogleNonTransitResultToSearchResponseDTO(bicyclingResults));
+            allRouteDTOResults.addAll(convertGoogleNonTransitResultToSearchResponseDTO(bicyclingResults,
+                    likedRoutesPioIds));
 
             DirectionsResult drivingResults = DirectionsApi.newRequest(context).origin(origin).destination(destination)
                     .alternatives(true).region("de").mode(TravelMode.DRIVING).await();
-            allRouteDTOResults.addAll(convertGoogleNonTransitResultToSearchResponseDTO(drivingResults));
+            allRouteDTOResults.addAll(convertGoogleNonTransitResultToSearchResponseDTO(drivingResults,
+                    likedRoutesPioIds));
 
             DirectionsResult walkingResults = DirectionsApi.newRequest(context).origin(origin).destination(destination)
                     .alternatives(true).region("de").mode(TravelMode.WALKING).await();
-            allRouteDTOResults.addAll(convertGoogleNonTransitResultToSearchResponseDTO(walkingResults));
+            allRouteDTOResults.addAll(convertGoogleNonTransitResultToSearchResponseDTO(walkingResults,
+                    likedRoutesPioIds));
 
             // TODO Add routes to client
             // predictionIOClient.addRoutesToClient(allRouteDTOResults);
@@ -85,13 +100,14 @@ public class SearchServiceImpl implements SearchService {
         return searchResponseDTO;
     }
 
-    private List<RouteDTO> convertGoogleTransitResultToSearchResponseDTO(DirectionsResult directionResult) {
+    private List<RouteDTO> convertGoogleTransitResultToSearchResponseDTO(DirectionsResult directionResult,
+            ArrayList<String> likeRoutesPioIds) {
         List<RouteDTO> routeDTOs = new ArrayList<RouteDTO>();
         for (int i = 0; i < directionResult.routes.length; i++) {
             TransitRoute route;
             try {
                 route = new TransitRoute(directionResult.routes[i]);
-                routeDTOs.add(convertRouteToRouteDTO(route));
+                routeDTOs.add(convertRouteToRouteDTO(route, likeRoutesPioIds));
             } catch (RouteParseException e) {
                 Logger.getRootLogger().info(e.getMessage());
             }
@@ -99,17 +115,21 @@ public class SearchServiceImpl implements SearchService {
         return routeDTOs;
     }
 
-    private List<RouteDTO> convertGoogleNonTransitResultToSearchResponseDTO(DirectionsResult directionResult) {
+    private List<RouteDTO> convertGoogleNonTransitResultToSearchResponseDTO(DirectionsResult directionResult,
+            ArrayList<String> likeRoutesPioIds) {
         List<RouteDTO> routeDTOs = new ArrayList<RouteDTO>();
         for (int i = 0; i < directionResult.routes.length; i++) {
             NonTransitRoute route = new NonTransitRoute(directionResult.routes[i]);
-            routeDTOs.add(convertRouteToRouteDTO(route));
+            routeDTOs.add(convertRouteToRouteDTO(route, likeRoutesPioIds));
         }
         return routeDTOs;
     }
 
-    private RouteDTO convertRouteToRouteDTO(Route route) {
+    private RouteDTO convertRouteToRouteDTO(Route route, ArrayList<String> likeRoutesPioIds) {
         RouteDTO routeDTO = new RouteDTO();
+        String routePioId = route.getPredictionIoId();
+        routeDTO.setPredictionIoId(routePioId);
+        routeDTO.setLiked(likeRoutesPioIds.contains(routePioId));
         routeDTO.setStartLocationLat(route.getStartLocationLat());
         routeDTO.setStartLocationLng(route.getStartLocationLng());
         routeDTO.setEndLocationLat(route.getEndLocationLat());
@@ -119,7 +139,6 @@ public class SearchServiceImpl implements SearchService {
         routeDTO.setEndAddress(route.getEndAddress());
         routeDTO.setStartAddress(route.getStartAddress());
         routeDTO.setOverviewPolyLine(route.getOverviewPolyLine().getEncodedPath());
-        routeDTO.setPredictionIoId(route.getPredictionIoId());
         routeDTO.setTransportationModes(route.getTransportationModes());
         setRouteDTOStepDTOs(routeDTO, route);
         if (route instanceof TransitRoute) {
