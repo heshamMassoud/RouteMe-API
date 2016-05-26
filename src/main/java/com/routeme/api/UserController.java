@@ -67,6 +67,13 @@ public final class UserController {
         return userDTO;
     }
 
+    @RequestMapping(value = "/setpreference", method = RequestMethod.POST, produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    UserDTO setPreferences(@RequestBody UserDTO preferencesEntry) {
+        UserDTO userDTO = service.setPreferences(preferencesEntry);
+        return userDTO;
+    }
+
     @RequestMapping(value = "/view", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     void viewRoute(@RequestBody @Valid EventDTO eventEntry) {

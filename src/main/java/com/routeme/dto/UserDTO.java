@@ -20,6 +20,18 @@ public class UserDTO {
 
     private ArrayList<String> likedRoutes;
 
+    private ArrayList<String> travelModePreference;
+
+    private ArrayList<String> routeTypePreference;
+
+    public ArrayList<String> getRouteTypePreference() {
+        return routeTypePreference;
+    }
+
+    public ArrayList<String> getTravelModePreference() {
+        return travelModePreference;
+    }
+
     public String getId() {
         return id;
     }
@@ -58,5 +70,13 @@ public class UserDTO {
 
     public void setLikedRoutes(ArrayList<String> likedRoutes) {
         this.likedRoutes = likedRoutes;
+    }
+
+    public void setRouteTypePreference(ArrayList<String> routeTypePreference) {
+        this.routeTypePreference = routeTypePreference;
+    }
+
+    public void setTravelModePreference(ArrayList<String> travelModePreference) {
+        this.travelModePreference = travelModePreference;
     }
 }

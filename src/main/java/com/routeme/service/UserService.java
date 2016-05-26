@@ -22,4 +22,6 @@ public interface UserService {
 
     UserDTO likeRoute(EventDTO eventEntry);
 
+    UserDTO setPreferences(UserDTO preferencesEntry);
+
 }

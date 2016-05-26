@@ -34,7 +34,8 @@ public class UserServiceImpl implements UserService {
             return Optional.empty();
         }
         User persistedUser = User.getFactory().name(userEntry.getUsername()).email(userEntry.getEmail())
-                .password(userEntry.getPassword()).build();
+                .password(userEntry.getPassword()).routeTypePreference(userEntry.getRouteTypePreference())
+                .travelModePreference(userEntry.getTravelModePreference()).build();
         persistedUser = userRepository.save(persistedUser);
         return Optional.of(convertToDTO(persistedUser));
     }
@@ -81,6 +82,8 @@ public class UserServiceImpl implements UserService {
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
         dto.setPassword(user.getPassword());
+        dto.setRouteTypePreference(user.getRouteTypePreference());
+        dto.setTravelModePreference(user.getTravelModePreference());
         ArrayList<String> likedRoutePioIds = new ArrayList<String>();
         List<RouteEntity> likedRoutes = user.getRoutesLiked();
         if (likedRoutes != null) {
@@ -135,6 +138,15 @@ public class UserServiceImpl implements UserService {
     private Optional<RouteEntity> findRouteByPioId(String pioId) {
         Optional<RouteEntity> result = routeRepository.findByPioId(pioId);
         return result;
+    }
+
+    @Override
+    public UserDTO setPreferences(UserDTO preferencesEntry) {
+        User user = findUserById(preferencesEntry.getId());
+        user.setRouteTypePreference(preferencesEntry.getRouteTypePreference());
+        user.setTravelModePreference(preferencesEntry.getTravelModePreference());
+        user = userRepository.save(user);
+        return convertToDTO(user);
     }
 
 }

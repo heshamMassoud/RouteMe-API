@@ -16,6 +16,8 @@ public final class User {
     private String password;
     @DBRef
     private List<RouteEntity> likedRoutes;
+    private List<String> travelModePreference;
+    private List<String> routeTypePreference;
 
     public User() {
     }
@@ -25,6 +27,8 @@ public final class User {
         this.email = userFactory.email;
         this.password = userFactory.password;
         this.likedRoutes = new ArrayList<RouteEntity>();
+        this.travelModePreference = userFactory.travelModePreference;
+        this.routeTypePreference = userFactory.routeTypePreference;
     }
 
     public static Factory getFactory() {
@@ -55,6 +59,22 @@ public final class User {
         likedRoutes.add(route);
     }
 
+    public ArrayList<String> getRouteTypePreference() {
+        return (ArrayList<String>) routeTypePreference;
+    }
+
+    public ArrayList<String> getTravelModePreference() {
+        return (ArrayList<String>) travelModePreference;
+    }
+
+    public void setTravelModePreference(List<String> travelModePreference) {
+        this.travelModePreference = travelModePreference;
+    }
+
+    public void setRouteTypePreference(List<String> routeTypePreference) {
+        this.routeTypePreference = routeTypePreference;
+    }
+
     public void update(String username, String email, String password) {
         this.username = username;
         this.email = email;
@@ -70,6 +90,8 @@ public final class User {
         private String username;
         private String email;
         private String password;
+        private List<String> travelModePreference;
+        private List<String> routeTypePreference;
 
         private Factory() {
         }
@@ -86,6 +108,16 @@ public final class User {
 
         public Factory password(String password) {
             this.password = password;
+            return this;
+        }
+
+        public Factory travelModePreference(ArrayList<String> travelModePreference) {
+            this.travelModePreference = travelModePreference;
+            return this;
+        }
+
+        public Factory routeTypePreference(ArrayList<String> routeTypePreference) {
+            this.routeTypePreference = routeTypePreference;
             return this;
         }
 
