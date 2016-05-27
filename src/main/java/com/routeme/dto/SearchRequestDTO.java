@@ -13,6 +13,13 @@ public class SearchRequestDTO {
     @NotBlank
     private String endPoint;
 
+    @NotBlank
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
     public String getEndPoint() {
         return endPoint;
     }

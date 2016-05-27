@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RouteDTO {
+    private double startLocationLat;
+    private double startLocationLng;
+    private double endLocationLat;
+    private double endLocationLng;
     private String departureTime;
     private String arrivalTime;
     private String duration;
@@ -15,8 +19,39 @@ public class RouteDTO {
     private String routeSummary;
     private String predictionIoId;
     private ArrayList<String> transportationModes;
-    private ArrayList<Map<String, String>> steps;
+    private ArrayList<StepDTO> steps;
     private boolean isTransit;
+    private boolean isLiked;
+    private boolean isLeastChangesRoute = false;
+    private boolean isLeastDurationRoute = false;
+    private int numberOfChanges = 0;
+    private long durationInSeconds = 0;
+    private long departureDateTimeInMillis = 0;
+    private String explanations;
+
+    public String getExplanations() {
+        return explanations;
+    }
+
+    public void setExplanations(String explanations) {
+        this.explanations = explanations;
+    }
+
+    public long getDurationInSeconds() {
+        return durationInSeconds;
+    }
+
+    public void setDurationInSeconds(long durationInSeconds) {
+        this.durationInSeconds = durationInSeconds;
+    }
+
+    public int getNumberOfChanges() {
+        return numberOfChanges;
+    }
+
+    public void setNumberOfChanges(int numberOfChanges) {
+        this.numberOfChanges = numberOfChanges;
+    }
 
     public String getArrivalTime() {
         return arrivalTime;
@@ -54,7 +89,7 @@ public class RouteDTO {
         return startAddress;
     }
 
-    public ArrayList<Map<String, String>> getSteps() {
+    public ArrayList<StepDTO> getSteps() {
         return steps;
     }
 
@@ -106,12 +141,76 @@ public class RouteDTO {
         this.transportationModes = transportationModes;
     }
 
-    public void setSteps(ArrayList<Map<String, String>> steps) {
+    public void setSteps(ArrayList<StepDTO> steps) {
         this.steps = steps;
     }
 
     public void setTransit(boolean isTransit) {
         this.isTransit = isTransit;
+    }
+
+    public double getStartLocationLat() {
+        return startLocationLat;
+    }
+
+    public double getStartLocationLng() {
+        return startLocationLng;
+    }
+
+    public double getEndLocationLat() {
+        return endLocationLat;
+    }
+
+    public double getEndLocationLng() {
+        return endLocationLng;
+    }
+
+    public void setStartLocationLat(double startLocationLat) {
+        this.startLocationLat = startLocationLat;
+    }
+
+    public void setStartLocationLng(double startLocationLng) {
+        this.startLocationLng = startLocationLng;
+    }
+
+    public void setEndLocationLat(double endLocationLat) {
+        this.endLocationLat = endLocationLat;
+    }
+
+    public void setEndLocationLng(double endLocationLng) {
+        this.endLocationLng = endLocationLng;
+    }
+
+    public void setLiked(boolean isLiked) {
+        this.isLiked = isLiked;
+    }
+
+    public boolean isLiked() {
+        return this.isLiked;
+    }
+
+    public boolean isLeastChangesRoute() {
+        return isLeastChangesRoute;
+    }
+
+    public boolean isLeastDurationRoute() {
+        return isLeastDurationRoute;
+    }
+
+    public void setLeastChangesRoute(boolean isLeastChangesRoute) {
+        this.isLeastChangesRoute = isLeastChangesRoute;
+    }
+
+    public void setLeastDurationRoute(boolean isLeastDurationRoute) {
+        this.isLeastDurationRoute = isLeastDurationRoute;
+    }
+
+    public void setDepartureDateTimeInMillis(long departureDateTimeInMillis) {
+        this.departureDateTimeInMillis = departureDateTimeInMillis;
+    }
+
+    public long getDepartureDateTimeInMillis() {
+        return departureDateTimeInMillis;
     }
 
     public Map<String, Object> getRoutePIOProperties(String routeType) {
@@ -125,5 +224,4 @@ public class RouteDTO {
         properties.put("routeType", routeTypeArray);
         return properties;
     }
-
 }
