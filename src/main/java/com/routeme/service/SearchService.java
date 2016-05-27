@@ -4,5 +4,5 @@ import com.routeme.dto.SearchResponseDTO;
 
 public interface SearchService {
 
-    SearchResponseDTO search(String origin, String destination);
+    SearchResponseDTO search(String origin, String destination, String userId);
 }

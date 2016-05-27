@@ -1,8 +1,6 @@
 package com.routeme.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
@@ -15,6 +13,7 @@ import com.routeme.utility.directions.GoogleDirectionsUtility;
 import com.routeme.utility.directions.RouteParseException;
 
 public class TransitRoute extends Route {
+    private int numberOfChanges = 0;
 
     public TransitRoute(DirectionsRoute googleDirectionsRoute) throws RouteParseException {
         super(googleDirectionsRoute);
@@ -23,6 +22,10 @@ public class TransitRoute extends Route {
         }
         transportationModes = new ArrayList<String>();
         this.setPredictionIoId();
+    }
+
+    public int getNumberOfChanges() {
+        return numberOfChanges;
     }
 
     private void setPredictionIoId() {
@@ -34,10 +37,15 @@ public class TransitRoute extends Route {
             if (currentStep.travelMode == TravelMode.TRANSIT) {
                 TransitDetails transitDetails = currentStep.transitDetails;
                 if (departureStop == null) {
+                    // Capture first station in route
                     departureStop = transitDetails.departureStop;
+                    this.startLocationLat = currentStep.startLocation.lat;
+                    this.startLocationLng = currentStep.startLocation.lng;
                 }
                 arrivalStop = transitDetails.arrivalStop;
-                this.predictionIoId += getTransitStepSummary(transitDetails);
+                this.endLocationLat = currentStep.endLocation.lat;
+                this.endLocationLng = currentStep.endLocation.lng;
+                this.predictionIoId += getTransitStepSummary(currentStep);
                 if (i != steps.length - 1) {
                     this.predictionIoId += "_";
                 }
@@ -49,26 +57,23 @@ public class TransitRoute extends Route {
     }
 
     private void addTransportationMode(String transportationMode) {
-        transportationModes.add(transportationMode);
+        this.numberOfChanges++;
+        if (!transportationModes.contains(transportationMode)) {
+            transportationModes.add(transportationMode);
+        }
     }
 
-    private String getTransitStepSummary(TransitDetails transitDetails) {
+    private String getTransitStepSummary(DirectionsStep currentStep) {
+        TransitDetails transitDetails = currentStep.transitDetails;
         TransitLine transitLine = transitDetails.line;
         Vehicle transitVehicle = transitLine.vehicle;
         String headSign = transitDetails.headsign;
         String lineShortName = transitLine.shortName;
         String munichVehicleName = GoogleDirectionsUtility.getMunichTransitVehicleName(transitVehicle);
         addTransportationMode(munichVehicleName);
-        setStepData(munichVehicleName, lineShortName, transitLine.color, headSign);
+        this.stepsData.add(new TransitStep(munichVehicleName, transitDetails.departureStop.name,
+                transitDetails.arrivalStop.name, currentStep.duration.humanReadable, transitDetails.arrivalTime,
+                transitDetails.departureTime, lineShortName, transitLine.color, headSign));
         return munichVehicleName + lineShortName + "(" + headSign + ")";
-    }
-
-    private void setStepData(String vehicleName, String lineShortName, String lineHexColor, String headSign) {
-        Map<String, String> stepData = new HashMap<String, String>();
-        stepData.put(TRANSPORTATION_MODE_KEY, vehicleName);
-        stepData.put(TRANSIT_VEHICLE_SHORT_NAME_KEY, lineShortName);
-        stepData.put(TRANSIT_LINE_HEX_COLOR, lineHexColor);
-        stepData.put(TRANSIT_LINE_HEADSIGN, headSign);
-        this.stepsData.add(stepData);
     }
 }

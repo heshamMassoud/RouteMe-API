@@ -1,5 +1,7 @@
 package com.routeme.dto;
 
+import java.util.ArrayList;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -16,8 +18,19 @@ public class UserDTO {
     @NotBlank
     private String password;
 
-    @NotBlank
-    private String confirmationPassword;
+    private ArrayList<String> likedRoutes;
+
+    private ArrayList<String> travelModePreference;
+
+    private ArrayList<String> routeTypePreference;
+
+    public ArrayList<String> getRouteTypePreference() {
+        return routeTypePreference;
+    }
+
+    public ArrayList<String> getTravelModePreference() {
+        return travelModePreference;
+    }
 
     public String getId() {
         return id;
@@ -35,8 +48,8 @@ public class UserDTO {
         return password;
     }
 
-    public String getConfirmationPassword() {
-        return confirmationPassword;
+    public ArrayList<String> getLikedRoutes() {
+        return likedRoutes;
     }
 
     public void setId(String id) {
@@ -55,7 +68,15 @@ public class UserDTO {
         this.password = password;
     }
 
-    public void setConfirmationPassword(String confirmationPassword) {
-        this.confirmationPassword = confirmationPassword;
+    public void setLikedRoutes(ArrayList<String> likedRoutes) {
+        this.likedRoutes = likedRoutes;
+    }
+
+    public void setRouteTypePreference(ArrayList<String> routeTypePreference) {
+        this.routeTypePreference = routeTypePreference;
+    }
+
+    public void setTravelModePreference(ArrayList<String> travelModePreference) {
+        this.travelModePreference = travelModePreference;
     }
 }

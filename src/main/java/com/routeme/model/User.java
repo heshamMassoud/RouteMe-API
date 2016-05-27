@@ -1,6 +1,10 @@
 package com.routeme.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
@@ -10,7 +14,10 @@ public final class User {
     private String username;
     private String email;
     private String password;
-    private String confirmationPassword;
+    @DBRef
+    private List<RouteEntity> likedRoutes;
+    private List<String> travelModePreference;
+    private List<String> routeTypePreference;
 
     public User() {
     }
@@ -19,7 +26,9 @@ public final class User {
         this.username = userFactory.username;
         this.email = userFactory.email;
         this.password = userFactory.password;
-        this.confirmationPassword = userFactory.confirmationPassword;
+        this.likedRoutes = new ArrayList<RouteEntity>();
+        this.travelModePreference = userFactory.travelModePreference;
+        this.routeTypePreference = userFactory.routeTypePreference;
     }
 
     public static Factory getFactory() {
@@ -42,19 +51,38 @@ public final class User {
         return password;
     }
 
-    public String getConfirmationPassword() {
-        return confirmationPassword;
+    public List<RouteEntity> getRoutesLiked() {
+        return likedRoutes;
     }
 
-    public void setConfirmationPassword(String confirmationPassword) {
-        this.confirmationPassword = confirmationPassword;
+    public void addlikedRoute(RouteEntity route) {
+        likedRoutes.add(route);
     }
 
-    public void update(String username, String email, String password, String confirmationPassword) {
+    public void removelikedRoute(RouteEntity route) {
+        likedRoutes.remove(route);
+    }
+
+    public ArrayList<String> getRouteTypePreference() {
+        return (ArrayList<String>) routeTypePreference;
+    }
+
+    public ArrayList<String> getTravelModePreference() {
+        return (ArrayList<String>) travelModePreference;
+    }
+
+    public void setTravelModePreference(List<String> travelModePreference) {
+        this.travelModePreference = travelModePreference;
+    }
+
+    public void setRouteTypePreference(List<String> routeTypePreference) {
+        this.routeTypePreference = routeTypePreference;
+    }
+
+    public void update(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.confirmationPassword = confirmationPassword;
     }
 
     /**
@@ -66,7 +94,8 @@ public final class User {
         private String username;
         private String email;
         private String password;
-        private String confirmationPassword;
+        private List<String> travelModePreference;
+        private List<String> routeTypePreference;
 
         private Factory() {
         }
@@ -86,8 +115,13 @@ public final class User {
             return this;
         }
 
-        public Factory confirmationPassword(String confirmationPassword) {
-            this.confirmationPassword = confirmationPassword;
+        public Factory travelModePreference(ArrayList<String> travelModePreference) {
+            this.travelModePreference = travelModePreference;
+            return this;
+        }
+
+        public Factory routeTypePreference(ArrayList<String> routeTypePreference) {
+            this.routeTypePreference = routeTypePreference;
             return this;
         }
 

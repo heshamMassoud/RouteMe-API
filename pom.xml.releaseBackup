@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.routeme</groupId>
 	<artifactId>routeme-api</artifactId>
-	<version>0.0.9-SNAPSHOT</version>
+	<version>0.0.7-SNAPSHOT</version>
 	<name>RouteMe Api</name>
 	<properties>
 		<java.version>1.8</java.version>
@@ -53,4 +53,20 @@
 			<url>https://repo.spring.io/libs-release</url>
 		</pluginRepository>
 	</pluginRepositories>
+	<packaging>war</packaging>
+	<scm>
+		<connection>scm:git:git://github.com:heshamMassoud/RouteMe-API.git</connection>
+		<url>https://github.com/heshamMassoud/RouteMe-API</url>
+		<developerConnection>scm:git:git@github.com:heshamMassoud/RouteMe-API.git</developerConnection>
+	  <tag>routeme-api-0.0.6</tag>
+  </scm>
+  <distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>heshammassoud</id>
+      <name>RouteMe</name>
+      <url>scp://repo/maven2</url>
+      <layout>default</layout>
+    </repository>
+</distributionManagement>
 </project>
