@@ -22,6 +22,36 @@ public class RouteDTO {
     private ArrayList<StepDTO> steps;
     private boolean isTransit;
     private boolean isLiked;
+    private boolean isLeastChangesRoute = false;
+    private boolean isLeastDurationRoute = false;
+    private int numberOfChanges = 0;
+    private long durationInSeconds = 0;
+    private long departureDateTimeInMillis = 0;
+    private String explanations;
+
+    public String getExplanations() {
+        return explanations;
+    }
+
+    public void setExplanations(String explanations) {
+        this.explanations = explanations;
+    }
+
+    public long getDurationInSeconds() {
+        return durationInSeconds;
+    }
+
+    public void setDurationInSeconds(long durationInSeconds) {
+        this.durationInSeconds = durationInSeconds;
+    }
+
+    public int getNumberOfChanges() {
+        return numberOfChanges;
+    }
+
+    public void setNumberOfChanges(int numberOfChanges) {
+        this.numberOfChanges = numberOfChanges;
+    }
 
     public String getArrivalTime() {
         return arrivalTime;
@@ -159,6 +189,30 @@ public class RouteDTO {
         return this.isLiked;
     }
 
+    public boolean isLeastChangesRoute() {
+        return isLeastChangesRoute;
+    }
+
+    public boolean isLeastDurationRoute() {
+        return isLeastDurationRoute;
+    }
+
+    public void setLeastChangesRoute(boolean isLeastChangesRoute) {
+        this.isLeastChangesRoute = isLeastChangesRoute;
+    }
+
+    public void setLeastDurationRoute(boolean isLeastDurationRoute) {
+        this.isLeastDurationRoute = isLeastDurationRoute;
+    }
+
+    public void setDepartureDateTimeInMillis(long departureDateTimeInMillis) {
+        this.departureDateTimeInMillis = departureDateTimeInMillis;
+    }
+
+    public long getDepartureDateTimeInMillis() {
+        return departureDateTimeInMillis;
+    }
+
     public Map<String, Object> getRoutePIOProperties(String routeType) {
         Map<String, Object> properties = new HashMap<String, Object>();
         ArrayList<String> routeIdArray = new ArrayList<String>();
@@ -170,5 +224,4 @@ public class RouteDTO {
         properties.put("routeType", routeTypeArray);
         return properties;
     }
-
 }

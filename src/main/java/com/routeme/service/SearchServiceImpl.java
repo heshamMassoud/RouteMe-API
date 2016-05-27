@@ -1,6 +1,8 @@
 package com.routeme.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -33,6 +35,7 @@ import com.routeme.utility.directions.RouteParseException;
 public class SearchServiceImpl implements SearchService {
     private PredictionIOClient predictionIOClient;
     private UserService service;
+    private int numberOfLikes = 0;
 
     @Autowired
     public SearchServiceImpl(UserService service) {
@@ -47,6 +50,8 @@ public class SearchServiceImpl implements SearchService {
         String destination = destinationInput;
         UserDTO userDTO = service.findById(userId);
         ArrayList<String> likedRoutesPioIds = userDTO.getLikedRoutes();
+        ArrayList<String> travelModePreference = userDTO.getTravelModePreference();
+        ArrayList<String> routeTypePreference = userDTO.getRouteTypePreference();
 
         SearchResponseDTO searchResponseDTO = null;
         GeoApiContext context = new GeoApiContext().setApiKey(GoogleDirectionsUtility.getGoogleDirectionsApiKey());
@@ -75,12 +80,12 @@ public class SearchServiceImpl implements SearchService {
             // TODO Add routes to client
             // predictionIOClient.addRoutesToClient(allRouteDTOResults);
             predictionIOClient.closeEventClient();
-            // TODO Set each route types according to all results (least time,
-            // least changes..)
-            setRouteTypes(allRouteDTOResults);
+
+            Collections.sort(allRouteDTOResults, new RoutePreferenceSorter(travelModePreference, routeTypePreference));
 
             // TODO Send the DTO to PIO to sort it and then return it here!
             // PredictionIOClient.recommendRoutes(listOfRoutes, userId);
+            explainRecommendation(allRouteDTOResults);
 
             // Return final recommendation!
             searchResponseDTO = convertRouteDTOsToSearchResponseDTO(allRouteDTOResults);
@@ -90,8 +95,19 @@ public class SearchServiceImpl implements SearchService {
         return searchResponseDTO;
     }
 
-    private void setRouteTypes(List<RouteDTO> allResults) {
-        // TODO: But for which transit or other travel modes?!
+    private void explainRecommendation(List<RouteDTO> allRouteDTOResults) {
+        // TODO: check PIO recommender scores if 0 or some score then provide
+        // appropriate explanation else..
+        for (int i = 0; i < allRouteDTOResults.size(); i++) {
+            RouteDTO routeDTO = allRouteDTOResults.get(i);
+            if (routeDTO.isLiked() && numberOfLikes > 1) {
+                routeDTO.setExplanations(Util.Explanations.LIKES_PREFERENCES);
+            } else if (routeDTO.isLiked()) {
+                routeDTO.setExplanations(Util.Explanations.LIKED);
+            } else {
+                routeDTO.setExplanations(Util.Explanations.PREFERENCES);
+            }
+        }
     }
 
     private SearchResponseDTO convertRouteDTOsToSearchResponseDTO(List<RouteDTO> routeDTOs) {
@@ -103,15 +119,31 @@ public class SearchServiceImpl implements SearchService {
     private List<RouteDTO> convertGoogleTransitResultToSearchResponseDTO(DirectionsResult directionResult,
             ArrayList<String> likeRoutesPioIds) {
         List<RouteDTO> routeDTOs = new ArrayList<RouteDTO>();
+        int leastNumberOfChanges = Integer.MAX_VALUE;
+        long leastDurationInSeconds = Integer.MAX_VALUE;
+        int leastChangesRouteDTOIndex = 0;
+        int leastDurationRouteDTOIndex = 0;
         for (int i = 0; i < directionResult.routes.length; i++) {
             TransitRoute route;
             try {
                 route = new TransitRoute(directionResult.routes[i]);
+                int routeNumberOfChanges = route.getNumberOfChanges();
+                long routeDurationInSeconds = route.getDuration().inSeconds;
+                if (routeNumberOfChanges < leastNumberOfChanges) {
+                    leastNumberOfChanges = routeNumberOfChanges;
+                    leastChangesRouteDTOIndex = i;
+                }
+                if (routeDurationInSeconds < leastDurationInSeconds) {
+                    leastDurationInSeconds = routeDurationInSeconds;
+                    leastDurationRouteDTOIndex = i;
+                }
                 routeDTOs.add(convertRouteToRouteDTO(route, likeRoutesPioIds));
             } catch (RouteParseException e) {
                 Logger.getRootLogger().info(e.getMessage());
             }
         }
+        routeDTOs.get(leastChangesRouteDTOIndex).setLeastChangesRoute(true);
+        routeDTOs.get(leastDurationRouteDTOIndex).setLeastDurationRoute(true);
         return routeDTOs;
     }
 
@@ -129,7 +161,10 @@ public class SearchServiceImpl implements SearchService {
         RouteDTO routeDTO = new RouteDTO();
         String routePioId = route.getPredictionIoId();
         routeDTO.setPredictionIoId(routePioId);
-        routeDTO.setLiked(likeRoutesPioIds.contains(routePioId));
+        if (likeRoutesPioIds.contains(routePioId)) {
+            numberOfLikes++;
+            routeDTO.setLiked(true);
+        }
         routeDTO.setStartLocationLat(route.getStartLocationLat());
         routeDTO.setStartLocationLng(route.getStartLocationLng());
         routeDTO.setEndLocationLat(route.getEndLocationLat());
@@ -144,9 +179,12 @@ public class SearchServiceImpl implements SearchService {
         if (route instanceof TransitRoute) {
             routeDTO.setArrivalTime(Util.Route.TIME_FORMAT.format(route.getArrivalTime().toDate()));
             routeDTO.setDepartureTime(Util.Route.TIME_FORMAT.format(route.getDepartureTime().toDate()));
+            routeDTO.setDepartureDateTimeInMillis(route.getDepartureTime().getMillis());
             routeDTO.setRouteSummary(routeDTO.getDepartureTime() + "-" + routeDTO.getArrivalTime() + " ("
                     + routeDTO.getDuration() + ")");
             routeDTO.setTransit(true);
+            routeDTO.setDurationInSeconds(route.getDuration().inSeconds);
+            routeDTO.setNumberOfChanges(((TransitRoute) route).getNumberOfChanges());
         } else {
             routeDTO.setRouteSummary(route.getRouteSummary() + " (" + routeDTO.getDistance() + ")");
             routeDTO.setTransit(false);
@@ -179,6 +217,86 @@ public class SearchServiceImpl implements SearchService {
                     nonTransitStep.getDistance());
         }
         return stepDTO;
+    }
+}
+
+class RoutePreferenceSorter implements Comparator<RouteDTO> {
+    ArrayList<String> travelModePreference = new ArrayList<String>();
+    ArrayList<String> routeTypePreference = new ArrayList<String>();
+
+    public RoutePreferenceSorter(ArrayList<String> travelModePreference, ArrayList<String> routeTypePreference) {
+        this.travelModePreference = travelModePreference;
+        this.routeTypePreference = routeTypePreference;
+    }
+
+    @Override
+    public int compare(RouteDTO routeDTO1, RouteDTO routeDTO2) {
+        int likedRouteScore = compareWithRespectToLikes(routeDTO1, routeDTO2);
+        if (likedRouteScore == 0) {
+            int travelModePrefScore = compareWithRespectToTravelModePreference(routeDTO1, routeDTO2);
+            if (travelModePrefScore == 0) {
+                return compareWithRespectToRouteTypePreferences(routeDTO1, routeDTO2);
+            } else {
+                return travelModePrefScore;
+            }
+        } else {
+            return likedRouteScore;
+        }
+    }
+
+    private int compareWithRespectToLikes(RouteDTO routeDTO1, RouteDTO routeDTO2) {
+        if (routeDTO1.isLiked() == routeDTO2.isLiked()) {
+            return 0;
+        } else {
+            if (routeDTO1.isLiked()) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
+
+    private int compareWithRespectToTravelModePreference(RouteDTO routeDTO1, RouteDTO routeDTO2) {
+        ArrayList<String> routeDTO1Modes = routeDTO1.getTransportationModes();
+        ArrayList<String> routeDTO2Modes = routeDTO2.getTransportationModes();
+        int totalTransportationModesScore = 0;
+        for (String transportationMode1 : routeDTO1Modes) {
+            int transportationMode1Score = travelModePreference.indexOf(transportationMode1);
+            for (String transportationMode2 : routeDTO2Modes) {
+                int transportationMode2Score = travelModePreference.indexOf(transportationMode2);
+                totalTransportationModesScore += transportationMode1Score - transportationMode2Score;
+            }
+        }
+        return totalTransportationModesScore;
+    }
+
+    private int compareWithRespectToRouteTypePreferences(RouteDTO routeDTO1, RouteDTO routeDTO2) {
+        int leastTimeScore = (int) (routeDTO1.getDurationInSeconds() - routeDTO2.getDurationInSeconds());
+        int leastNumberOfChangesScore = routeDTO1.getNumberOfChanges() - routeDTO2.getNumberOfChanges();
+        int soonestScore = (int) (routeDTO2.getDepartureDateTimeInMillis() - routeDTO1.getDepartureDateTimeInMillis());
+        int highPrefScore = 0;
+        int lowPrefScore = 0;
+        switch (routeTypePreference.get(0)) {
+        case Util.Route.LEAST_TIME_PREFERENCE:
+            highPrefScore = leastTimeScore;
+            lowPrefScore = leastNumberOfChangesScore;
+            break;
+        case Util.Route.LEAST_CHANGES_PREFERENCE:
+            highPrefScore = leastNumberOfChangesScore;
+            lowPrefScore = leastTimeScore;
+            break;
+        }
+        return compareWithRespectToThreePrefScores(highPrefScore, lowPrefScore, soonestScore);
+    }
+
+    private int compareWithRespectToThreePrefScores(int highPrefScore, int lowPrefScore, int lowestPrefScore) {
+        if (highPrefScore == 0) {
+            if (lowPrefScore == 0) {
+                return lowestPrefScore;
+            }
+            return lowPrefScore;
+        }
+        return highPrefScore;
     }
 
 }

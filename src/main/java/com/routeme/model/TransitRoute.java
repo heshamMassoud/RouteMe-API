@@ -13,6 +13,7 @@ import com.routeme.utility.directions.GoogleDirectionsUtility;
 import com.routeme.utility.directions.RouteParseException;
 
 public class TransitRoute extends Route {
+    private int numberOfChanges = 0;
 
     public TransitRoute(DirectionsRoute googleDirectionsRoute) throws RouteParseException {
         super(googleDirectionsRoute);
@@ -21,6 +22,10 @@ public class TransitRoute extends Route {
         }
         transportationModes = new ArrayList<String>();
         this.setPredictionIoId();
+    }
+
+    public int getNumberOfChanges() {
+        return numberOfChanges;
     }
 
     private void setPredictionIoId() {
@@ -52,7 +57,10 @@ public class TransitRoute extends Route {
     }
 
     private void addTransportationMode(String transportationMode) {
-        transportationModes.add(transportationMode);
+        this.numberOfChanges++;
+        if (!transportationModes.contains(transportationMode)) {
+            transportationModes.add(transportationMode);
+        }
     }
 
     private String getTransitStepSummary(DirectionsStep currentStep) {
