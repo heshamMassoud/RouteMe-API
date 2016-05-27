@@ -142,7 +142,7 @@ public class SearchServiceImpl implements SearchService {
                 Logger.getRootLogger().info(e.getMessage());
             }
         }
-        if(!routeDTOs.isEmpty()) {
+        if (!routeDTOs.isEmpty()) {
             routeDTOs.get(leastChangesRouteDTOIndex).setLeastChangesRoute(true);
             routeDTOs.get(leastDurationRouteDTOIndex).setLeastDurationRoute(true);
         }
@@ -278,15 +278,12 @@ class RoutePreferenceSorter implements Comparator<RouteDTO> {
         int soonestScore = (int) (routeDTO2.getDepartureDateTimeInMillis() - routeDTO1.getDepartureDateTimeInMillis());
         int highPrefScore = 0;
         int lowPrefScore = 0;
-        switch (routeTypePreference.get(0)) {
-        case Util.Route.LEAST_TIME_PREFERENCE:
+        if (routeTypePreference.get(0).equals(Util.Route.LEAST_TIME_PREFERENCE)) {
             highPrefScore = leastTimeScore;
             lowPrefScore = leastNumberOfChangesScore;
-            break;
-        case Util.Route.LEAST_CHANGES_PREFERENCE:
+        } else {
             highPrefScore = leastNumberOfChangesScore;
             lowPrefScore = leastTimeScore;
-            break;
         }
         return compareWithRespectToThreePrefScores(highPrefScore, lowPrefScore, soonestScore);
     }

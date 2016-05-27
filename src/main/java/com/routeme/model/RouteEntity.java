@@ -31,10 +31,7 @@ public final class RouteEntity {
     @Override
     public boolean equals(Object object) {
         RouteEntity otherRoute = (RouteEntity) object;
-        if (otherRoute.id.equals(this.id)) {
-            return true;
-        }
-        return false;
+        return otherRoute.id.equals(this.id);
     }
 
     /**
