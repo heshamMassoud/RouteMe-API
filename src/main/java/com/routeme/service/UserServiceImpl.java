@@ -149,4 +149,16 @@ public class UserServiceImpl implements UserService {
         return convertToDTO(user);
     }
 
+    @Override
+    public UserDTO dislikeRoute(EventDTO eventEntry) {
+        User liker = findUserById(eventEntry.getUserId());
+        String pioId = eventEntry.getTargetEntityId();
+        Optional<RouteEntity> route = findRouteByPioId(pioId);
+        if (route.isPresent()) {
+            liker.removelikedRoute(route.get());
+            userRepository.save(liker);
+        }
+        return convertToDTO(liker);
+    }
+
 }

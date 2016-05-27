@@ -28,6 +28,15 @@ public final class RouteEntity {
         return pioId;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        RouteEntity otherRoute = (RouteEntity) object;
+        if (otherRoute.id.equals(this.id)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * The Factory's purpose is to shorten the list of parameters for the
      * resource constructor.

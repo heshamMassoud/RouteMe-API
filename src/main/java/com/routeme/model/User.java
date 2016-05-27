@@ -59,6 +59,10 @@ public final class User {
         likedRoutes.add(route);
     }
 
+    public void removelikedRoute(RouteEntity route) {
+        likedRoutes.remove(route);
+    }
+
     public ArrayList<String> getRouteTypePreference() {
         return (ArrayList<String>) routeTypePreference;
     }

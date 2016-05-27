@@ -66,6 +66,13 @@ public final class UserController {
         UserDTO userDTO = service.likeRoute(eventEntry);
         return userDTO;
     }
+    
+    @RequestMapping(value = "/dislike", method = RequestMethod.POST, produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    UserDTO dislikeRoute(@RequestBody @Valid EventDTO eventEntry) {
+        UserDTO userDTO = service.dislikeRoute(eventEntry);
+        return userDTO;
+    }
 
     @RequestMapping(value = "/setpreference", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)

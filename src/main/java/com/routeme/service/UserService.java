@@ -21,6 +21,8 @@ public interface UserService {
     UserDTO update(UserDTO user);
 
     UserDTO likeRoute(EventDTO eventEntry);
+    
+    UserDTO dislikeRoute(EventDTO eventEntry);
 
     UserDTO setPreferences(UserDTO preferencesEntry);
 
