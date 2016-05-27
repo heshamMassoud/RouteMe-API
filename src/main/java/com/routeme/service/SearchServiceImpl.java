@@ -142,8 +142,10 @@ public class SearchServiceImpl implements SearchService {
                 Logger.getRootLogger().info(e.getMessage());
             }
         }
-        routeDTOs.get(leastChangesRouteDTOIndex).setLeastChangesRoute(true);
-        routeDTOs.get(leastDurationRouteDTOIndex).setLeastDurationRoute(true);
+        if(!routeDTOs.isEmpty()) {
+            routeDTOs.get(leastChangesRouteDTOIndex).setLeastChangesRoute(true);
+            routeDTOs.get(leastDurationRouteDTOIndex).setLeastDurationRoute(true);
+        }
         return routeDTOs;
     }
 
