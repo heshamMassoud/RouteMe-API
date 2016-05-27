@@ -35,7 +35,7 @@ import com.routeme.utility.directions.RouteParseException;
 public class SearchServiceImpl implements SearchService {
     private PredictionIOClient predictionIOClient;
     private UserService service;
-    private int numberOfLikes = 0;
+    private int numberOfLikes;
 
     @Autowired
     public SearchServiceImpl(UserService service) {
@@ -45,7 +45,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public SearchResponseDTO search(String originInput, String destinationInput, String userId) {
-
+        numberOfLikes = 0;
         String origin = originInput;
         String destination = destinationInput;
         UserDTO userDTO = service.findById(userId);
