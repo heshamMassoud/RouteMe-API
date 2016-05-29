@@ -275,7 +275,7 @@ class RoutePreferenceSorter implements Comparator<RouteDTO> {
     private int compareWithRespectToRouteTypePreferences(RouteDTO routeDTO1, RouteDTO routeDTO2) {
         int leastTimeScore = (int) (routeDTO1.getDurationInSeconds() - routeDTO2.getDurationInSeconds());
         int leastNumberOfChangesScore = routeDTO1.getNumberOfChanges() - routeDTO2.getNumberOfChanges();
-        int soonestScore = (int) (routeDTO2.getDepartureDateTimeInMillis() - routeDTO1.getDepartureDateTimeInMillis());
+        int soonestScore = (int) (routeDTO1.getDepartureDateTimeInMillis() - routeDTO2.getDepartureDateTimeInMillis());
         int highPrefScore = 0;
         int lowPrefScore = 0;
         if (routeTypePreference.get(0).equals(Util.Route.LEAST_TIME_PREFERENCE)) {
