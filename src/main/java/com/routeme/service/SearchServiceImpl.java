@@ -179,19 +179,30 @@ public class SearchServiceImpl implements SearchService {
         routeDTO.setTransportationModes(route.getTransportationModes());
         setRouteDTOStepDTOs(routeDTO, route);
         if (route instanceof TransitRoute) {
+            setRouteDTODuration(routeDTO, route);
             routeDTO.setArrivalTime(Util.Route.TIME_FORMAT.format(route.getArrivalTime().toDate()));
             routeDTO.setDepartureTime(Util.Route.TIME_FORMAT.format(route.getDepartureTime().toDate()));
             routeDTO.setDepartureDateTimeInMillis(route.getDepartureTime().getMillis());
             routeDTO.setRouteSummary(routeDTO.getDepartureTime() + "-" + routeDTO.getArrivalTime() + " ("
                     + routeDTO.getDuration() + ")");
             routeDTO.setTransit(true);
-            routeDTO.setDurationInSeconds(route.getDuration().inSeconds);
             routeDTO.setNumberOfChanges(((TransitRoute) route).getNumberOfChanges());
         } else {
             routeDTO.setRouteSummary(route.getRouteSummary() + " (" + routeDTO.getDistance() + ")");
             routeDTO.setTransit(false);
         }
         return routeDTO;
+    }
+
+    private static void setRouteDTODuration(RouteDTO routeDTO, Route route) {
+        long routeDurationInSeconds = ((TransitRoute) route).getDurationInSeconds();
+        long durationInMinutes = routeDurationInSeconds / 60;
+        String readable = String.format("%d mins", durationInMinutes);
+        if (durationInMinutes > 60) {
+            readable = String.format("%d hour %d mins", durationInMinutes / 60, durationInMinutes % 60);
+        }
+        routeDTO.setDuration(readable);
+        routeDTO.setDurationInSeconds(routeDurationInSeconds);
     }
 
     private void setRouteDTOStepDTOs(RouteDTO routeDTO, Route route) {

@@ -2,6 +2,8 @@ package com.routeme.model;
 
 import java.util.ArrayList;
 
+import org.joda.time.Interval;
+
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
 import com.google.maps.model.StopDetails;
@@ -14,6 +16,7 @@ import com.routeme.utility.directions.RouteParseException;
 
 public class TransitRoute extends Route {
     private int numberOfChanges = 0;
+    private long durationInSeconds = 0;
 
     public TransitRoute(DirectionsRoute googleDirectionsRoute) throws RouteParseException {
         super(googleDirectionsRoute);
@@ -22,10 +25,15 @@ public class TransitRoute extends Route {
         }
         transportationModes = new ArrayList<String>();
         this.setPredictionIoId();
+        this.setTransitDurationInSeconds();
     }
 
     public int getNumberOfChanges() {
         return numberOfChanges;
+    }
+
+    public long getDurationInSeconds() {
+        return durationInSeconds;
     }
 
     private void setPredictionIoId() {
@@ -41,8 +49,10 @@ public class TransitRoute extends Route {
                     departureStop = transitDetails.departureStop;
                     this.startLocationLat = currentStep.startLocation.lat;
                     this.startLocationLng = currentStep.startLocation.lng;
+                    this.departureTime = transitDetails.departureTime;
                 }
                 arrivalStop = transitDetails.arrivalStop;
+                this.arrivalTime = transitDetails.arrivalTime;
                 this.endLocationLat = currentStep.endLocation.lat;
                 this.endLocationLng = currentStep.endLocation.lng;
                 this.predictionIoId += getTransitStepSummary(currentStep);
@@ -54,6 +64,11 @@ public class TransitRoute extends Route {
         this.predictionIoId = "[" + departureStop.name + "]" + this.predictionIoId;
         this.predictionIoId += "[" + arrivalStop.name + "]";
         this.predictionIoId = GoogleDirectionsUtility.replaceUmlaut(this.predictionIoId);
+    }
+
+    private void setTransitDurationInSeconds() {
+        Interval duration = new Interval(this.departureTime, this.arrivalTime);
+        this.durationInSeconds = duration.toDuration().getStandardSeconds();
     }
 
     private void addTransportationMode(String transportationMode) {
