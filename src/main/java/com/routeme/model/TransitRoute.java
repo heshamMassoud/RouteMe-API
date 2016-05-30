@@ -72,8 +72,8 @@ public class TransitRoute extends Route {
         String munichVehicleName = GoogleDirectionsUtility.getMunichTransitVehicleName(transitVehicle);
         addTransportationMode(munichVehicleName);
         this.stepsData.add(new TransitStep(munichVehicleName, transitDetails.departureStop.name,
-                transitDetails.arrivalStop.name, currentStep.duration.humanReadable, transitDetails.arrivalTime,
-                transitDetails.departureTime, lineShortName, transitLine.color, headSign));
+                transitDetails.arrivalStop.name, currentStep.duration.humanReadable, transitDetails.departureTime,
+                transitDetails.arrivalTime, lineShortName, transitLine.color, headSign));
         return munichVehicleName + lineShortName + "(" + headSign + ")";
     }
 }
