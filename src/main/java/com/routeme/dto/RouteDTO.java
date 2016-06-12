@@ -224,4 +224,10 @@ public class RouteDTO {
         properties.put("routeType", routeTypeArray);
         return properties;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        RouteDTO otherRouteDTO = (RouteDTO) (obj);
+        return otherRouteDTO.getPredictionIoId().equals(this.getPredictionIoId());
+    }
 }
