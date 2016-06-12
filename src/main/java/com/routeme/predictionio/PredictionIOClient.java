@@ -20,7 +20,7 @@ import com.routeme.model.DummyRoute;
 import com.routeme.model.Util;
 
 public class PredictionIOClient {
-    private final String accessKey = "eJErhxNseKZCZ8ijxy0fLjtj8jeHvb2ngMLoRIpwPGr5inugcbGHGSAgvJM1ZqLs";
+    private final String accessKey = "g0-EtKjfE_ZGZcAmO3i9GNUyi1r7KZWwgIU2NuHERv5WVGXKcvFElrxn0VovQ3a-";
     private EventClient eventClient;
     Random rand = new Random();
     Map<String, Object> emptyProperty = ImmutableMap.of();
