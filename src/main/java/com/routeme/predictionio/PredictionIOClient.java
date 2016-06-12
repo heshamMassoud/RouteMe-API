@@ -3,6 +3,7 @@ package com.routeme.predictionio;
 import io.prediction.EventClient;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,14 +11,13 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
+import com.jayway.jsonpath.JsonPath;
 import com.routeme.AppConfig;
 import com.routeme.dto.RouteDTO;
 import com.routeme.model.DummyRoute;
+import com.routeme.model.Util;
 
 public class PredictionIOClient {
     private final String accessKey = "eJErhxNseKZCZ8ijxy0fLjtj8jeHvb2ngMLoRIpwPGr5inugcbGHGSAgvJM1ZqLs";
