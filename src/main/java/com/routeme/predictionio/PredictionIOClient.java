@@ -109,22 +109,41 @@ public class PredictionIOClient {
         }
     }
 
-    public void recommendRoutes(String userEmail, List<RouteDTO> routes) {
+    public List<RouteDTO> recommendRoutes(String userEmail, List<RouteDTO> routes) {
         List<String> searchResultsRouteIds = new ArrayList<String>();
+        List<RouteDTO> recommendedRoutes = new ArrayList<RouteDTO>();
         for (RouteDTO route : routes) {
-            searchResultsRouteIds.add(route.getPredictionIoId());
+            searchResultsRouteIds.add("\"" + route.getPredictionIoId() + "\"");
         }
-        Map<String, Object> fieldsArray = new HashMap<String, Object>();
-        fieldsArray.put("name", "routeId");
-        fieldsArray.put("values", searchResultsRouteIds);
-        fieldsArray.put("bias", -1);
         try {
-            JsonObject response = AppConfig.engineClient.sendQuery(ImmutableMap.<String, Object> of("user", userEmail,
-                    "fields", fieldsArray));
-            System.out.println(response.getAsString());
+            JsonObject response = AppConfig.engineClient.sendQuery(ImmutableMap.<String, Object> of("user", userEmail));
+            String responseJSON = response.toString();
+            for (int i = 0; i < routes.size(); i++) {
+                RouteDTO route = routes.get(i);
+                String jsonPathQueryString = "$.itemScores[?(@.item == '" + route.getPredictionIoId() + "')]";
+                List<Map<String, Object>> matchingRoutes = JsonPath.parse(responseJSON).read(jsonPathQueryString);
+                if (!matchingRoutes.isEmpty()) {
+                    String stringScore = matchingRoutes.get(0).get("score").toString();
+                    BigDecimal score =  new BigDecimal(stringScore);
+                    route.setRecommendationScore(score);
+                    routes.remove(i);
+                    i--;
+                    if (route.isPopular()) {
+                        route.setExplanations(Util.Explanations.POPULARITY);
+                    } else {
+                        route.setExplanations(Util.Explanations.HYBRID_RECOMMENDER);
+                    }
+                    recommendedRoutes.add(route);
+                }
+            }
+            //WHAT IS LEFT: REFACTOR AND TEST
+            //TODO: For each route returned from the UR set a CR score to it (add 'score' as instance attribute to RouteDTO)
+            // Add the routeDTO with the newly set CR score to the recommendedRoutes list and return it.
+            // ALSO, Add recommendation of routes whether its popular or CR
         } catch (ExecutionException | InterruptedException | IOException e) {
             System.out.println("Failed to query for routes to client because of " + e.getMessage());
         }
+        return recommendedRoutes;
     }
 
     public void addRoutesToClient(List<RouteDTO> allResults) {
