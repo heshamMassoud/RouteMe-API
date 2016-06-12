@@ -136,10 +136,6 @@ public class PredictionIOClient {
                     recommendedRoutes.add(route);
                 }
             }
-            //WHAT IS LEFT: REFACTOR AND TEST
-            //TODO: For each route returned from the UR set a CR score to it (add 'score' as instance attribute to RouteDTO)
-            // Add the routeDTO with the newly set CR score to the recommendedRoutes list and return it.
-            // ALSO, Add recommendation of routes whether its popular or CR
         } catch (ExecutionException | InterruptedException | IOException e) {
             System.out.println("Failed to query for routes to client because of " + e.getMessage());
         }
