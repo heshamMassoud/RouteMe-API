@@ -43,6 +43,13 @@ public class PredictionIOClient {
 
     public void takeRoute(String userEmail, String routeDescription) {
         triggerEvent(userEmail, "take", routeDescription);
+    public void searchQuery(String userEmail, String searchQuery) {
+        // startPoint->endPoint
+        triggerEvent(userEmail, "search-query", searchQuery);
+    }
+
+    public void likeRoute(String userEmail, String routeDescription) {
+        triggerEvent(userEmail, "like", routeDescription);
     }
 
     public void preferRouteType(String userEmail, String routeType) {
