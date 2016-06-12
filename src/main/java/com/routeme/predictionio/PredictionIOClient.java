@@ -21,10 +21,6 @@ import com.routeme.model.Util;
 
 public class PredictionIOClient {
     private final String accessKey = "eJErhxNseKZCZ8ijxy0fLjtj8jeHvb2ngMLoRIpwPGr5inugcbGHGSAgvJM1ZqLs";
-    public static final String PREFERENCE_ROUTE_TYPE_LEASTTIME = "leastTime";
-    public static final String PREFERENCE_ROUTE_TYPE_LEASTCHANGES = "leastChanges";
-    public static final String PREFERENCE_ROUTE_MODE_BUS = "Bus";
-    public static final String PREFERENCE_ROUTE_MODE_UBAHN = "U-bahn";
     private EventClient eventClient;
     Random rand = new Random();
     Map<String, Object> emptyProperty = ImmutableMap.of();
