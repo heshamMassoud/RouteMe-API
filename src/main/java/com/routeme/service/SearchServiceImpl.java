@@ -82,36 +82,12 @@ public class SearchServiceImpl implements SearchService {
 
             // predictionIOClient.closeEventClient();
             Collections.sort(allRouteDTOResults, new RoutePreferenceSorter(travelModePreference, routeTypePreference));
-
             explainRecommendation(allRouteDTOResults);
-
-            // TODO: Get scored routes, they are either 0 score (i.e. popular)
-            // or collaborative score
             List<RouteDTO> recommendedRoutes = predictionIOClient.recommendRoutes(userDTO.getEmail(),
                     allRouteDTOResults);
-            // If there are route scores with values greater than 0, then they
-            // are displayed on top. Even if they were liked
-            // before, since, like is a primary event, then the UR should take
-            // care of this.
-
             movePopularRoutesToAllRoutesList(recommendedRoutes, allRouteDTOResults);
-            // The rest of the routes should be displayed below them with the
-            // below comparator sorter.
-            // So basically here we have a initial route results list which
-            // MIGHT contain sorted routes.
-
-            // HAVE TO CHECK POPULAR ROUTES PROBLEM
-
-            // HERe WE ONLY USE MY COMPARATOR TO SORT THE REST OF THE ROUTES.
-            // AND THEN APPEND THEM TO THE INITAL ROUTE LIST
-            // AFTER THE RECOMMENDER. AND ONLY CALL EXPLAIN RECOMMENDATION BELOW
-            // ON NOT UR ROUTES.
-            
             Collections.sort(allRouteDTOResults, new RoutePreferenceSorter(travelModePreference, routeTypePreference));
-
             recommendedRoutes.addAll(allRouteDTOResults);
-
-            // Return final recommendation!
             searchResponseDTO = convertRouteDTOsToSearchResponseDTO(recommendedRoutes);
         } catch (Exception e) {
             e.printStackTrace();
