@@ -54,12 +54,6 @@ public final class UserController {
         return userRecord;
     }
 
-    @RequestMapping(value = "/take", method = RequestMethod.POST, produces = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    void takeRoute(@RequestBody @Valid EventDTO eventEntry) {
-        predictionIOClient.takeRoute(eventEntry.getUserId(), eventEntry.getTargetEntityId());
-    }
-
     @RequestMapping(value = "/like", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     UserDTO likeRoute(@RequestBody @Valid EventDTO eventEntry) {
@@ -91,12 +85,6 @@ public final class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     void viewRouteLast(@RequestBody @Valid EventDTO eventEntry) {
         predictionIOClient.viewRouteLast(eventEntry.getUserId(), eventEntry.getTargetEntityId());
-    }
-
-    @RequestMapping(value = "/prefer", method = RequestMethod.POST, produces = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    void preferMode(@RequestBody @Valid EventDTO eventEntry) {
-        predictionIOClient.preferRouteMode(eventEntry.getUserId(), eventEntry.getTargetEntityId());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "application/json")
