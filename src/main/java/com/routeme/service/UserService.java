@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.routeme.dto.EventDTO;
 import com.routeme.dto.UserDTO;
+import com.routeme.predictionio.PredictionIOClient;
 
 public interface UserService {
 
@@ -20,10 +21,10 @@ public interface UserService {
 
     UserDTO update(UserDTO user);
 
-    UserDTO likeRoute(EventDTO eventEntry);
+    UserDTO likeRoute(EventDTO eventEntry, PredictionIOClient predictionIOClient);
     
     UserDTO dislikeRoute(EventDTO eventEntry);
 
-    UserDTO setPreferences(UserDTO preferencesEntry);
+    UserDTO setPreferences(UserDTO preferencesEntry, PredictionIOClient predictionIOClient);
 
 }
