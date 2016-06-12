@@ -1,5 +1,6 @@
 package com.routeme.dto;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,20 @@ public class RouteDTO {
     private long durationInSeconds = 0;
     private long departureDateTimeInMillis = 0;
     private String explanations;
+    private BigDecimal recommendationScore = new BigDecimal(0);
+    
+    public boolean isPopular() {
+        final String popularRouteScore = "0.0";
+        return this.getRecommendationScore().toPlainString().equals(popularRouteScore);
+    }
+
+    public BigDecimal getRecommendationScore() {
+        return recommendationScore;
+    }
+
+    public void setRecommendationScore(BigDecimal recommendationScore) {
+        this.recommendationScore = recommendationScore;
+    }
 
     public String getExplanations() {
         return explanations;
