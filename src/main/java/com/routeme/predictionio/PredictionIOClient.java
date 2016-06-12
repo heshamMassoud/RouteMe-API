@@ -68,9 +68,24 @@ public class PredictionIOClient {
     public void triggerEvent(String userEmail, String eventName, String targetValue) {
         System.out.println("User " + userEmail + eventName + " " + targetValue);
         try {
+            if (eventName.equals("like") || eventName.equals("view") || eventName.equals("view-last")) {
+                addRouteItem(eventName, targetValue);
+            }
             eventClient.userActionItem(eventName, userEmail, targetValue, emptyProperty);
         } catch (ExecutionException | InterruptedException | IOException e) {
             System.out.println("Failed to trigger event: " + eventName + " to client because of " + e.getMessage());
+        }
+    }
+
+    public void addRouteItem(String eventName, String routePioId) {
+        Map<String, Object> properties = new HashMap<String, Object>();
+        ArrayList<String> routeId = new ArrayList<String>();
+        routeId.add(routePioId);
+        properties.put("routeId", routeId);
+        try {
+            eventClient.setItem(routePioId, properties);
+        } catch (ExecutionException | InterruptedException | IOException e) {
+            System.out.println("Failed to add route " + routePioId + " to client because of " + e.getMessage());
         }
     }
 
