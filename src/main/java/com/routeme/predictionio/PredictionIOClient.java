@@ -124,7 +124,7 @@ public class PredictionIOClient {
                 List<Map<String, Object>> matchingRoutes = JsonPath.parse(responseJSON).read(jsonPathQueryString);
                 if (!matchingRoutes.isEmpty()) {
                     String stringScore = matchingRoutes.get(0).get("score").toString();
-                    BigDecimal score =  new BigDecimal(stringScore);
+                    BigDecimal score = new BigDecimal(stringScore);
                     route.setRecommendationScore(score);
                     routes.remove(i);
                     i--;
