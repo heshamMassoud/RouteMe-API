@@ -57,10 +57,10 @@ public final class UserController {
     @RequestMapping(value = "/like", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     UserDTO likeRoute(@RequestBody @Valid EventDTO eventEntry) {
-        UserDTO userDTO = service.likeRoute(eventEntry);
+        UserDTO userDTO = service.likeRoute(eventEntry, predictionIOClient);
         return userDTO;
     }
-    
+
     @RequestMapping(value = "/dislike", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     UserDTO dislikeRoute(@RequestBody @Valid EventDTO eventEntry) {
@@ -71,7 +71,7 @@ public final class UserController {
     @RequestMapping(value = "/setpreference", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     UserDTO setPreferences(@RequestBody UserDTO preferencesEntry) {
-        UserDTO userDTO = service.setPreferences(preferencesEntry);
+        UserDTO userDTO = service.setPreferences(preferencesEntry, predictionIOClient);
         return userDTO;
     }
 
