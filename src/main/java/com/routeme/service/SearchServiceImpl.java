@@ -77,35 +77,70 @@ public class SearchServiceImpl implements SearchService {
             allRouteDTOResults.addAll(convertGoogleNonTransitResultToSearchResponseDTO(walkingResults,
                     likedRoutesPioIds));
 
-            // TODO Add routes to client
-            // predictionIOClient.addRoutesToClient(allRouteDTOResults);
-            predictionIOClient.closeEventClient();
+            predictionIOClient.searchQuery(userDTO.getEmail(), GoogleDirectionsUtility.replaceUmlaut(origin) + "->"
+                    + GoogleDirectionsUtility.replaceUmlaut(destination));
 
+            // predictionIOClient.closeEventClient();
             Collections.sort(allRouteDTOResults, new RoutePreferenceSorter(travelModePreference, routeTypePreference));
 
-            // TODO Send the DTO to PIO to sort it and then return it here!
-            // PredictionIOClient.recommendRoutes(listOfRoutes, userId);
             explainRecommendation(allRouteDTOResults);
 
+            // TODO: Get scored routes, they are either 0 score (i.e. popular)
+            // or collaborative score
+            List<RouteDTO> recommendedRoutes = predictionIOClient.recommendRoutes(userDTO.getEmail(),
+                    allRouteDTOResults);
+            // If there are route scores with values greater than 0, then they
+            // are displayed on top. Even if they were liked
+            // before, since, like is a primary event, then the UR should take
+            // care of this.
+
+            movePopularRoutesToAllRoutesList(recommendedRoutes, allRouteDTOResults);
+            // The rest of the routes should be displayed below them with the
+            // below comparator sorter.
+            // So basically here we have a initial route results list which
+            // MIGHT contain sorted routes.
+
+            // HAVE TO CHECK POPULAR ROUTES PROBLEM
+
+            // HERe WE ONLY USE MY COMPARATOR TO SORT THE REST OF THE ROUTES.
+            // AND THEN APPEND THEM TO THE INITAL ROUTE LIST
+            // AFTER THE RECOMMENDER. AND ONLY CALL EXPLAIN RECOMMENDATION BELOW
+            // ON NOT UR ROUTES.
+            
+            Collections.sort(allRouteDTOResults, new RoutePreferenceSorter(travelModePreference, routeTypePreference));
+
+            recommendedRoutes.addAll(allRouteDTOResults);
+
             // Return final recommendation!
-            searchResponseDTO = convertRouteDTOsToSearchResponseDTO(allRouteDTOResults);
+            searchResponseDTO = convertRouteDTOsToSearchResponseDTO(recommendedRoutes);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return searchResponseDTO;
     }
 
+    private void movePopularRoutesToAllRoutesList(List<RouteDTO> recommendedRoutes, List<RouteDTO> allRoutes) {
+        for (int i = 0; i < recommendedRoutes.size(); i++) {
+            RouteDTO routeDTO = recommendedRoutes.get(i);
+            if (routeDTO.isPopular()) {
+                recommendedRoutes.remove(routeDTO);
+                i--;
+                allRoutes.add(routeDTO);
+            }
+        }
+    }
+
     private void explainRecommendation(List<RouteDTO> allRouteDTOResults) {
-        // TODO: check PIO recommender scores if 0 or some score then provide
-        // appropriate explanation else..
         for (int i = 0; i < allRouteDTOResults.size(); i++) {
             RouteDTO routeDTO = allRouteDTOResults.get(i);
-            if (routeDTO.isLiked() && numberOfLikes > 1) {
-                routeDTO.setExplanations(Util.Explanations.LIKES_PREFERENCES);
-            } else if (routeDTO.isLiked()) {
-                routeDTO.setExplanations(Util.Explanations.LIKED);
-            } else {
-                routeDTO.setExplanations(Util.Explanations.PREFERENCES);
+            if (routeDTO.getExplanations() == null) {
+                if (routeDTO.isLiked() && numberOfLikes > 1) {
+                    routeDTO.setExplanations(Util.Explanations.LIKES_PREFERENCES);
+                } else if (routeDTO.isLiked()) {
+                    routeDTO.setExplanations(Util.Explanations.LIKED);
+                } else {
+                    routeDTO.setExplanations(Util.Explanations.PREFERENCES);
+                }
             }
         }
     }
@@ -272,6 +307,8 @@ class RoutePreferenceSorter implements Comparator<RouteDTO> {
     private int compareWithRespectToTravelModePreference(RouteDTO routeDTO1, RouteDTO routeDTO2) {
         ArrayList<String> routeDTO1Modes = routeDTO1.getTransportationModes();
         ArrayList<String> routeDTO2Modes = routeDTO2.getTransportationModes();
+        //addPopularityWeightToRouteModes(routeDTO1, routeDTO1Modes);
+        //addPopularityWeightToRouteModes(routeDTO2, routeDTO2Modes);
         int totalTransportationModesScore = 0;
         for (String transportationMode1 : routeDTO1Modes) {
             int transportationMode1Score = travelModePreference.indexOf(transportationMode1);
@@ -280,7 +317,21 @@ class RoutePreferenceSorter implements Comparator<RouteDTO> {
                 totalTransportationModesScore += transportationMode1Score - transportationMode2Score;
             }
         }
+        if (routeDTO1.isPopular()) {
+            totalTransportationModesScore -= 6; 
+        }
+        if (routeDTO2.isPopular()) {
+            totalTransportationModesScore += 6; 
+        }
         return totalTransportationModesScore;
+    }
+
+    private void addPopularityWeightToRouteModes(RouteDTO route, ArrayList<String> routeModes) {
+        if (route.isPopular()) {
+            final int popularityScore = 0;
+            String travelModePreferenceWithEquivalentLikeScore = travelModePreference.get(popularityScore);
+            routeModes.add(travelModePreferenceWithEquivalentLikeScore);
+        }
     }
 
     private int compareWithRespectToRouteTypePreferences(RouteDTO routeDTO1, RouteDTO routeDTO2) {
