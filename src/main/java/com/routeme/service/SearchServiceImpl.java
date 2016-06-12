@@ -283,8 +283,6 @@ class RoutePreferenceSorter implements Comparator<RouteDTO> {
     private int compareWithRespectToTravelModePreference(RouteDTO routeDTO1, RouteDTO routeDTO2) {
         ArrayList<String> routeDTO1Modes = routeDTO1.getTransportationModes();
         ArrayList<String> routeDTO2Modes = routeDTO2.getTransportationModes();
-        //addPopularityWeightToRouteModes(routeDTO1, routeDTO1Modes);
-        //addPopularityWeightToRouteModes(routeDTO2, routeDTO2Modes);
         int totalTransportationModesScore = 0;
         for (String transportationMode1 : routeDTO1Modes) {
             int transportationMode1Score = travelModePreference.indexOf(transportationMode1);
@@ -294,20 +292,12 @@ class RoutePreferenceSorter implements Comparator<RouteDTO> {
             }
         }
         if (routeDTO1.isPopular()) {
-            totalTransportationModesScore -= 6; 
+            totalTransportationModesScore -= 6;
         }
         if (routeDTO2.isPopular()) {
-            totalTransportationModesScore += 6; 
+            totalTransportationModesScore += 6;
         }
         return totalTransportationModesScore;
-    }
-
-    private void addPopularityWeightToRouteModes(RouteDTO route, ArrayList<String> routeModes) {
-        if (route.isPopular()) {
-            final int popularityScore = 0;
-            String travelModePreferenceWithEquivalentLikeScore = travelModePreference.get(popularityScore);
-            routeModes.add(travelModePreferenceWithEquivalentLikeScore);
-        }
     }
 
     private int compareWithRespectToRouteTypePreferences(RouteDTO routeDTO1, RouteDTO routeDTO2) {
