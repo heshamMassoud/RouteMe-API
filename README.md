@@ -7,21 +7,36 @@ A JSON-Based RESTful API for the RouteME collaborative multi-modal route recomme
 http://docs.routemeapi.apiary.io/#
 
 #### Steps for development
-* Run `pio-start-all` to start pio data stores 
+* Make sure spark is started by running `sbin/start-all.sh` in the spark installation directory
+* Run `pio-start-all` to start pio data stores
+* Check hbase log files to make sure hbase is instantiated properly (It takes some time ca. 3 mins) You should see this line
+````
+master.HMaster: Master has completed initialization
+````
 * Run `jps -l` to check if all data stores are started.
 * The output should look something like this:
 ```
-  15344 org.apache.hadoop.hbase.master.HMaster
-  15409 io.prediction.tools.console.Console
-  15256 org.elasticsearch.bootstrap.Elasticsearch
-  15469 sun.tools.jps.Jps
+53417 io.prediction.tools.console.Console
+53356 org.apache.hadoop.hbase.master.HMaster
+45309
+53262 org.elasticsearch.bootstrap.Elasticsearch
+50559 org.apache.spark.deploy.master.Master
+53471 sun.tools.jps.Jps
 ```
 - Run `pio eventserver` to start event server
 - Run `pio build` to build an engine in the current directory.
-- Run `pio train -- --driver-memory 4g` to train a predictive model with training data of an engine in the current directory.
+- Run `pio train -- --master spark://127.0.0.1:7077 --driver-memory 4g` to train a predictive model with training data of an engine in the current directory.
 - Run `pio deploy` to deploy the engine in the current directory as a service. (https://docs.prediction.io/deploy/)
 - Run `mongod` to start mongodb server 
-- Run `mvnDebug spring-boot:run` to run the RouteMe-API in debug mode
+- Run 
+```
+mvn spring-boot:run -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005 -Dserver.port=9000"
+``` 
+to run the RouteMe-API in debug mode or 
+``` 
+mvn -Dserver.port=9000 spring-boot:run
+``` 
+For running without debugging.
 - Attach the eclipse debugger on the requested debug port
 
 ## Packaging the API and running the jar
