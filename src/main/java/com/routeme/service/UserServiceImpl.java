@@ -13,6 +13,7 @@ import com.routeme.dto.EventDTO;
 import com.routeme.dto.UserDTO;
 import com.routeme.model.RouteEntity;
 import com.routeme.model.User;
+import com.routeme.predictionio.PredictionIOClient;
 import com.routeme.repository.RouteRepository;
 import com.routeme.repository.UserRepository;
 
@@ -111,7 +112,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO likeRoute(EventDTO eventEntry) {
+    public UserDTO likeRoute(EventDTO eventEntry, PredictionIOClient predictionIOClient) {
         User liker = findUserById(eventEntry.getUserId());
         String pioId = eventEntry.getTargetEntityId();
         Optional<RouteEntity> route = findRouteByPioId(pioId);
@@ -121,6 +122,7 @@ public class UserServiceImpl implements UserService {
             RouteEntity persistedRoute = createRoute(pioId);
             persistRouteAndLiker(persistedRoute, liker);
         }
+        predictionIOClient.likeRoute(liker.getEmail(), pioId);
         return convertToDTO(liker);
     }
 
@@ -141,12 +143,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO setPreferences(UserDTO preferencesEntry) {
+    public UserDTO setPreferences(UserDTO preferencesEntry, PredictionIOClient predictionIOClient) {
         User user = findUserById(preferencesEntry.getId());
         user.setRouteTypePreference(preferencesEntry.getRouteTypePreference());
         user.setTravelModePreference(preferencesEntry.getTravelModePreference());
         user = userRepository.save(user);
+        triggerPIOPreferenceEvents(preferencesEntry, predictionIOClient);
         return convertToDTO(user);
+    }
+
+    private void triggerPIOPreferenceEvents(UserDTO preferencesEntry, PredictionIOClient predictionIOClient) {
+        String userEmail = preferencesEntry.getEmail();
+        predictionIOClient.preferRouteType(userEmail, preferencesEntry.getRouteTypePreference().toString());
+        predictionIOClient.preferRouteMode(userEmail, preferencesEntry.getTravelModePreference().toString());
     }
 
     @Override
