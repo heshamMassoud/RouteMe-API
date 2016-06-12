@@ -7,7 +7,7 @@
     "params" : {
       "name": "sample-handmade-data.txt",
       "appName": "routeme",
-      "eventNames": ["take", "view", "view-last", "route-preference", "mode-preference"]
+      "eventNames": ["like", "view", "view-last", "route-preference", "mode-preference", "search-query"]
     }
   },
   "sparkConf": {
@@ -28,7 +28,7 @@
         "indexName": "urindex",
         "typeName": "items",
         "comment": "must have data for the first event or the model will not build, other events are optional",
-        "eventNames": ["take", "view", "view-last", "route-preference", "mode-preference"]
+        "eventNames": ["like", "view", "view-last", "route-preference", "mode-preference", "search-query"]
       }
     }
   ]
