@@ -41,8 +41,6 @@ public class PredictionIOClient {
         this.eventClient = eventClient;
     }
 
-    public void takeRoute(String userEmail, String routeDescription) {
-        triggerEvent(userEmail, "take", routeDescription);
     public void searchQuery(String userEmail, String searchQuery) {
         // startPoint->endPoint
         triggerEvent(userEmail, "search-query", searchQuery);
